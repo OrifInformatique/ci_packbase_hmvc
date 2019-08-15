@@ -17,11 +17,11 @@
           <!-- END OF ADMIN ACCESS -->
 
           <!-- Logged in, display a "logout" button -->
-          <a href="<?php echo base_url("auth/logout"); ?>" ><?php echo $this->lang->line('btn_logout'); ?></a>
+          <a href="<?php echo base_url("auth/auth/logout"); ?>" ><?php echo $this->lang->line('btn_logout'); ?></a>
 
         <?php } else { ?>
           <!-- Not logged in, display a "login" button -->
-          <a href="<?php echo base_url("auth/login"); ?>" ><?php echo $this->lang->line('btn_login'); ?></a>
+          <a href="<?php echo base_url("auth"); ?>" ><?php echo $this->lang->line('btn_login'); ?></a>
         <?php } ?>
       </div>
     </div>
