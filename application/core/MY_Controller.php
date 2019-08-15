@@ -7,7 +7,7 @@
  * @copyright   Copyright (c) 2016, Orif <http://www.orif.ch>
  */
 
-class MY_Controller extends CI_Controller
+class MY_Controller extends MX_Controller
 {
 
     /**
