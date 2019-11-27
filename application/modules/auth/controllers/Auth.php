@@ -2,9 +2,9 @@
 /**
  * Authentication System
  *
- * @author      Orif, section informatique (ViDi)
- * @link        https://github.com/OrifInformatique/stock
- * @copyright   Copyright (c), Orif <http://www.orif.ch>
+ * @author      Orif (ViDi)
+ * @link        https://github.com/OrifInformatique
+ * @copyright   Copyright (c), Orif (https://www.orif.ch)
  * @version     2.0
  */
 class Auth extends MY_Controller
@@ -15,46 +15,92 @@ class Auth extends MY_Controller
     /**
     * Constructor
     */
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
-        $this->load->model(['user_model', 'user_type_model']);
-        $this->load->library('form_validation');
+        $this->load->model('user_model');
+        $this->load->model('user_type_model');
     }
 
-    public function index() {
-        redirect(base_url('auth/auth/login'));
-    }
+    /**
+     * Login and create session variables
+     */
+    public function login ()
+    {
+        // Store the redirection URL in a session variable
+        if (!is_null($this->input->post('after_login_redirect'))) {
+            $_SESSION['after_login_redirect'] = $this->input->post('after_login_redirect');
+        }
+        // If no redirection URL is provided or the redirection URL is the
+        // login form, redirect to site's root after login
+        if (!isset($_SESSION['after_login_redirect'])
+                || $_SESSION['after_login_redirect'] == current_url()) {
 
-    public function login() {
+            $_SESSION['after_login_redirect'] = base_url();
+        }
 
-        $output = array();
+        // Check if the form has been submitted, else just display the form
+        if (!is_null($this->input->post('btn_login'))) {
+            // Define fields validation rules
+            $validation_rules = array(
+                array(
+                    'field' => 'username',
+                    'label' => 'lang:field_username',
+                    'rules' => 'trim|required|'
+                             . 'min_length['.USERNAME_MIN_LENGTH.']|'
+                             . 'max_length['.USERNAME_MAX_LENGTH.']'
+                ),
+                array(
+                    'field' => 'password',
+                    'label' => 'lang:field_password',
+                    'rules' => 'trim|required|'
+                             . 'min_length['.PASSWORD_MIN_LENGTH.']|'
+                             . 'max_length['.PASSWORD_MAX_LENGTH.']'
+                )
+            );
+            $this->form_validation->set_rules($validation_rules);
 
-        if(isset($_POST['btn_login'])){
-            $this->form_validation->set_rules('username', $this->lang->line('field_username'), 'required');
-            $this->form_validation->set_rules('password', $this->lang->line('field_password'), 'required');
+            // Check fields validation rules
+            if ($this->form_validation->run() == true) {
+                $username = $this->input->post('username');
+                $password = $this->input->post('password');
+                
+                if ($this->user_model->check_password($username, $password)) {
+                    // Login success
+                    $user = $this->user_model->with('user_type')
+                                             ->get_by('username', $username);
 
-            if($this->form_validation->run()){
-                if($this->user_model->check_password($this->input->post('username'), $this->input->post('password'))){
-                    $user = $this->user_model->with('user_type')->get_by('User', $username);
-
-                    $_SESSION['user_id'] = (int)$user->ID;
-                    $_SESSION['username'] = (string)$user->User;
+                    // Set session variables
+                    $_SESSION['user_id'] = (int)$user->id;
+                    $_SESSION['username'] = (string)$user->username;
                     $_SESSION['user_access'] = (int)$user->user_type->access_level;
                     $_SESSION['logged_in'] = (bool)true;
 
-                    redirect(base_url(REDIRECT_AFTER_LOGIN));
+                    // Send the user to the redirection URL
+                    redirect($_SESSION['after_login_redirect']);
+
                 } else {
-                    $output['message'] = $this->lang->line('msg_login_error');
-                }
+                    // Login failed
+                    $this->session->set_flashdata('message-danger', lang('msg_err_invalid_password'));
+                }               
             }
         }
 
-        $this->display_view('login', $output);
+        // Display login page
+        $output = array('title' => lang('page_login'));
+        $this->display_view('auth/login_form', $output);
     }
 
-    public function logout() {
-        session_destroy();
-        redirect(base_url('auth/auth/login'));
-    }
+    /**
+     * Logout and destroy session
+     */
+    public function logout()
+    {
+        // Restart session with empty parameters
+        $_SESSION = [];
+        session_reset();
+        session_unset();
 
+        redirect(base_url());
+    }
 }
