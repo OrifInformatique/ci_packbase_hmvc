@@ -47,15 +47,15 @@ class Auth extends MY_Controller
                     'field' => 'username',
                     'label' => 'lang:field_username',
                     'rules' => 'trim|required|'
-                             . 'min_length['.USERNAME_MIN_LENGTH.']|'
-                             . 'max_length['.USERNAME_MAX_LENGTH.']'
+                             . 'min_length['.$this->config->item('username_min_length').']|'
+                             . 'max_length['.$this->config->item('username_max_length').']'
                 ),
                 array(
                     'field' => 'password',
                     'label' => 'lang:field_password',
                     'rules' => 'trim|required|'
-                             . 'min_length['.PASSWORD_MIN_LENGTH.']|'
-                             . 'max_length['.PASSWORD_MAX_LENGTH.']'
+                             . 'min_length['.$this->config->item('password_min_length').']|'
+                             . 'max_length['.$this->config->item('password_max_length').']'
                 )
             );
             $this->form_validation->set_rules($validation_rules);
