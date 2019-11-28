@@ -9,8 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Define here the different access levels needed in your application and
 | some values for validation rules of the login form.
 |
-| You can also choose your password hash algorithm. Refer to PHP documentation.
-|
 */
 
 /* Access levels */
@@ -23,6 +21,3 @@ $config['username_min_length'] = 3;
 $config['username_max_length'] = 45;
 $config['password_min_length'] = 6;
 $config['password_max_length'] = 72;
-
-/* Password hash algorithm */
-$config['password_hash_algorithm'] = PASSWORD_BCRYPT;
