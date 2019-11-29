@@ -58,9 +58,10 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+* [CodeIgniter](https://www.codeigniter.com/) - PHP framework
+* [codeigniter-modular-extensions-hmvc] (https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - HMVC for CodeIgniter
+* [CodeIgniter base model](https://github.com/jamierumbelow/codeigniter-base-model) - Generic model
+* [Bootstrap](https://getbootstrap.com/) - To simplify views design
 
 ## Contributing
 
