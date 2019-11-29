@@ -36,7 +36,7 @@ No dependencies for this module other than the libraries in "Built with" section
 
 ## Built With
 * [CodeIgniter](https://www.codeigniter.com/) - PHP framework
-* [codeigniter-modular-extensions-hmvc] (https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - HMVC for CodeIgniter
+* [codeigniter-modular-extensions-hmvc](https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc) - HMVC for CodeIgniter
 * [CodeIgniter base model](https://github.com/jamierumbelow/codeigniter-base-model) - Generic model
 * [Bootstrap](https://getbootstrap.com/) - To simplify views design
 
