@@ -140,7 +140,7 @@ class Admin extends MY_Controller
                 $user['password'] = password_hash($password, $this->config->item('password_hash_algorithm'));
                 $this->user_model->insert($user);
             }
-            //redirect('admin/user_index');
+            redirect('admin/user_index');
         } else {
             $this->user_add($user_id);
         }
