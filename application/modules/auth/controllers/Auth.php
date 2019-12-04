@@ -9,14 +9,14 @@
  */
 class Auth extends MY_Controller
 {
-    /* MY_Controller variables definition */
-    protected $access_level = "*";
-
     /**
     * Constructor
     */
     public function __construct()
     {
+        /* Define controller access level */
+        $this->access_level = "*";
+
         parent::__construct();
         $this->load->model('user_model');
         $this->load->model('user_type_model');
