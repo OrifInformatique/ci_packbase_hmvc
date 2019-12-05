@@ -60,7 +60,7 @@ class Admin extends MY_Controller
             'user_types' => $this->user_type_model->dropdown('name'),
             'active_only' => ($active_only+1)%2
         );
-        $this->display_view('admin/users/index', $output);
+        $this->display_view('admin/user/index', $output);
     }
 
     /**
@@ -76,7 +76,7 @@ class Admin extends MY_Controller
             'user' => $this->user_model->with_deleted()->get($user_id),
             'user_types' => $this->user_type_model->dropdown('name')
         );
-        $this->display_view('admin/users/add', $output);
+        $this->display_view('admin/user/add', $output);
     }
 
     /**
@@ -176,7 +176,7 @@ class Admin extends MY_Controller
                     'user' => $user,
                     'title' => $this->lang->line('user_delete_title')
                 );
-                $this->display_view('admin/users/delete', $output);
+                $this->display_view('admin/user/delete', $output);
                 break;
             case 1: // Deactivate user
                 $this->user_model->update($user_id, ['archive' => 1]);
@@ -205,7 +205,7 @@ class Admin extends MY_Controller
             'title' => $this->lang->line('user_password_change_title')
         );
 
-        $this->display_view('admin/users/change_password', $output);
+        $this->display_view('admin/user/change_password', $output);
     }
 
     /**
