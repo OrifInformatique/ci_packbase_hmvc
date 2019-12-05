@@ -20,7 +20,9 @@ class Admin extends MY_Controller
         parent::__construct();
 
         $this->load->model(['auth/user_model', 'auth/user_type_model']);
-        $this->load->library('form_validation');
+
+        // Assign form_validation CI instance to this
+        $this->form_validation->CI =& $this;
     }
 
     /**
@@ -32,6 +34,8 @@ class Admin extends MY_Controller
     public function index(...$args)
     {
         $this->user_index(...$args);
+
+        $this->form_validation->CI =& $this;
     }
 
     /*************************
@@ -77,6 +81,7 @@ class Admin extends MY_Controller
     public function user_form()
     {
         $user_id = $this->input->post('id');
+        // Required to load the min/max values
         $this->load->module('auth');
 
         $this->form_validation->set_rules(
@@ -118,7 +123,7 @@ class Admin extends MY_Controller
             ]);
         }
 
-        if ($this->form_validation->run($this)) {
+        if ($this->form_validation->run()) {
             $user = array(
                 'fk_user_type' => $this->input->post('user_usertype'),
                 'username' => $this->input->post('user_name')
@@ -126,7 +131,7 @@ class Admin extends MY_Controller
             if ($user_id > 0) {
                 if (isset($_POST['save'])) {
                     $this->user_model->update($user_id, $user);
-                } elseif (isset($_POST['disactivate'])) {
+                } elseif (isset($_POST['deactivate'])) {
                     $this->user_model->update($user_id, ['archive' => 1]);
                     $this->user_add($user_id);
                     return;
@@ -207,6 +212,8 @@ class Admin extends MY_Controller
     public function user_password_change_form()
     {
         $user_id = $this->input->post('id');
+        // Required to load the min/max values
+        $this->load->module('auth');
 
         $this->form_validation->set_rules(
             'id', 'id',

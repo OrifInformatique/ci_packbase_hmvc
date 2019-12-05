@@ -1,4 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+// Required for config values
+$this->load->module('auth');
 $update = !is_null($user);
 ?>
 <div class="container">
@@ -57,8 +59,11 @@ $update = !is_null($user);
                 <?= form_submit(
                     ($user->archive ? 're' : 'de').'activate',
                     $this->lang->line('btn_'.($user->archive ? 're' : 'de').'activate'),
-                    ['class' => 'btn btn-warning col-4']
+                    ['class' => 'btn btn-'.($user->archive ? 'primary' : 'warning').' col-4']
                 ); ?>
+                <a href="<?= base_url('admin/user_password_change/'.$user->id); ?>" class="btn btn-secondary col-4 offset-4">
+                    <?= $this->lang->line("user_password_change_title"); ?>
+                </a>
             </div>
         <?php } ?>
 
