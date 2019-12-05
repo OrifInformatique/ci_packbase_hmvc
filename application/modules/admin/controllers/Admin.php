@@ -81,8 +81,6 @@ class Admin extends MY_Controller
     public function user_form()
     {
         $user_id = $this->input->post('id');
-        // Required to load the min/max values
-        $this->load->module('auth');
 
         $this->form_validation->set_rules(
             'id', 'id',
@@ -212,8 +210,6 @@ class Admin extends MY_Controller
     public function user_password_change_form()
     {
         $user_id = $this->input->post('id');
-        // Required to load the min/max values
-        $this->load->module('auth');
 
         $this->form_validation->set_rules(
             'id', 'id',
