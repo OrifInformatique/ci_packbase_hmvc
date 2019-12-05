@@ -32,13 +32,13 @@
         <table class="table table-hover">
         <thead>
             <tr>
-                <th><?= $this->lang->line('user_name'); ?></th>
-                <th><?= $this->lang->line('user_usertype'); ?></th>
-                <th><?= $this->lang->line('user_active'); ?></th>
+                <th><?= lang('user_name'); ?></th>
+                <th><?= lang('user_usertype'); ?></th>
+                <th><?= lang('user_active'); ?></th>
                 <th></th>
             </tr>
         </thead>
-        <tbody id="userlist">
+        <tbody id="userslist">
             <?php foreach($users as $user) { ?>
                 <tr>
                     <td><a href="<?= base_url('admin/user_add/'.$user->id); ?>"><?= $user->username; ?></td>
@@ -57,8 +57,8 @@ $(document).ready(function(){
     $('#toggle_deleted').change(e => {
         let checked = e.currentTarget.checked;
         $.post('admin/user_index/'+(+checked), data => {
-            $('#userlist').empty();
-            $('#userlist')[0].innerHTML = $(data).find('#userlist')[0].innerHTML;
+            $('#userslist').empty();
+            $('#userslist')[0].innerHTML = $(data).find('#userslist')[0].innerHTML;
         });
     });
 });
