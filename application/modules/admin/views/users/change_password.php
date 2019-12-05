@@ -15,7 +15,7 @@ $this->load->module('auth');
     ?>
         <!-- SUBMIT / CANCEL -->
         <div class="row form-group">
-            <a name="cancel" class="btn btn-danger col-4" href="<?= base_url('admin/user_index'); ?>"><?= $this->lang->line('cancel'); ?>
+            <a name="cancel" class="btn btn-danger col-4" href="<?= base_url('admin/user_index'); ?>"><?= $this->lang->line('btn_cancel'); ?></a>
             <?= form_submit('save', $this->lang->line('btn_save'), ['class' => 'btn btn-success col-4 offset-4']); ?>
         </div>
 
