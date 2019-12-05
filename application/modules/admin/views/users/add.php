@@ -15,12 +15,6 @@ $update = !is_null($user);
     ]);
     ?>
 
-        <!-- FORM SUBMIT / CANCEL -->
-        <div class="row form-group">
-            <a class="btn btn-danger col-4" href="<?= base_url('admin/user_index'); ?>"><?= $this->lang->line('btn_cancel'); ?></a>
-            <?= form_submit('save', $this->lang->line('btn_save'), ['class' => 'btn btn-success col-4 offset-4']); ?>
-        </div>
-
         <!-- ERROR MESSAGES -->
         <?= validation_errors('<div class="alert alert-danger">', '</div>'); ?>
 
@@ -53,19 +47,24 @@ $update = !is_null($user);
                     'class' => 'form-control', 'id' => 'user_password_again'
                 ]); ?>
             </div>
-        <?php } else { ?>
-            <!-- ACTIVATE / DEACTIVATE EXISTING USER -->
-            <div class="row form-group">
-                <?= form_submit(
-                    ($user->archive ? 're' : 'de').'activate',
-                    $this->lang->line('btn_'.($user->archive ? 're' : 'de').'activate'),
-                    ['class' => 'btn btn-'.($user->archive ? 'primary' : 'warning').' col-4']
-                ); ?>
-                <a href="<?= base_url('admin/user_password_change/'.$user->id); ?>" class="btn btn-secondary col-4 offset-4">
-                    <?= $this->lang->line("user_password_change_title"); ?>
-                </a>
-            </div>
         <?php } ?>
+
+        <!-- FORM SUBMIT / CANCEL -->
+        <div class="row form-group">
+            <a class="btn btn-default" href="<?= base_url('admin/user_index'); ?>"><?= $this->lang->line('btn_cancel'); ?></a>&nbsp;
+            <?php if ($update) { ?>
+                <!-- ACTIVATE / DEACTIVATE EXISTING USER -->
+                <?= form_submit(
+                    ($user->archive ? 'reactivate' : 'deactivate'),
+                    $this->lang->line('btn_'.($user->archive ? 'reactivate' : 'deactivate')),
+                    ['class' => 'btn btn-secondary']
+                ); ?>&nbsp;
+                <a href="<?= base_url('admin/user_password_change/'.$user->id); ?>" class="btn btn-secondary">
+                    <?= $this->lang->line("user_password_change_title"); ?>
+                </a>&nbsp;
+            <?php } ?>
+            <?= form_submit('save', $this->lang->line('btn_save'), ['class' => 'btn btn-primary']); ?>
+        </div>
 
     <?= form_close(); ?>
 </div>

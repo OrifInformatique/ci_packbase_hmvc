@@ -10,11 +10,9 @@
 <div class="container">
     <h1 class="title-section"><?= $this->lang->line('user_list_title'); ?></h1>
     <div class="row">
-        <div class="col-4">
-            <a href="<?= base_url('admin/user_add'); ?>" class="btn btn-success col-12">
-                <?= $this->lang->line('btn_add_user'); ?>
-            </a>
-        </div>
+        <a href="<?= base_url('admin/user_add'); ?>" class="btn btn-primary">
+            <?= $this->lang->line('btn_add_user'); ?>
+        </a>
     </div>
     <div class="row">
         <div class="col-xs-12 table-responsive">

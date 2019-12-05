@@ -13,12 +13,6 @@ $this->load->module('auth');
         'id' => $user->id ?? 0
     ]);
     ?>
-        <!-- SUBMIT / CANCEL -->
-        <div class="row form-group">
-            <a name="cancel" class="btn btn-danger col-4" href="<?= base_url('admin/user_index'); ?>"><?= $this->lang->line('btn_cancel'); ?></a>
-            <?= form_submit('save', $this->lang->line('btn_save'), ['class' => 'btn btn-success col-4 offset-4']); ?>
-        </div>
-
         <!-- ERRORS -->
         <?= validation_errors('<div class="alert alert-danger">', '</div>'); ?>
 
@@ -36,6 +30,13 @@ $this->load->module('auth');
                     'class' => 'form-control', 'id' => 'user_password_new',
                     'maxlength' => $this->config->item('password_max_length')
                 ]); ?>
+        </div>
+
+        <!-- SUBMIT / CANCEL -->
+        <div class="row form-group">
+            <a name="cancel" class="btn btn-default" href="<?= base_url('admin/user_index'); ?>"><?= $this->lang->line('btn_cancel'); ?></a>
+            &nbsp;
+            <?= form_submit('save', $this->lang->line('btn_save'), ['class' => 'btn btn-primary']); ?>
         </div>
     <?= form_close(); ?>
 </div>
