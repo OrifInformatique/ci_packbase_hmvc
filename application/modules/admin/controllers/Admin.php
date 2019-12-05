@@ -46,19 +46,18 @@ class Admin extends MY_Controller
      * @param boolean $active_only = Whether to select only active users or all
      * @return void
      */
-    public function user_index($active_only = TRUE)
+    public function user_index($with_deleted = FALSE)
     {
-        if ($active_only) {
-            $users = $this->user_model->get_all();
-        } else {
+        if ($with_deleted) {
             $users = $this->user_model->with_deleted()->get_all();
+        } else {
+            $users = $this->user_model->get_all();
         }
 
         $output = array(
-            'title' => $this->lang->line('user_list_title'),
             'users' => $users,
             'user_types' => $this->user_type_model->dropdown('name'),
-            'active_only' => ($active_only+1)%2
+            'with_deleted' => $with_deleted
         );
         $this->display_view('admin/user/index', $output);
     }

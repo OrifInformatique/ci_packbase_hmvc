@@ -22,7 +22,6 @@ $lang['btn_cancel']                     = 'Annuler';
 $lang['btn_deactivate']                 = 'Désactiver';
 $lang['btn_reactivate']                 = 'Réactiver';
 $lang['btn_delete']                     = 'Supprimer';
-$lang['btn_inactive_users_display']     = 'Afficher les utilisateurs désactivés';
 
 // User text
 $lang['user_name']                      = 'Nom d\'utilisateur';
@@ -30,6 +29,7 @@ $lang['user_usertype']                  = 'Type d\'utilisateur';
 $lang['user_active']                    = 'Activé';
 $lang['user_password']                  = 'Mot de passe';
 $lang['user_password_again']            = 'Répétez le mot de passe';
+$lang['deleted_users_display']          = 'Afficher les utilisateurs désactivés';
 
 // Misc text
 $lang['yes']                            = 'Oui';
