@@ -20,9 +20,13 @@
             </a>
         </div>
         <div class="col-sm-9 text-right">
-            <a href="<?= base_url('admin/user_index/'.$active_only); ?>" class="btn btn-default">
-                <?= $this->lang->line('btn_inactive_users_'.($active_only ? 'hide' : 'display')); ?>
-            </a>
+            <label class="btn btn-default form-check-label" for="toggle_active">
+                <?= $this->lang->line('btn_inactive_users_display'); ?>
+            </label>
+                <?= form_checkbox('toggle_active', '', $active_only, [
+                    'id' => 'toggle_active'
+                ]); ?>
+            </label>
         </div>
     </div>
     <div class="row mt-2">
@@ -35,7 +39,7 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="userlist">
             <?php foreach($users as $user) { ?>
                 <tr>
                     <td><a href="<?= base_url('admin/user_add/'.$user->id); ?>"><?= $user->username; ?></td>
@@ -48,3 +52,12 @@
         </table>
     </div>
 </div>
+<script>
+    $('#toggle_active').change(e => {
+        let checked = !e.currentTarget.checked;
+        $.post('admin/user_index/'+(+checked), data => {
+            $('#userlist').empty();
+            $('#userlist')[0].innerHTML = $(data).find('#userlist')[0].innerHTML;
+        });
+    });
+</script>

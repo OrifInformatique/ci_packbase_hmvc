@@ -23,7 +23,6 @@ $lang['btn_deactivate']                 = 'Désactiver';
 $lang['btn_reactivate']                 = 'Réactiver';
 $lang['btn_delete']                     = 'Supprimer';
 $lang['btn_inactive_users_display']     = 'Afficher les utilisateurs désactivés';
-$lang['btn_inactive_users_hide']        = 'Cacher les utilisateurs désactivés';
 
 // User text
 $lang['user_name']                      = 'Nom d\'utilisateur';

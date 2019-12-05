@@ -46,7 +46,7 @@ class Admin extends MY_Controller
      * @param boolean $active_only = Whether to select only active users or all
      * @return void
      */
-    public function user_index($active_only = FALSE)
+    public function user_index($active_only = TRUE)
     {
         if ($active_only) {
             $users = $this->user_model->get_all();
