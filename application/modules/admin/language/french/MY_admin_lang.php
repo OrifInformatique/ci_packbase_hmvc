@@ -15,12 +15,15 @@ $lang['user_delete_title']              = 'Supprimer un utilisateur';
 $lang['user_password_change_title']     = 'Changer le mot de passe';
 
 // Buttons
-$lang['btn_add_user']                   = 'Ajouter un utilisateur';
+$lang['btn_add_m']                      = 'Nouveau';
+$lang['btn_add_f']                      = 'Nouvelle';
 $lang['btn_save']                       = 'Sauvegarder';
 $lang['btn_cancel']                     = 'Annuler';
 $lang['btn_deactivate']                 = 'Désactiver';
 $lang['btn_reactivate']                 = 'Réactiver';
 $lang['btn_delete']                     = 'Supprimer';
+$lang['btn_inactive_users_display']     = 'Afficher les utilisateurs inactifs';
+$lang['btn_inactive_users_hide']        = 'Cacher les utilisateurs inactifs';
 
 // User text
 $lang['user_name']                      = 'Nom d\'utilisateur';

@@ -11,7 +11,10 @@
     <h1 class="title-section"><?= $this->lang->line('user_list_title'); ?></h1>
     <div class="row">
         <a href="<?= base_url('admin/user_add'); ?>" class="btn btn-primary">
-            <?= $this->lang->line('btn_add_user'); ?>
+            <?= $this->lang->line('btn_add_m'); ?>
+        </a>
+        <a href="<?= base_url('admin/user_index/'.$active_only); ?>" class="btn btn-default">
+            <?= $this->lang->line('btn_inactive_users_'.($active_only ? 'hide' : 'display')); ?>
         </a>
     </div>
     <div class="row">
