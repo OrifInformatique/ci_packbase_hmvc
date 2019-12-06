@@ -413,7 +413,21 @@ class MY_Model extends CI_Model
 
         return $result;
     }
+    
+    /**
+     * Rollback a soft deletion for a row in the database, by the primary value
+     */
+    public function undelete($id)
+    {
+        if ($this->soft_delete) {
+            /* The data to update is the soft delete key, to reset to false */
+            $data = array($this->soft_delete_key => FALSE);
 
+            return $this->update($id, $data);
+        } else {
+            return FALSE;
+        }
+    }
 
     /**
      * Truncates the table

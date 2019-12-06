@@ -3,7 +3,7 @@
 $this->load->module('auth');
 ?>
 <div class="container">
-    <h1 class="title-section"><?= $this->lang->line('user_password_change_title'); ?></h1>
+    <h1 class="title-section"><?= $this->lang->line('user_password_reset_title'); ?></h1>
     <?php
     $attributes = array(
         'id' => 'user_change_password_form',
