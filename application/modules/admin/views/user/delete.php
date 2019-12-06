@@ -5,20 +5,25 @@
         <div class="row">
             <div class="col-12">
                 <div>
-                    <span class="form-header"><?= $this->lang->line('user_delete_confirm').'"'.$user->username.'" ?' ?></span>
+                    <h1><?= lang('user').' "'.$user->username.'"' ?></h1>
+                    <h4><?= lang('what_to_do')?></h4>
+                    <div class = "alert alert-info" ><?= lang('user_delete_explanation')?></div>
+                    <?php if ($user->archive) { ?>
+                        <div class = "alert alert-warning" ><?= lang('user_allready_disabled')?></div>
+                    <?php } ?>
                 </div>
-                <div>
-                    <a href="<?= base_url('admin/user_index'); ?>" class="btn btn-default btn-lg">
-                        <?= $this->lang->line('btn_cancel'); ?>
-                    </a>
-                    <a href="<?= base_url(uri_string().'/2'); ?>" class="btn btn-danger btn-lg">
-                        <?= $this->lang->line('btn_delete'); ?>
+                <div class="text-right">
+                    <a href="<?= base_url('admin/user_index'); ?>" class="btn btn-default">
+                        <?= lang('btn_cancel'); ?>
                     </a>
                     <?php if (!$user->archive) { ?>
-                    <a href="<?= base_url(uri_string().'/1'); ?>" class="btn btn-primary btn-lg">
-                        <?= $this->lang->line('btn_deactivate'); ?>
+                    <a href="<?= base_url(uri_string().'/1'); ?>" class="btn btn-primary">
+                        <?= lang('btn_disable'); ?>
                     </a>
                     <?php } ?>
+                    <a href="<?= base_url(uri_string().'/2'); ?>" class="btn btn-danger">
+                        <?= lang('btn_hard_delete'); ?>
+                    </a>
                 </div>
             </div>
         </div>

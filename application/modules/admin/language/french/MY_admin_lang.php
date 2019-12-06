@@ -19,11 +19,12 @@ $lang['btn_add_m']                      = 'Nouveau';
 $lang['btn_add_f']                      = 'Nouvelle';
 $lang['btn_save']                       = 'Sauvegarder';
 $lang['btn_cancel']                     = 'Annuler';
-$lang['btn_deactivate']                 = 'Désactiver';
+$lang['btn_disable']                    = 'Désactiver';
 $lang['btn_reactivate']                 = 'Réactiver';
 $lang['btn_delete']                     = 'Supprimer';
+$lang['btn_hard_delete']                = 'Supprimer définitivement';
 
-// User text
+// User form fields
 $lang['user_name']                      = 'Nom d\'utilisateur';
 $lang['user_usertype']                  = 'Type d\'utilisateur';
 $lang['user_active']                    = 'Activé';
@@ -31,10 +32,15 @@ $lang['user_password']                  = 'Mot de passe';
 $lang['user_password_again']            = 'Répétez le mot de passe';
 $lang['deleted_users_display']          = 'Afficher les utilisateurs désactivés';
 
-// Misc text
+// Other texts
 $lang['yes']                            = 'Oui';
 $lang['no']                             = 'Non';
-$lang['user_delete_confirm']            = 'Êtes-vous sûr de vouloir supprimer ';
+$lang['what_to_do']                     = 'Que souhaitez-vous faire ?';
+$lang['user']                           = 'Utilisateur';
+$lang['user_delete_explanation']        = 'La désactivation d\'un compte utilisateur permet de le rendre inutilisable tout en conservant ses informations dans les archives. '
+                                         .'Cela permet notamment de garder l\'historique de ses actions.<br><br>'
+                                         .'En cas de suppression définitive, toutes les informations concernant cet utilisateur seront supprimées.';
+$lang['user_allready_disabled']         = 'Cet utilisateur est déjà désactivé. Voulez-vous le supprimer définitivement ?';
 
 // Error messages
 $lang['msg_err_user_not_exist']         = 'L\'utilisateur sélectionné n\'existe pas';
