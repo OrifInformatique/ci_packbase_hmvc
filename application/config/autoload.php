@@ -89,7 +89,13 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('date', 'form', 'html', 'url', 'language');
+$autoload['helper'] = array('date', 'form', 'html', 'language');
+if (ENVIRONMENT !== 'testing') {
+    // Autoloading url in tests does NOT work with HMVC.
+    // So you have to load it in the tests.
+    // The other option is to modify url_helper.
+    $autoload['helper'][] = 'url';
+}
 
 /*
 | -------------------------------------------------------------------
