@@ -75,7 +75,7 @@ class Admin extends MY_Controller
             'user' => $this->user_model->with_deleted()->get($user_id),
             'user_types' => $this->user_type_model->dropdown('name')
         );
-        $this->display_view('admin/user/add', $output);
+        $this->display_view('admin/user/form', $output);
     }
 
     /**
@@ -132,17 +132,7 @@ class Admin extends MY_Controller
                 'username' => $this->input->post('user_name')
             );
             if ($user_id > 0) {
-                if (isset($_POST['save'])) {
-                    $this->user_model->update($user_id, $user);
-                } elseif (isset($_POST['deactivate'])) {
-                    $this->user_model->update($user_id, ['archive' => 1]);
-                    $this->user_add($user_id);
-                    return;
-                } elseif (isset($_POST['reactivate'])) {
-                    $this->user_model->update($user_id, ['archive' => 0]);
-                    $this->user_add($user_id);
-                    return;
-                }
+                $this->user_model->update($user_id, $user);
             } else {
                 $password = $this->input->post('user_password');
                 $user['password'] = password_hash($password, $this->config->item('password_hash_algorithm'));
@@ -155,13 +145,13 @@ class Admin extends MY_Controller
     }
 
     /**
-     * Deletes or deactivate an user depending on $action
+     * Deletes or deactivate a user depending on $action
      *
      * @param integer $user_id = ID of the user to affect
      * @param integer $action = Action to apply on the user:
      *  - 0 for displaying the confirmation
-     *  - 1 for deactivating
-     *  - 2 for deleting
+     *  - 1 for deactivating (soft delete)
+     *  - 2 for deleting (hard delete)
      * @return void
      */
     public function user_delete($user_id, $action = 0)
@@ -173,18 +163,35 @@ class Admin extends MY_Controller
             case 0: // Display confirmation
                 $output = array(
                     'user' => $user,
-                    'title' => $this->lang->line('user_delete_title')
+                    'title' => lang('user_delete_title')
                 );
                 $this->display_view('admin/user/delete', $output);
                 break;
-            case 1: // Deactivate user
-                $this->user_model->update($user_id, ['archive' => 1]);
+            case 1: // Deactivate (soft delete) user
+                $this->user_model->delete($user_id, FALSE);
                 redirect('admin/user_index');
             case 2: // Delete user
                 $this->user_model->delete($user_id, TRUE);
                 redirect('admin/user_index');
             default: // Do nothing
                 redirect('admin/user_index');
+        }
+    }
+    
+    /**
+     * Reactivate a disabled user.
+     *
+     * @param integer $user_id = ID of the user to affect
+     * @return void
+     */
+    public function user_reactivate($user_id)
+    {
+        $user = $this->user_model->with_deleted()->get($user_id);
+        if (is_null($user)) {
+            redirect('admin/user_index');
+        } else {
+            $this->user_model->undelete($user_id);
+            redirect('admin/user_add/'.$user_id);
         }
     }
 
@@ -201,7 +208,7 @@ class Admin extends MY_Controller
 
         $output = array(
             'user' => $user,
-            'title' => $this->lang->line('user_password_change_title')
+            'title' => $this->lang->line('user_password_reset_title')
         );
 
         $this->display_view('admin/user/change_password', $output);
