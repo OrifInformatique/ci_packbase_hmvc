@@ -131,8 +131,9 @@ class Admin_Test extends TestCase {
      * @param string $expected_title = Expected title of the page
      * @return void
      */
-    public function test_user_add(string $user_id, string $expected_title)
+    public function test_user_add(string $user_id, string $expected_title, callable $setup)
     {
+        $setup($user_id);
         $this->CI->lang->load('MY_application');
         $expected_title = '<title>'.$this->CI->lang->line('page_prefix').' - '.$expected_title.'</title>';
 
@@ -339,17 +340,25 @@ class Admin_Test extends TestCase {
 
         $data['new_none'] = [
             '',
-            $this->CI->lang->line('user_new_title')
+            $this->CI->lang->line('user_new_title'),
+            function() { }
         ];
 
         $data['new_0'] = [
             '0',
-            $this->CI->lang->line('user_new_title')
+            $this->CI->lang->line('user_new_title'),
+            function() { }
         ];
 
-        $data['update'] = [
+        $data['update_active'] = [
             (string)$user_id,
-            $this->CI->lang->line('user_update_title')
+            $this->CI->lang->line('user_update_title'),
+            function($user_id) {
+                $CI =& get_instance();
+                $CI->load->model('../modules/auth/models/user_model');
+
+                $CI->user_model->update($user_id, ['archive' => 1]);
+            }
         ];
 
         return $data;
