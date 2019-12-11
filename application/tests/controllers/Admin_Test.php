@@ -59,7 +59,8 @@ class Admin_Test extends TestCase {
     public function setUp()
     {
         $this->resetInstance();
-        $this->CI->lang->load('MY_application');
+        // Required to load the correct url_helper
+        $this->CI->load->helper('url');
         // Tests cannot work without this
         self::_login_as_admin();
         // Make sure everything exists before testing
@@ -132,6 +133,7 @@ class Admin_Test extends TestCase {
      */
     public function test_user_add(string $user_id, string $expected_title)
     {
+        $this->CI->lang->load('MY_application');
         $expected_title = '<title>'.$this->CI->lang->line('page_prefix').' - '.$expected_title.'</title>';
 
         // First request always fails, so make sure it's not first
@@ -152,16 +154,7 @@ class Admin_Test extends TestCase {
      */
     public function test_user_form(array $post_params, bool $error_expected, bool $redirect_expected)
     {
-        $redirected = FALSE;
-        try {
-            $this->request('POST', 'admin/user_form', $post_params);
-        } catch (RuntimeException $e) {
-			while (ob_get_level() > 1)
-			{
-				ob_end_clean();
-            }
-            $redirected = TRUE;
-        }
+        $this->request('POST', 'admin/user_form', $post_params);
 
         if ($error_expected) {
             $this->assertNotEmpty(validation_errors());
@@ -170,35 +163,7 @@ class Admin_Test extends TestCase {
         }
 
         if ($redirect_expected) {
-            $this->assertTrue($redirected);
-        }
-    }
-    /**
-     * Test for `Admin::user_form` with reactivating/deactivating users
-     * 
-     * @dataProvider provider_user_form_dr
-     *
-     * @param array $post_params = Parameters to pass to $_POST
-     * @param callable $setup = Setup method using the user's id
-     * @param array $status = Whether the user is archived before/after and if there is an error
-     * @return void
-     */
-    public function test_user_form_dr(array $post_params, callable $setup, array $status)
-    {
-        $setup($post_params['id']);
-
-        $this->CI->load->model('../modules/auth/models/user_model');
-
-        $user = $this->CI->user_model->with_deleted()->get($post_params['id']);
-        $this->assertTrue((int)$user->archive == (int)$status['archived']['pre']);
-
-        $this->request('POST', 'admin/user_form', $post_params);
-
-        $user = $this->CI->user_model->with_deleted()->get($post_params['id']);
-        $this->assertTrue((int)$user->archive == (int)$status['archived']['post']);
-
-        if ($status['error']) {
-            $this->assertNotEmpty(validation_errors());
+            $this->assertRedirect('admin/user_index');
         }
     }
     /**
@@ -214,7 +179,6 @@ class Admin_Test extends TestCase {
      */
     public function test_user_delete(string $user_id, string $action, array $status, bool $redirect_expected)
     {
-        $redirected = FALSE;
         $this->CI->load->model('../modules/auth/models/user_model');
 
         $user = $this->CI->user_model->with_deleted()->get($user_id);
@@ -224,15 +188,7 @@ class Admin_Test extends TestCase {
             $this->assertTrue((int)$user->archive == (int)$status['archived']['pre']);
         }
 
-        try {
-            $this->request('GET', "admin/user_delete/{$user_id}/{$action}");
-        } catch (RuntimeException $e) {
-			while (ob_get_level() > 1)
-			{
-				ob_end_clean();
-            }
-            $redirected = TRUE;
-        }
+        $this->request('GET', "admin/user_delete/{$user_id}/{$action}");
 
         $user = $this->CI->user_model->with_deleted()->get($user_id);
         if ($status['deleted']['post']) {
@@ -241,8 +197,30 @@ class Admin_Test extends TestCase {
             $this->assertTrue((int)$user->archive == (int)$status['archived']['post']);
         }
         if ($redirect_expected) {
-            $this->assertTrue($redirected);
+            $this->assertRedirect('admin/user_index');
         }
+    }
+    /**
+     * Test for `Admin::user_reactivate`
+     * 
+     * @dataProvider provider_user_reactivate
+     *
+     * @param integer $user_id = ID of the user to reactivate
+     * @param boolean $redirect_to_index = Whether the method redirects to index or to add
+     * @return void
+     */
+    public function test_user_reactivate(int $user_id, bool $redirect_to_index)
+    {
+        $this->request('GET', "admin/user_reactivate/{$user_id}");
+
+        $target = 'admin/user_';
+        if ($redirect_to_index) {
+            $target .= 'index';
+        } else {
+            $target .= "add/{$user_id}";
+        }
+
+        $this->assertRedirect($target);
     }
     /**
      * Test for `Admin::user_password_change`
@@ -255,19 +233,14 @@ class Admin_Test extends TestCase {
      */
     public function test_user_password_change(int $user_id, bool $redirect_expected)
     {
-        $redirected = FALSE;
+        $this->CI->lang->load('MY_application');
+        $output = $this->request('GET', "admin/user_password_change/{$user_id}");
 
-        try {
-            $this->request('GET', "admin/user_password_change/{$user_id}");
-        } catch (RuntimeException $e) {
-			while (ob_get_level() > 1)
-			{
-				ob_end_clean();
-            }
-            $redirected = TRUE;
+        if ($redirect_expected) {
+            $this->assertRedirect('admin/user_index');
+        } else {
+            $this->assertContains($this->CI->lang->line('user_password_reset_title'), $output);
         }
-
-        $this->assertSame($redirect_expected, $redirected);
     }
     /**
      * Test for `Admin::user_password_form`
@@ -281,22 +254,13 @@ class Admin_Test extends TestCase {
      */
     public function test_user_password_change_form(array $post_params, bool $error_expected, bool $redirect_expected)
     {
-        $redirected = FALSE;
-        try {
-            $this->request('POST', 'admin/user_password_change_form', $post_params);
-        } catch (RuntimeException $e) {
-			while (ob_get_level() > 1)
-			{
-				ob_end_clean();
-            }
-            $redirected = TRUE;
-        }
+        $this->request('POST', 'admin/user_password_change_form', $post_params);
 
         if ($error_expected) {
             $this->assertNotEmpty(validation_errors());
         }
         if ($redirect_expected) {
-            $this->assertTrue($redirected);
+            $this->assertRedirect('admin/user_index');
         }
     }
     /**
@@ -324,36 +288,6 @@ class Admin_Test extends TestCase {
     public function test_not_null_user_type(int $user_type, bool $expected_result)
     {
         $this->assertSame($expected_result, $this->Admin->cb_not_null_user_type($user_type));
-    }
-    /**
-     * Test for `Admin::cb_not_inactive_user`
-     * 
-     * @dataProvider provider_not_inactive_user
-     *
-     * @param array $params = Parameters for the method
-     * @param callable $setup = Setup method with the id as the only parameter
-     * @param boolean $expected_result = Expected result of the method
-     * @return void
-     */
-    public function test_not_inactive_user(array $params, callable $setup, bool $expected_result)
-    {
-        $setup($params[1]);
-        $this->assertSame($expected_result, $this->Admin->cb_not_inactive_user(...$params));
-    }
-    /**
-     * Test for `Admin::cb_not_active_user`
-     * 
-     * @dataProvider provider_not_active_user
-     *
-     * @param array $params = Parameters for the method
-     * @param callable $setup = Setup method with the id as the only parameter
-     * @param boolean $expected_result = Expected result of the method
-     * @return void
-     */
-    public function test_not_active_user(array $params, callable $setup, bool $expected_result)
-    {
-        $setup($params[1]);
-        $this->assertSame($expected_result, $this->Admin->cb_not_active_user(...$params));
     }
 
     /***********
@@ -526,109 +460,6 @@ class Admin_Test extends TestCase {
         return $data;
     }
     /**
-     * Provider for `test_user_form_dr`
-     *
-     * @return array
-     */
-    public function provider_user_form_dr() : array
-    {
-        $user_id =& self::_dummy_user_create();
-        $user_name = self::$_dummy_values['user']['name_alt'];
-        $user_type = self::$_dummy_values['user']['type'];
-
-        $data = [];
-
-        $data['no_error_deactivate'] = [
-            [
-                'id' => &$user_id,
-                'user_name' => $user_name,
-                'user_usertype' => $user_type,
-                'deactivate' => 1
-            ],
-            function($user_id) {
-                $CI =& get_instance();
-                $CI->load->model('../modules/auth/models/user_model');
-
-                $CI->user_model->update($user_id, ['archive' => 0]);
-            },
-            [
-                'archived' => [
-                    'pre' => FALSE,
-                    'post' => TRUE
-                ],
-                'error' => FALSE
-            ]
-        ];
-
-        $data['no_error_reactivate'] = [
-            [
-                'id' => &$user_id,
-                'user_name' => $user_name,
-                'user_usertype' => $user_type,
-                'reactivate' => 1
-            ],
-            function($user_id) {
-                $CI =& get_instance();
-                $CI->load->model('../modules/auth/models/user_model');
-
-                $CI->user_model->update($user_id, ['archive' => 1]);
-            },
-            [
-                'archived' => [
-                    'pre' => TRUE,
-                    'post' => FALSE
-                ],
-                'error' => FALSE
-            ]
-        ];
-
-        $data['error_deactivate'] = [
-            [
-                'id' => &$user_id,
-                'user_name' => $user_name,
-                'user_usertype' => $user_type,
-                'deactivate' => 1
-            ],
-            function($user_id) {
-                $CI =& get_instance();
-                $CI->load->model('../modules/auth/models/user_model');
-
-                $CI->user_model->update($user_id, ['archive' => 1]);
-            },
-            [
-                'archived' => [
-                    'pre' => TRUE,
-                    'post' => TRUE
-                ],
-                'error' => TRUE
-            ]
-        ];
-
-        $data['error_reactivate'] = [
-            [
-                'id' => &$user_id,
-                'user_name' => $user_name,
-                'user_usertype' => $user_type,
-                'reactivate' => 1
-            ],
-            function($user_id) {
-                $CI =& get_instance();
-                $CI->load->model('../modules/auth/models/user_model');
-
-                $CI->user_model->update($user_id, ['archive' => 0]);
-            },
-            [
-                'archived' => [
-                    'pre' => FALSE,
-                    'post' => FALSE
-                ],
-                'error' => TRUE
-            ]
-        ];
-
-        return $data;
-    }
-    /**
      * Provider for `test_user_delete`
      *
      * @return array
@@ -714,6 +545,32 @@ class Admin_Test extends TestCase {
                     'post' => FALSE
                 ]
             ],
+            TRUE
+        ];
+
+        return $data;
+    }
+    /**
+     * Provider for `test_user_reactivate`
+     *
+     * @return array
+     */
+    public function provider_user_reactivate() : array
+    {
+        $this->resetInstance();
+        $this->CI->load->model('../modules/auth/models/user_model');
+        $user_id =& self::_dummy_user_create();
+
+        $data = [];
+
+        $data['no_error'] = [
+            &$user_id,
+            FALSE
+        ];
+
+        $bad_id = $this->CI->user_model->get_next_id()+100;
+        $data['not_exist'] = [
+            $bad_id,
             TRUE
         ];
 
@@ -844,130 +701,6 @@ class Admin_Test extends TestCase {
         $bad_type = $this->CI->user_type_model->get_next_id()+100;
         $data['not_exist'] = [
             $bad_type,
-            FALSE
-        ];
-
-        return $data;
-    }
-    /**
-     * Provider for `test_not_inactive_user`
-     *
-     * @return array
-     */
-    public function provider_not_inactive_user() : array
-    {
-        $this->resetInstance();
-        $this->CI->load->model('../modules/auth/models/user_model');
-        $user_id =& self::_dummy_user_create();
-
-        $data = [];
-
-        $data['no_disactivate'] = [
-            [
-                NULL,
-                &$user_id
-            ],
-            function() { },
-            TRUE
-        ];
-
-        $bad_id = $this->CI->user_model->get_next_id()+100;
-        $data['not_exist'] = [
-            [
-                '1',
-                $bad_id
-            ],
-            function() { },
-            FALSE
-        ];
-
-        $data['active'] = [
-            [
-                '1',
-                &$user_id
-            ],
-            function($user_id) {
-                $CI =& get_instance();
-                $CI->load->model('../modules/auth/models/user_model');
-
-                $CI->user_model->update($user_id, ['archive' => 0]);
-            },
-            TRUE
-        ];
-
-        $data['inactive'] = [
-            [
-                '1',
-                &$user_id
-            ],
-            function($user_id) {
-                $CI =& get_instance();
-                $CI->load->model('../modules/auth/models/user_model');
-
-                $CI->user_model->update($user_id, ['archive' => 1]);
-            },
-            FALSE
-        ];
-
-        return $data;
-    }
-    /**
-     * Provider for `test_not_active_user`
-     *
-     * @return array
-     */
-    public function provider_not_active_user() : array
-    {
-        $this->resetInstance();
-        $this->CI->load->model('../modules/auth/models/user_model');
-        $user_id =& self::_dummy_user_create();
-
-        $data = [];
-
-        $data['no_activate'] = [
-            [
-                NULL,
-                &$user_id
-            ],
-            function() { },
-            TRUE
-        ];
-
-        $bad_id = $this->CI->user_model->get_next_id()+100;
-        $data['not_exist'] = [
-            [
-                '1',
-                $bad_id
-            ],
-            function() { },
-            FALSE
-        ];
-
-        $data['inactive'] = [
-            [
-                '1',
-                &$user_id
-            ],
-            function($user_id) {
-                $CI =& get_instance();
-                $CI->load->model('../modules/auth/models/user_model');
-
-                $CI->user_model->update($user_id, ['archive' => 1]);
-            },
-            TRUE
-        ];
-
-        $data['active'] = [
-            [
-                '1',
-                &$user_id
-            ],
-            function($user_id) {
-                $CI =& get_instance();
-                $CI->load->model('../modules/auth/models/user_model');
-
-                $CI->user_model->update($user_id, ['archive' => 0]);
-            },
             FALSE
         ];
 
