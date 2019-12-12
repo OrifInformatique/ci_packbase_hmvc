@@ -36,18 +36,26 @@ class Admin_Test extends TestCase {
         'user' => NULL
     ];
 
+    /**
+     * Saves the previous database errors
+     *
+     * @var array
+     */
+    private static $_old_db_errors = [];
+
     /*******************
      * START/END METHODS
      *******************/
+    /**
+     * Called before testing begins
+     *
+     * @return void
+     */
     public static function setUpBeforeClass()
     {
         parent::setUpBeforeClass();
 
-        $CI =& get_instance();
-        if($CI instanceof CIPHPUnitTestNullCodeIgniter) {
-            CIPHPUnitTest::createCodeIgniterInstance();
-            $CI =& get_instance();
-        }
+        $CI =& self::_get_ci_instance();
         $CI->load->database();
         $CI->load->model('auth/user_type_model');
 
@@ -56,6 +64,11 @@ class Admin_Test extends TestCase {
         // Make sure everything exists before counting
         self::_dummy_user_create();
     }
+    /**
+     * Called before a test
+     *
+     * @return void
+     */
     public function setUp()
     {
         $this->resetInstance();
@@ -69,6 +82,11 @@ class Admin_Test extends TestCase {
         // Load Admin for future use
         $this->class_map['Admin'] = Admin::class;
     }
+    /**
+     * Called after a test
+     *
+     * @return void
+     */
     public function tearDown()
     {
         parent::tearDown();
@@ -76,6 +94,11 @@ class Admin_Test extends TestCase {
         self::_logout();
         self::_dummy_user_reset();
     }
+    /**
+     * Called after testing ends
+     *
+     * @return void
+     */
     public static function tearDownAfterClass()
     {
         parent::tearDownAfterClass();
@@ -97,7 +120,14 @@ class Admin_Test extends TestCase {
      */
     public function test_index(string $with_deleted, int $expected_count)
     {
+        $this->_db_errors_save();
+
         $output = $this->request('GET', 'admin/index/'.$with_deleted);
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
 
         // Each user is in a <tr>, and so are the headers
         $actual_count = substr_count($output, '<tr>')-1;
@@ -115,7 +145,14 @@ class Admin_Test extends TestCase {
      */
     public function test_user_index(string $with_deleted, int $expected_count)
     {
+        $this->_db_errors_save();
+
         $output = $this->request('GET', 'admin/user_index/'.$with_deleted);
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
 
         // Each user is in a <tr>, and so are the headers
         $actual_count = substr_count($output, '<tr>')-1;
@@ -139,7 +176,14 @@ class Admin_Test extends TestCase {
 
         // First request always fails, so make sure it's not first
         $this->request('GET', 'admin/user_add');
+
+        $this->_db_errors_save();
         $output = $this->request('GET', 'admin/user_add/'.$user_id);
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
 
         $this->assertTrue(strpos($output, $expected_title) !== FALSE);
     }
@@ -155,7 +199,14 @@ class Admin_Test extends TestCase {
      */
     public function test_user_form(array $post_params, bool $error_expected, bool $redirect_expected)
     {
+        $this->_db_errors_save();
+
         $this->request('POST', 'admin/user_form', $post_params);
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
 
         if ($error_expected) {
             $this->assertNotEmpty(validation_errors());
@@ -189,7 +240,14 @@ class Admin_Test extends TestCase {
             $this->assertTrue((int)$user->archive == (int)$status['archived']['pre']);
         }
 
+        $this->_db_errors_save();
+
         $this->request('GET', "admin/user_delete/{$user_id}/{$action}");
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
 
         $user = $this->CI->user_model->with_deleted()->get($user_id);
         if ($status['deleted']['post']) {
@@ -212,7 +270,14 @@ class Admin_Test extends TestCase {
      */
     public function test_user_reactivate(int $user_id, bool $redirect_to_index)
     {
+        $this->_db_errors_save();
+
         $this->request('GET', "admin/user_reactivate/{$user_id}");
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
 
         $target = 'admin/user_';
         if ($redirect_to_index) {
@@ -235,7 +300,15 @@ class Admin_Test extends TestCase {
     public function test_user_password_change(int $user_id, bool $redirect_expected)
     {
         $this->CI->lang->load('MY_application');
+
+        $this->_db_errors_save();
+
         $output = $this->request('GET', "admin/user_password_change/{$user_id}");
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
 
         if ($redirect_expected) {
             $this->assertRedirect('admin/user_index');
@@ -255,7 +328,14 @@ class Admin_Test extends TestCase {
      */
     public function test_user_password_change_form(array $post_params, bool $error_expected, bool $redirect_expected)
     {
+        $this->_db_errors_save();
+
         $this->request('POST', 'admin/user_password_change_form', $post_params);
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
 
         if ($error_expected) {
             $this->assertNotEmpty(validation_errors());
@@ -354,7 +434,7 @@ class Admin_Test extends TestCase {
             (string)$user_id,
             $this->CI->lang->line('user_update_title'),
             function($user_id) {
-                $CI =& get_instance();
+                $CI =& self::_get_ci_instance();
                 $CI->load->model('../modules/auth/models/user_model');
 
                 $CI->user_model->update($user_id, ['archive' => 1]);
@@ -743,6 +823,21 @@ class Admin_Test extends TestCase {
     }
 
     /**
+     * Gets the CI instance and creates it if required
+     *
+     * @return CI_Controller
+     */
+    private static function &_get_ci_instance()
+    {
+        $CI =& get_instance();
+        if($CI instanceof CIPHPUnitTestNullCodeIgniter) {
+            CIPHPUnitTest::createCodeIgniterInstance();
+            $CI =& get_instance();
+        }
+        return $CI;
+    }
+
+    /**
      * Creates a dummy user
      *
      * @return integer = ID of the dummy user
@@ -750,11 +845,7 @@ class Admin_Test extends TestCase {
     private static function &_dummy_user_create() : int
     {
         // Make sure CI is initialized
-        $CI =& get_instance();
-        if($CI instanceof CIPHPUnitTestNullCodeIgniter) {
-            CIPHPUnitTest::createCodeIgniterInstance();
-            $CI =& get_instance();
-        }
+        $CI =& self::_get_ci_instance();
         $CI->load->model(['../modules/auth/models/user_model', '../modules/auth/models/user_type_model']);
 
         // Only create user if it does not exist
@@ -788,11 +879,7 @@ class Admin_Test extends TestCase {
      */
     private static function _dummy_user_reset()
     {
-        $CI =& get_instance();
-        if($CI instanceof CIPHPUnitTestNullCodeIgniter) {
-            CIPHPUnitTest::createCodeIgniterInstance();
-            $CI =& get_instance();
-        }
+        $CI =& self::_get_ci_instance();
         $CI->load->model('../modules/auth/models/user_model');
 
         $user = $CI->user_model->with_deleted()->get(self::$_dummy_ids['user']);
@@ -821,11 +908,7 @@ class Admin_Test extends TestCase {
      */
     private static function _dummy_users_wipe()
     {
-        $CI =& get_instance();
-        if($CI instanceof CIPHPUnitTestNullCodeIgniter) {
-            CIPHPUnitTest::createCodeIgniterInstance();
-            $CI =& get_instance();
-        }
+        $CI =& self::_get_ci_instance();
         $CI->load->model('../modules/auth/models/user_model');
 
         $dummy_values = [
@@ -842,5 +925,40 @@ class Admin_Test extends TestCase {
                 $CI->user_model->delete($user->id, TRUE);
             }
         }
+    }
+
+    /**
+     * Saves most recent database errors.
+     * 
+     * Uses user_model and user_type_model
+     *
+     * @return void
+     */
+    private static function _db_errors_save()
+    {
+        $CI =& self::_get_ci_instance();
+        $CI->load->model([
+            '../modules/auth/models/user_model',
+            '../modules/auth/models/user_type_model'
+        ]);
+
+        self::$_old_db_errors['user_model'] = $CI->user_model->_database->error();
+        self::$_old_db_errors['user_type_model'] = $CI->user_type_model->_database->error();
+    }
+    /**
+     * Compares the saved database errors to the most recent ones.
+     *
+     * @return boolean = FALSE if the error is the same as before
+     */
+    private static function _db_errors_diff() : bool
+    {
+        $CI =& self::_get_ci_instance();
+        $CI->load->model([
+            '../modules/auth/models/user_model',
+            '../modules/auth/models/user_type_model'
+        ]);
+
+        return self::$_old_db_errors['user_model'] != $CI->user_model->_database->error() ||
+            self::$_old_db_errors['user_type_model'] != $CI->user_type_model->_database->error();
     }
 }
