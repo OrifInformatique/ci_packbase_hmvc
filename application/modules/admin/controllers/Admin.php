@@ -19,7 +19,7 @@ class Admin extends MY_Controller
 
         parent::__construct();
 
-        $this->load->model(['auth/user_model', 'auth/user_type_model']);
+        $this->load->module('auth');
 
         // Assign form_validation CI instance to this
         $this->form_validation->CI =& $this;
@@ -117,12 +117,12 @@ class Admin extends MY_Controller
         );
 
         if ($user_id == 0) {
-            $this->form_validation->set_rules('user_password', $this->lang->line('user_password'), [
+            $this->form_validation->set_rules('user_password', lang('field_password'), [
                 'required', 'trim',
                 'min_length['.$this->config->item('password_min_length').']',
                 'max_length['.$this->config->item('password_max_length').']'
             ]);
-            $this->form_validation->set_rules('user_password_again', $this->lang->line('user_password_again'), [
+            $this->form_validation->set_rules('user_password_again', $this->lang->line('field_password_confirm'), [
                 'required', 'trim', 'matches[user_password]',
                 'min_length['.$this->config->item('password_min_length').']',
                 'max_length['.$this->config->item('password_max_length').']'
@@ -235,12 +235,12 @@ class Admin extends MY_Controller
             'callback_cb_not_null_user',
             $this->lang->line('msg_err_user_not_exist')
         );
-        $this->form_validation->set_rules('user_password_new', $this->lang->line('user_password'), [
+        $this->form_validation->set_rules('user_password_new', lang('field_new_password'), [
             'required', 'trim',
             'min_length['.$this->config->item('password_min_length').']',
             'max_length['.$this->config->item('password_max_length').']'
         ]);
-        $this->form_validation->set_rules('user_password_again', $this->lang->line('user_password_again'), [
+        $this->form_validation->set_rules('user_password_again', $this->lang->line('field_password_confirm'), [
             'required', 'trim', 'matches[user_password_new]',
             'min_length['.$this->config->item('password_min_length').']',
             'max_length['.$this->config->item('password_max_length').']'

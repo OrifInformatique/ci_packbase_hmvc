@@ -17,18 +17,18 @@ $lang['page_prefix']                    = 'Pack base';
 $lang['date_format_short']              = 'd.m.Y';
 $lang['datetime_format_short']          = 'd.m.Y H:i';
 
-// Fields labels
-
-// List headers
-
 // Buttons
-$lang['btn_login']                      = 'Se connecter';
-$lang['btn_logout']                     = 'Se déconnecter';
-$lang['btn_admin']                      = 'Administration';
-$lang['btn_change_password']            = 'Modifier le mot de passe';
+$lang['btn_cancel']                     = 'Annuler';
+$lang['btn_add_m']                      = 'Nouveau';
+$lang['btn_add_f']                      = 'Nouvelle';
+$lang['btn_save']                       = 'Enregistrer';
+$lang['btn_disable']                    = 'Désactiver';
+$lang['btn_reactivate']                 = 'Réactiver';
+$lang['btn_delete']                     = 'Supprimer';
+$lang['btn_hard_delete']                = 'Supprimer définitivement';
 
 // Messages
-$lang['msg_err_access_denied_header']   = 'Accès interdit';
-$lang['msg_err_access_denied_message']  = 'Vous n\'êtes pas autorisé à accéder à cette fonction';
 
 // Other texts
+$lang['yes']                            = 'Oui';
+$lang['no']                             = 'Non';

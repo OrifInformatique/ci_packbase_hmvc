@@ -1,5 +1,7 @@
 <?php
 $this->config->load('auth/MY_auth_config');
+$this->lang->load('auth/MY_auth');
+$this->lang->load('admin/MY_admin');
 ?>
 <div class="container" >
   <div class="row xs-center">
@@ -19,10 +21,10 @@ $this->config->load('auth/MY_auth_config');
           <?php } ?>
           <!-- END OF ADMIN ACCESS -->
 
-          <!-- Logged in, display a "logout" button -->
+          <!-- Logged in, display a "change password" button -->
+          <a href="<?php echo base_url("auth/change_password"); ?>" ><?php echo lang('btn_change_my_password'); ?></a>
+          <!-- and a "logout" button -->
           <a href="<?php echo base_url("auth/logout"); ?>" ><?php echo lang('btn_logout'); ?></a><br />
-          <!-- and a "change password" button -->
-          <a href="<?php echo base_url("auth/change_password"); ?>" ><?php echo lang('btn_change_password'); ?></a>
 
         <?php } else { ?>
           <!-- Not logged in, display a "login" button -->
