@@ -1,3 +1,6 @@
+<?php
+$this->config->load('auth/MY_auth_config');
+?>
 <div class="container" >
   <div class="row xs-center">
     <div class="col-sm-3">
