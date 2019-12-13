@@ -36,14 +36,14 @@ $update = !is_null($user);
         <div class="row">
             <div class="col-sm-6 form-group">
                 <?= form_label(lang('user_name'), 'user_name', ['class' => 'form-label']); ?>
-                <?= form_input('user_name', $user->username ?? '', [
+                <?= form_input('user_name', $user_name ?? $user->username ?? '', [
                     'maxlength' => $this->config->item('username_max_length'),
                     'class' => 'form-control', 'id' => 'user_name'
                 ]); ?>
             </div>
             <div class="col-sm-6 form-group">
                 <?= form_label(lang('user_usertype'), 'user_usertype', ['class' => 'form-label']); ?>
-                <?= form_dropdown('user_usertype', $user_types, $user->fk_user_type ?? NULL, [
+                <?= form_dropdown('user_usertype', $user_types, $user_usertype ?? $user->fk_user_type ?? NULL, [
                     'class' => 'form-control', 'id' => 'user_usertype'
                 ]); ?>
             </div>
