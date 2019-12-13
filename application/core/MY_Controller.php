@@ -23,7 +23,7 @@ class MY_Controller extends MX_Controller
 
         /* Check permission on construct */
         if (!$this->check_permission()) {
-            show_error($this->lang->line('msg_err_access_denied'));
+            show_error(lang('msg_err_access_denied_message'), 403, lang('msg_err_access_denied_header'));
         }
     }
 

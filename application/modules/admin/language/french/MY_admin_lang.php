@@ -50,3 +50,4 @@ $lang['msg_err_user_not_exist']         = 'L\'utilisateur sélectionné n\'exist
 $lang['msg_err_user_already_inactive']  = 'L\'utilisateur est déjà inactif';
 $lang['msg_err_user_already_active']    = 'L\'utilisateur est déjà actif';
 $lang['msg_err_user_type_not_exist']    = 'Le type d\'utilisateur n\'existe pas';
+$lang['msg_err_user_not_unique']        = 'Le nom d\'utilisateur doit être unique';
