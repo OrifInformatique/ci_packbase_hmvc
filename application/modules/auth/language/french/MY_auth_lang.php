@@ -9,7 +9,7 @@
 
 // Pages titles
 $lang['page_login']                     = 'Connexion';
-$lang['page_password_change']           = 'Modification du mot de passe';
+$lang['page_my_password_change']        = 'Modification de mon mot de passe';
 
 // Fields labels
 $lang['field_username']                 = 'Identifiant';
@@ -21,9 +21,7 @@ $lang['field_password_confirm']         = 'Confirmer le mot de passe';
 // Buttons
 $lang['btn_login']                      = 'Se connecter';
 $lang['btn_logout']                     = 'Se déconnecter';
-$lang['btn_admin']                      = 'Administration';
-$lang['btn_cancel']                     = 'Annuler';
-$lang['btn_change_password']            = 'Modifier le mot de passe';
+$lang['btn_change_my_password']         = 'Modifier mon mot de passe';
 
 // Messages
 $lang['msg_err_access_denied_header']   = 'Accès interdit';
