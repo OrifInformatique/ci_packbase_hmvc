@@ -43,7 +43,7 @@ class Admin extends MY_Controller
     /**
      * Displays the list of users
      *
-     * @param boolean $active_only = Whether to select only active users or all
+     * @param boolean $with_deleted = Whether to select inactive users or only active
      * @return void
      */
     public function user_index($with_deleted = FALSE)
@@ -68,12 +68,14 @@ class Admin extends MY_Controller
      * @param integer $user_id = The id of the user to modify, leave blank to create a new one
      * @return void
      */
-    public function user_add($user_id = 0)
+    public function user_add($user_id = 0, array $old_values = [])
     {
         $output = array(
             'title' => $this->lang->line('user_'.((bool)$user_id ? 'update' : 'new').'_title'),
             'user' => $this->user_model->with_deleted()->get($user_id),
-            'user_types' => $this->user_type_model->dropdown('name')
+            'user_types' => $this->user_type_model->dropdown('name'),
+            'user_name' => $old_values['user_name'] ?? NULL,
+            'user_usertype' => $old_values['user_usertype'] ?? NULL
         );
         $this->display_view('admin/user/form', $output);
     }
@@ -129,7 +131,11 @@ class Admin extends MY_Controller
             }
             redirect('admin/user_index');
         } else {
-            $this->user_add($user_id);
+            $old_values = [
+                'user_name' => $this->input->post('user_name'),
+                'user_usertype' => $this->input->post('user_usertype')
+            ];
+            $this->user_add($user_id, $old_values);
         }
     }
 
