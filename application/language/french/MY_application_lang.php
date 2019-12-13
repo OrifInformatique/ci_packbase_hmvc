@@ -25,6 +25,7 @@ $lang['datetime_format_short']          = 'd.m.Y H:i';
 $lang['btn_login']                      = 'Se connecter';
 $lang['btn_logout']                     = 'Se déconnecter';
 $lang['btn_admin']                      = 'Administration';
+$lang['btn_change_password']            = 'Modifier le mot de passe';
 
 // Messages
 $lang['msg_err_access_denied_header']   = 'Accès interdit';

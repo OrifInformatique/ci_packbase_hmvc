@@ -10,7 +10,7 @@ $this->config->load('auth/MY_auth_config');
       <a href="<?php echo base_url(); ?>" class="text-info"><h1><?php echo lang('app_title'); ?></h1></a>
     </div>
     <div class="col-sm-3" >
-      <div class="nav nav-pills" >
+      <div class="nav flex-column" >
         <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) { ?>
           
           <!-- ADMIN ACCESS ONLY -->
@@ -20,7 +20,9 @@ $this->config->load('auth/MY_auth_config');
           <!-- END OF ADMIN ACCESS -->
 
           <!-- Logged in, display a "logout" button -->
-          <a href="<?php echo base_url("auth/logout"); ?>" ><?php echo lang('btn_logout'); ?></a>
+          <a href="<?php echo base_url("auth/logout"); ?>" ><?php echo lang('btn_logout'); ?></a><br />
+          <!-- and a "change password" button -->
+          <a href="<?php echo base_url("auth/change_password"); ?>" ><?php echo lang('btn_change_password'); ?></a>
 
         <?php } else { ?>
           <!-- Not logged in, display a "login" button -->
