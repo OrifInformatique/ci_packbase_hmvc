@@ -97,8 +97,9 @@ class Admin extends MY_Controller
         $this->form_validation->set_rules('user_name', 'lang:user_name', [
             'required', 'trim',
             'min_length['.$this->config->item('username_min_length').']',
-            'max_length['.$this->config->item('username_max_length').']'
-        ]);
+            'max_length['.$this->config->item('username_max_length').']',
+            'callback_cb_unique_user'
+        ], ['cb_unique_user' => $this->lang->line('msg_err_user_not_unique')]);
         $this->form_validation->set_rules('user_usertype', 'lang:user_usertype',
             ['required', 'callback_cb_not_null_user_type'],
             ['cb_not_null_user_type' => $this->lang->line('msg_err_user_type_not_exist')]
@@ -255,6 +256,16 @@ class Admin extends MY_Controller
         }
     }
 
+    /**
+     * Checks that an username doesn't not exist
+     *
+     * @param string $username = Username to check
+     * @return boolean = TRUE if the username already exists, FALSE otherwise
+     */
+    public function cb_unique_user($username) : bool
+    {
+        return is_null($this->user_model->with_deleted()->get_by('username', $username));
+    }
     /**
      * Checks that an user exists
      *
