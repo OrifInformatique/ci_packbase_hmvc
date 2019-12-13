@@ -27,5 +27,7 @@ $lang['btn_logout']                     = 'Se déconnecter';
 $lang['btn_admin']                      = 'Administration';
 
 // Messages
+$lang['msg_err_access_denied_header']   = 'Accès interdit';
+$lang['msg_err_access_denied_message']  = 'Vous n\'êtes pas autorisé à accéder à cette fonction';
 
 // Other texts
