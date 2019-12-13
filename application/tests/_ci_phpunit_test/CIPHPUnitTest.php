@@ -10,7 +10,7 @@
 
 class CIPHPUnitTest
 {
-	private static $loader_class = 'CI_Loader';
+	private static $loader_class = 'MX_Loader';
 	private static $controller_class;
 	private static $autoload_dirs;
 

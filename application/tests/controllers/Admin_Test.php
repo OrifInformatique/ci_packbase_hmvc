@@ -63,6 +63,8 @@ class Admin_Test extends TestCase {
 
         // Make sure everything exists before counting
         self::_dummy_user_create();
+        // Save most recent db errors, for the first use
+        self::_db_errors_save();
     }
     /**
      * Called before a test
@@ -92,6 +94,7 @@ class Admin_Test extends TestCase {
         parent::tearDown();
 
         self::_logout();
+        // Reset dummy user, in case it was updated
         self::_dummy_user_reset();
     }
     /**
@@ -103,6 +106,7 @@ class Admin_Test extends TestCase {
     {
         parent::tearDownAfterClass();
 
+        // Delete all dummies
         self::_dummy_users_wipe();
     }
 
@@ -231,7 +235,7 @@ class Admin_Test extends TestCase {
      */
     public function test_user_delete(string $user_id, string $action, array $status, bool $redirect_expected)
     {
-        $this->CI->load->model('../modules/auth/models/user_model');
+        $this->CI->load->model('auth/user_model');
 
         $user = $this->CI->user_model->with_deleted()->get($user_id);
         if ($status['deleted']['pre']) {
@@ -435,7 +439,7 @@ class Admin_Test extends TestCase {
             $this->CI->lang->line('user_update_title'),
             function($user_id) {
                 $CI =& self::_get_ci_instance();
-                $CI->load->model('../modules/auth/models/user_model');
+                $CI->load->model('auth/user_model');
 
                 $CI->user_model->update($user_id, ['archive' => 1]);
             }
@@ -451,7 +455,8 @@ class Admin_Test extends TestCase {
     public function provider_user_form() : array
     {
         $this->resetInstance();
-        $this->CI->load->model(['../modules/auth/models/user_model', '../modules/auth/models/user_type_model']);
+        $this->CI->load->model(['auth/user_model', 'auth/user_type_model']);
+        $this->CI->load->config('../modules/auth/config/MY_auth_config');
 
         $user_id =& self::_dummy_user_create();
         $user_name = self::$_dummy_values['user']['name_alt'];
@@ -462,7 +467,6 @@ class Admin_Test extends TestCase {
 
         $data['no_error_add'] = [
             [
-                'save' => 1,
                 'id' => 0,
                 'user_name' => $user_name,
                 'user_usertype' => $user_type,
@@ -499,6 +503,56 @@ class Admin_Test extends TestCase {
             [
                 'id' => &$user_id,
                 'user_usertype' => $user_type
+            ],
+            TRUE,
+            FALSE
+        ];
+
+        $name_short = substr($user_name, 0, $this->CI->config->item('username_min_length')-1);
+        $data['error_name_short'] = [
+            [
+                'id' => &$user_id,
+                'user_name' => $name_short,
+                'user_usertype' => $user_type
+            ],
+            TRUE,
+            FALSE
+        ];
+
+        $repeat_count = ceil($this->CI->config->item('username_max_length') / strlen($user_name)) + 1;
+        $name_long = str_repeat($user_name, $repeat_count);
+        $data['error_name_long'] = [
+            [
+                'id' => &$user_id,
+                'user_name' => $name_long,
+                'user_usertype' => $user_type
+            ],
+            TRUE,
+            FALSE
+        ];
+
+        $pass_short = substr($user_pass, 0, $this->CI->config->item('password_min_length')-1);
+        $data['error_pass_short'] = [
+            [
+                'id' => 0,
+                'user_name' => $user_name,
+                'user_usertype' => $user_type,
+                'user_password' => $pass_short,
+                'user_password_again' => $pass_short
+            ],
+            TRUE,
+            FALSE
+        ];
+
+        $repeat_count = ceil($this->CI->config->item('password_max_length') / strlen($user_pass)) + 1;
+        $pass_long = str_repeat($user_pass, $repeat_count);
+        $data['error_pass_long'] = [
+            [
+                'id' => 0,
+                'user_name' => $user_name,
+                'user_usertype' => $user_type,
+                'user_password' => $pass_long,
+                'user_password_again' => $pass_long
             ],
             TRUE,
             FALSE
@@ -556,7 +610,7 @@ class Admin_Test extends TestCase {
     public function provider_user_delete() : array
     {
         $this->resetInstance();
-        $this->CI->load->model('../modules/auth/models/user_model');
+        $this->CI->load->model('auth/user_model');
         $user_id =& self::_dummy_user_create();
 
         $data = [];
@@ -647,7 +701,7 @@ class Admin_Test extends TestCase {
     public function provider_user_reactivate() : array
     {
         $this->resetInstance();
-        $this->CI->load->model('../modules/auth/models/user_model');
+        $this->CI->load->model('auth/user_model');
         $user_id =& self::_dummy_user_create();
 
         $data = [];
@@ -673,7 +727,7 @@ class Admin_Test extends TestCase {
     public function provider_user_password_change() : array
     {
         $this->resetInstance();
-        $this->CI->load->model('../modules/auth/models/user_model');
+        $this->CI->load->model('auth/user_model');
         $user_id =& self::_dummy_user_create();
 
         $data = [];
@@ -699,7 +753,9 @@ class Admin_Test extends TestCase {
     public function provider_user_password_change_form() : array
     {
         $this->resetInstance();
-        $this->CI->load->model('../modules/auth/models/user_model');
+        $this->CI->load->model('auth/user_model');
+        $this->CI->load->config('../modules/auth/config/MY_auth_config');
+
         $user_id =& self::_dummy_user_create();
         $user_pass = self::$_dummy_values['user']['pass_alt'];
 
@@ -735,6 +791,29 @@ class Admin_Test extends TestCase {
             TRUE,
             FALSE
         ];
+        
+        $pass_short = substr($user_pass, 0, $this->CI->config->item('password_min_length')-1);
+        $data['password_short'] = [
+            [
+                'id' => &$user_id,
+                'user_password_new' => $pass_short,
+                'user_password_again' => $pass_short
+            ],
+            TRUE,
+            FALSE
+        ];
+
+        $repeat_count = ceil($this->CI->config->item('password_max_length') / strlen($user_pass)) + 1;
+        $pass_long = str_repeat($user_pass, $repeat_count);
+        $data['password_long'] = [
+            [
+                'id' => &$user_id,
+                'user_password_new' => $pass_long,
+                'user_password_again' => $pass_long
+            ],
+            TRUE,
+            FALSE
+        ];
 
         return $data;
     }
@@ -746,7 +825,7 @@ class Admin_Test extends TestCase {
     public function provider_not_null_user() : array
     {
         $this->resetInstance();
-        $this->CI->load->model('../modules/auth/models/user_model');
+        $this->CI->load->model('auth/user_model');
         $user_id =& self::_dummy_user_create();
 
         $data = [];
@@ -777,7 +856,7 @@ class Admin_Test extends TestCase {
     public function provider_not_null_user_type() : array
     {
         $this->resetInstance();
-        $this->CI->load->model('../modules/auth/models/user_type_model');
+        $this->CI->load->model('auth/user_type_model');
         $user_type = self::$_dummy_values['user']['type'];
 
         $data = [];
@@ -846,7 +925,7 @@ class Admin_Test extends TestCase {
     {
         // Make sure CI is initialized
         $CI =& self::_get_ci_instance();
-        $CI->load->model(['../modules/auth/models/user_model', '../modules/auth/models/user_type_model']);
+        $CI->load->model(['auth/user_model', 'auth/user_type_model']);
 
         // Only create user if it does not exist
         $user = $CI->user_model->with_deleted()->get(self::$_dummy_ids['user']);
@@ -880,7 +959,7 @@ class Admin_Test extends TestCase {
     private static function _dummy_user_reset()
     {
         $CI =& self::_get_ci_instance();
-        $CI->load->model('../modules/auth/models/user_model');
+        $CI->load->model('auth/user_model');
 
         $user = $CI->user_model->with_deleted()->get(self::$_dummy_ids['user']);
         if (is_null($user)) {
@@ -909,7 +988,7 @@ class Admin_Test extends TestCase {
     private static function _dummy_users_wipe()
     {
         $CI =& self::_get_ci_instance();
-        $CI->load->model('../modules/auth/models/user_model');
+        $CI->load->model('auth/user_model');
 
         $dummy_values = [
             self::$_dummy_values['user']['name'],
@@ -938,8 +1017,8 @@ class Admin_Test extends TestCase {
     {
         $CI =& self::_get_ci_instance();
         $CI->load->model([
-            '../modules/auth/models/user_model',
-            '../modules/auth/models/user_type_model'
+            'auth/user_model',
+            'auth/user_type_model'
         ]);
 
         self::$_old_db_errors['user_model'] = $CI->user_model->_database->error();
@@ -954,8 +1033,8 @@ class Admin_Test extends TestCase {
     {
         $CI =& self::_get_ci_instance();
         $CI->load->model([
-            '../modules/auth/models/user_model',
-            '../modules/auth/models/user_type_model'
+            'auth/user_model',
+            'auth/user_type_model'
         ]);
 
         return self::$_old_db_errors['user_model'] != $CI->user_model->_database->error() ||
