@@ -263,7 +263,7 @@ class Admin extends MY_Controller
      * @param int $user_id = ID of the user if it is an update
      * @return boolean = TRUE if the username is unique, FALSE otherwise
      */
-    public function cb_unique_user($username) : bool
+    public function cb_unique_user($username, $user_id) : bool
     {
         $user = $this->user_model->with_deleted()->get_by('username', $username);
         return is_null($user) || $user->id == $user_id;
