@@ -1,7 +1,7 @@
 <?php
-$this->config->load('auth/MY_auth_config');
-$this->lang->load('auth/MY_auth');
-$this->lang->load('admin/MY_admin');
+$CI =& get_instance();
+$CI->config->load('auth/MY_auth_config');
+$CI->lang->load(['auth/MY_auth', 'admin/MY_admin']);
 ?>
 <div class="container" >
   <div class="row xs-center">
