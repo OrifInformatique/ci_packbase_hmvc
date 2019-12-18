@@ -45,7 +45,7 @@ $update = !is_null($user);
                 <?= form_label(lang('user_usertype'), 'user_usertype', ['class' => 'form-label']); ?>
                 <?php
                     $dropdown_options = ['class' => 'form-control', 'id' => 'user_usertype'];
-                    if($_SESSION['user_id'] == $user->id){
+                    if(isset($user) && $_SESSION['user_id'] == $user->id){
                         $dropdown_options['disabled'] = 'disabled';
                         echo form_hidden('user_usertype', $user_usertype ?? $user->fk_user_type ?? NULL);
                     }
@@ -53,7 +53,7 @@ $update = !is_null($user);
                 <?= form_dropdown('user_usertype', $user_types, $user_usertype ?? $user->fk_user_type ?? NULL, $dropdown_options); ?>
             </div>
         </div>
-        <?php if($_SESSION['user_id'] == $user->id){ ?>
+        <?php if(isset($user) && $_SESSION['user_id'] == $user->id){ ?>
             <div class="row">
                 <div class="col-sm-12">
                     <div class="alert alert-info"><?= lang('user_update_usertype_himself') ?></div>
