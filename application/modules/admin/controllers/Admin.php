@@ -163,7 +163,9 @@ class Admin extends MY_Controller
     public function user_delete($user_id, $action = 0)
     {
         $user = $this->user_model->with_deleted()->get($user_id);
-        if (is_null($user)) redirect('admin/user_index');
+        if (is_null($user)) {
+            redirect('admin/user_index');
+        }
 
         switch($action) {
             case 0: // Display confirmation
@@ -174,12 +176,14 @@ class Admin extends MY_Controller
                 $this->display_view('admin/user/delete', $output);
                 break;
             case 1: // Deactivate (soft delete) user
-                if($_SESSION['user_id'] != $user->id)
+                if ($_SESSION['user_id'] != $user->id) {
                     $this->user_model->delete($user_id, FALSE);
+                }
                 redirect('admin/user_index');
             case 2: // Delete user
-                if($_SESSION['user_id'] != $user->id)
+                if ($_SESSION['user_id'] != $user->id) {
                     $this->user_model->delete($user_id, TRUE);
+                }
                 redirect('admin/user_index');
             default: // Do nothing
                 redirect('admin/user_index');
