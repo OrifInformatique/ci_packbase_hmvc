@@ -1,10 +1,11 @@
 # Conventions in this project #
-In addition to [CodeIgniter's conventions](https://codeigniter.com/user_guide/general/styleguide.html), we use our own additional conventions.
-
-## General ##
+In addition to [CodeIgniter's conventions](https://codeigniter.com/user_guide/general/styleguide.html), we use our own additional conventions.  
 Functions and classes should be documented with DocBlock, or any equivalent.  
-Constants should be CAPITALIZED_SNAKE_CASE.  
-Unlike CodeIgniter, there is no need to use `OR` instead of `||`.
+Constants should be CAPITALIZED_SNAKE_CASE.
+
+## Ignored CodeIgniter conventions ##
+There is no need to use `OR` instead of `||`.
+Usage of `<?=$var;?>` is recommended, as CodeIgniter recommends at least 5.6, meaning it should work anyway.
 
 ## HTML/PHP and CSS ##
 Element ids and classes are in kebab-case.
@@ -15,6 +16,7 @@ Filenames start with *MY_* and end with *.css*.
 
 ## Javascript ##
 Variables and functions are named in camelCase.  
+Variables should be declared using `let` or `const` instead of `var`. 
 Classes are named in PascalCase.  
 Files are stored in */assets/js*.  
 Filenames start with *MY_* and end with *.js*.
@@ -67,3 +69,4 @@ Feel free to expand this list.
 | Represents    | Suffix    |
 | ------------- | --------- |
 | Confirmation  | _confirm  |
+
