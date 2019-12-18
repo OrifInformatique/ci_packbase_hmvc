@@ -53,11 +53,13 @@ $update = !is_null($user);
                 <?= form_dropdown('user_usertype', $user_types, $user_usertype ?? $user->fk_user_type ?? NULL, $dropdown_options); ?>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="alert alert-info"><?= lang('user_update_usertype_himself') ?></div>
+        <?php if($_SESSION['user_id'] == $user->id){ ?>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-info"><?= lang('user_update_usertype_himself') ?></div>
+                </div>
             </div>
-        </div>
+        <?php } ?>
         <?php if (!$update) { ?>
             <!-- PASSWORD FIELDS ONLY FOR NEW USERS -->
             <div class="row">
