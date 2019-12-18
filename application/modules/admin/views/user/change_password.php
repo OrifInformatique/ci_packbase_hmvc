@@ -32,7 +32,7 @@ $this->load->module('auth');
     <div class="row">
         <div class="col-sm-6">
             <div class="form-group">
-                <?= form_label(lang('user_password'), 'user_password_new', ['class' => 'form-label']); ?>
+                <?= form_label(lang('field_new_password'), 'user_password_new', ['class' => 'form-label']); ?>
                 <?= form_password('user_password_new', '', [
                     'class' => 'form-control', 'id' => 'user_password_new',
                     'maxlength' => $this->config->item('password_max_length')
@@ -41,7 +41,7 @@ $this->load->module('auth');
         </div>
         <div class="col-sm-6">
             <div class="form-group">
-                <?= form_label(lang('user_password_again'), 'user_password_again', ['class' => 'form-label']); ?>
+                <?= form_label(lang('field_password_confirm'), 'user_password_again', ['class' => 'form-label']); ?>
                 <?= form_password('user_password_again', '', [
                     'class' => 'form-control', 'id' => 'user_password_new',
                     'maxlength' => $this->config->item('password_max_length')
