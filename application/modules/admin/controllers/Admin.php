@@ -287,7 +287,6 @@ class Admin extends MY_Controller
      */
     public function cb_not_null_user_type($user_type_id) : bool
     {
-        echo $user_type_id;
         return !is_null($this->user_type_model->get($user_type_id));
     }
     /**
