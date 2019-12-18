@@ -1,0 +1,35 @@
+<phpunit
+	bootstrap="./Bootstrap.php"
+	backupGlobals="true"
+	colors="true">
+	<testsuites>
+		<testsuite name="HMVC Test Suite">
+			<directory suffix="test.php">../modules/**/tests/</directory>
+		</testsuite>
+		<testsuite name="CodeIgniter Application Test Suite">
+			<directory suffix="test.php">./</directory>
+			<exclude>./_ci_phpunit_test/</exclude>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist>
+			<directory suffix=".php">../controllers</directory>
+			<directory suffix=".php">../models</directory>
+			<directory suffix=".php">../views</directory>
+			<directory suffix=".php">../libraries</directory>
+			<directory suffix=".php">../helpers</directory>
+			<directory suffix=".php">../hooks</directory>
+			<directory suffix=".php">../modules/**/controllers</directory>
+			<directory suffix=".php">../modules/**/models</directory>
+			<directory suffix=".php">../modules/**/views</directory>
+			<directory suffix=".php">../modules/**/libraries</directory>
+			<directory suffix=".php">../modules/**/helpers</directory>
+			<directory suffix=".php">../modules/**/hooks</directory>
+		</whitelist>
+	</filter>
+	<logging>
+		<log type="coverage-html" target="build/coverage"/>
+		<log type="coverage-clover" target="build/logs/clover.xml"/>
+		<log type="junit" target="build/logs/junit.xml"/>
+	</logging>
+</phpunit>
