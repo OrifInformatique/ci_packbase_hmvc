@@ -43,11 +43,23 @@ $update = !is_null($user);
             </div>
             <div class="col-sm-6 form-group">
                 <?= form_label(lang('user_usertype'), 'user_usertype', ['class' => 'form-label']); ?>
-                <?= form_dropdown('user_usertype', $user_types, $user_usertype ?? $user->fk_user_type ?? NULL, [
-                    'class' => 'form-control', 'id' => 'user_usertype'
-                ]); ?>
+                <?php
+                    $dropdown_options = ['class' => 'form-control', 'id' => 'user_usertype'];
+                    if(isset($user) && $_SESSION['user_id'] == $user->id){
+                        $dropdown_options['disabled'] = 'disabled';
+                        echo form_hidden('user_usertype', $user_usertype ?? $user->fk_user_type ?? NULL);
+                    }
+                ?>
+                <?= form_dropdown('user_usertype', $user_types, $user_usertype ?? $user->fk_user_type ?? NULL, $dropdown_options); ?>
             </div>
         </div>
+        <?php if(isset($user) && $_SESSION['user_id'] == $user->id){ ?>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="alert alert-info"><?= lang('user_update_usertype_himself') ?></div>
+                </div>
+            </div>
+        <?php } ?>
         <?php if (!$update) { ?>
             <!-- PASSWORD FIELDS ONLY FOR NEW USERS -->
             <div class="row">
