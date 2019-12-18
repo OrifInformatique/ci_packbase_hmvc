@@ -28,15 +28,20 @@ class MY_Exceptions extends CI_Exceptions {
             // Select the views in the common module
             $common_templates_path = APPPATH.'modules'.DIRECTORY_SEPARATOR.'common'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR;
         }
+
 		if (ob_get_level() > $this->ob_level + 1)
 		{
 			ob_end_flush();
         }
         ob_start();
-        include($common_templates_path.'header.php');
-        include($common_templates_path.'login_bar.php');
-		include($errors_templates_path.$template.'.php');
-        include($common_templates_path.'footer.php');
+        if (!is_cli()) {
+            include($common_templates_path.'header.php');
+            include($common_templates_path.'login_bar.php');
+        }
+        include($errors_templates_path.$template.'.php');
+        if (!is_cli()) {
+            include($common_templates_path.'footer.php');
+        }
         $buffer = ob_get_contents();
         ob_end_clean();
         return $buffer;

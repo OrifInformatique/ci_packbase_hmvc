@@ -2,7 +2,6 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 ?>
 <style type="text/css">
-
 .error_header {
 	color: #444;
 	background-color: transparent;
