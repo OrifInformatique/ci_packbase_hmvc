@@ -11,9 +11,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <title><?php
         if (is_null($title) || $title == '') {
-            echo $this->lang->line('page_prefix');
+            echo lang('page_prefix');
         } else {
-            echo $this->lang->line('page_prefix').' - '.$title;
+            echo lang('page_prefix').' - '.$title;
         }
     ?></title>
 
