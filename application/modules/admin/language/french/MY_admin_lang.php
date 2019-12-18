@@ -33,6 +33,8 @@ $lang['user_delete_explanation']        = 'La désactivation d\'un compte utilis
                                          .'Cela permet notamment de garder l\'historique de ses actions.<br><br>'
                                          .'En cas de suppression définitive, toutes les informations concernant cet utilisateur seront supprimées.';
 $lang['user_allready_disabled']         = 'Cet utilisateur est déjà désactivé. Voulez-vous le supprimer définitivement ?';
+$lang['user_update_usertype_himself']   = 'Vous ne pouvez pas modifier votre propre type d\'utilisateur. Cette opération doit être faite par un autre administrateur.';
+$lang['user_delete_himself']            = 'Vous ne pouvez pas désactiver ou supprimer votre propre compte. Cette opération doit être faite par un autre administrateur.';
 
 // Error messages
 $lang['msg_err_user_not_exist']         = 'L\'utilisateur sélectionné n\'existe pas';

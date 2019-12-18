@@ -143,10 +143,9 @@ class Admin extends MY_Controller
             }
             redirect('admin/user_index');
         } else {
-            $old_values = [
-                'user_name' => $this->input->post('user_name'),
-                'user_usertype' => $this->input->post('user_usertype')
-            ];
+            $old_values['user_name'] = $this->input->post('user_name');
+            if($_SESSION['user_id'] != $user_id)
+                $old_values['user_usertype'] = $this->input->post('user_usertype');
             $this->user_add($user_id, $old_values);
         }
     }
@@ -175,10 +174,12 @@ class Admin extends MY_Controller
                 $this->display_view('admin/user/delete', $output);
                 break;
             case 1: // Deactivate (soft delete) user
-                $this->user_model->delete($user_id, FALSE);
+                if($_SESSION['user_id'] != $user->id)
+                    $this->user_model->delete($user_id, FALSE);
                 redirect('admin/user_index');
             case 2: // Delete user
-                $this->user_model->delete($user_id, TRUE);
+                if($_SESSION['user_id'] != $user->id)
+                    $this->user_model->delete($user_id, TRUE);
                 redirect('admin/user_index');
             default: // Do nothing
                 redirect('admin/user_index');
@@ -286,6 +287,7 @@ class Admin extends MY_Controller
      */
     public function cb_not_null_user_type($user_type_id) : bool
     {
+        echo $user_type_id;
         return !is_null($this->user_type_model->get($user_type_id));
     }
     /**
