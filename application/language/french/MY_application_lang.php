@@ -28,6 +28,8 @@ $lang['btn_delete']                     = 'Supprimer';
 $lang['btn_hard_delete']                = 'Supprimer définitivement';
 
 // Messages
+$lang['msg_err_access_denied_header']   = 'Accès interdit';
+$lang['msg_err_access_denied_message']  = 'Vous n\'êtes pas autorisé à accéder à cette fonction';
 
 // Other texts
 $lang['yes']                            = 'Oui';
