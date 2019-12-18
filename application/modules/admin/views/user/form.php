@@ -52,13 +52,13 @@ $update = !is_null($user);
             <!-- PASSWORD FIELDS ONLY FOR NEW USERS -->
             <div class="row">
                 <div class="col-sm-6 form-group">
-                    <?= form_label(lang('user_password'), 'user_password', ['class' => 'form-label']); ?>
+                    <?= form_label(lang('field_password'), 'user_password', ['class' => 'form-label']); ?>
                     <?= form_password('user_password', '', [
                         'class' => 'form-control', 'id' => 'user_password'
                     ]); ?>
                 </div>
                 <div class="col-sm-6 form-group">
-                    <?= form_label(lang('user_password_again'), 'user_password_again', ['class' => 'form-label']); ?>
+                    <?= form_label(lang('field_password_confirm'), 'user_password_again', ['class' => 'form-label']); ?>
                     <?= form_password('user_password_again', '', [
                         'maxlength' => $this->config->item('password_max_length'),
                         'class' => 'form-control', 'id' => 'user_password_again'

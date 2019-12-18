@@ -19,7 +19,7 @@ class Admin extends MY_Controller
 
         parent::__construct();
 
-        $this->load->model(['auth/user_model', 'auth/user_type_model']);
+        $this->load->module('auth');
 
         // Assign form_validation CI instance to this
         $this->form_validation->CI =& $this;
@@ -98,7 +98,7 @@ class Admin extends MY_Controller
             'required', 'trim',
             'min_length['.$this->config->item('username_min_length').']',
             'max_length['.$this->config->item('username_max_length').']',
-            'callback_cb_unique_user'
+            "callback_cb_unique_user[{$user_id}]"
         ], ['cb_unique_user' => $this->lang->line('msg_err_user_not_unique')]);
         $this->form_validation->set_rules('user_usertype', 'lang:user_usertype',
             ['required', 'callback_cb_not_null_user_type'],
@@ -117,12 +117,12 @@ class Admin extends MY_Controller
         );
 
         if ($user_id == 0) {
-            $this->form_validation->set_rules('user_password', $this->lang->line('user_password'), [
+            $this->form_validation->set_rules('user_password', lang('field_password'), [
                 'required', 'trim',
                 'min_length['.$this->config->item('password_min_length').']',
                 'max_length['.$this->config->item('password_max_length').']'
             ]);
-            $this->form_validation->set_rules('user_password_again', $this->lang->line('user_password_again'), [
+            $this->form_validation->set_rules('user_password_again', $this->lang->line('field_password_confirm'), [
                 'required', 'trim', 'matches[user_password]',
                 'min_length['.$this->config->item('password_min_length').']',
                 'max_length['.$this->config->item('password_max_length').']'
@@ -235,12 +235,12 @@ class Admin extends MY_Controller
             'callback_cb_not_null_user',
             $this->lang->line('msg_err_user_not_exist')
         );
-        $this->form_validation->set_rules('user_password_new', $this->lang->line('user_password'), [
+        $this->form_validation->set_rules('user_password_new', lang('field_new_password'), [
             'required', 'trim',
             'min_length['.$this->config->item('password_min_length').']',
             'max_length['.$this->config->item('password_max_length').']'
         ]);
-        $this->form_validation->set_rules('user_password_again', $this->lang->line('user_password_again'), [
+        $this->form_validation->set_rules('user_password_again', $this->lang->line('field_password_confirm'), [
             'required', 'trim', 'matches[user_password_new]',
             'min_length['.$this->config->item('password_min_length').']',
             'max_length['.$this->config->item('password_max_length').']'
@@ -260,11 +260,13 @@ class Admin extends MY_Controller
      * Checks that an username doesn't not exist
      *
      * @param string $username = Username to check
-     * @return boolean = TRUE if the username already exists, FALSE otherwise
+     * @param int $user_id = ID of the user if it is an update
+     * @return boolean = TRUE if the username is unique, FALSE otherwise
      */
-    public function cb_unique_user($username) : bool
+    public function cb_unique_user($username, $user_id) : bool
     {
-        return is_null($this->user_model->with_deleted()->get_by('username', $username));
+        $user = $this->user_model->with_deleted()->get_by('username', $username);
+        return is_null($user) || $user->id == $user_id;
     }
     /**
      * Checks that an user exists

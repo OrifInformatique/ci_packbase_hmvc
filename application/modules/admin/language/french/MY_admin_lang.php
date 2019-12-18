@@ -15,26 +15,15 @@ $lang['user_delete_title']              = 'Supprimer un utilisateur';
 $lang['user_password_reset_title']      = 'Réinitialiser le mot de passe';
 
 // Buttons
-$lang['btn_add_m']                      = 'Nouveau';
-$lang['btn_add_f']                      = 'Nouvelle';
-$lang['btn_save']                       = 'Enregistrer';
-$lang['btn_cancel']                     = 'Annuler';
-$lang['btn_disable']                    = 'Désactiver';
-$lang['btn_reactivate']                 = 'Réactiver';
-$lang['btn_delete']                     = 'Supprimer';
-$lang['btn_hard_delete']                = 'Supprimer définitivement';
+$lang['btn_admin']                      = 'Administration';
 
 // User form fields
 $lang['user_name']                      = 'Nom d\'utilisateur';
 $lang['user_usertype']                  = 'Type d\'utilisateur';
 $lang['user_active']                    = 'Activé';
-$lang['user_password']                  = 'Mot de passe';
-$lang['user_password_again']            = 'Répéter le mot de passe';
 $lang['deleted_users_display']          = 'Afficher les utilisateurs désactivés';
 
 // Other texts
-$lang['yes']                            = 'Oui';
-$lang['no']                             = 'Non';
 $lang['what_to_do']                     = 'Que souhaitez-vous faire ?';
 $lang['user']                           = 'Utilisateur';
 $lang['user_delete']                    = 'Désactiver ou supprimer cet utilisateur';
@@ -50,4 +39,4 @@ $lang['msg_err_user_not_exist']         = 'L\'utilisateur sélectionné n\'exist
 $lang['msg_err_user_already_inactive']  = 'L\'utilisateur est déjà inactif';
 $lang['msg_err_user_already_active']    = 'L\'utilisateur est déjà actif';
 $lang['msg_err_user_type_not_exist']    = 'Le type d\'utilisateur n\'existe pas';
-$lang['msg_err_user_not_unique']        = 'Le nom d\'utilisateur doit être unique';
+$lang['msg_err_user_not_unique']        = 'Ce nom d\'utilisateur est déjà utilisé, merci d\'en choisir un autre';
