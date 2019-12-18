@@ -1,7 +1,7 @@
 <?php
-$this->config->load('auth/MY_auth_config');
-$this->lang->load('auth/MY_auth');
-$this->lang->load('admin/MY_admin');
+$CI =& get_instance();
+$CI->config->load('auth/MY_auth_config');
+$CI->lang->load(['auth/MY_auth', 'admin/MY_admin']);
 ?>
 <div class="container" >
   <div class="row xs-center">
@@ -16,7 +16,7 @@ $this->lang->load('admin/MY_admin');
         <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) { ?>
           
           <!-- ADMIN ACCESS ONLY -->
-          <?php if ($_SESSION['user_access'] >= $this->config->item('access_lvl_admin')) { ?>
+          <?php if ($_SESSION['user_access'] >= $CI->config->item('access_lvl_admin')) { ?>
               <a href="<?php echo base_url("admin/"); ?>" ><?php echo lang('btn_admin'); ?></a><br />
           <?php } ?>
           <!-- END OF ADMIN ACCESS -->
