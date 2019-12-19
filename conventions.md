@@ -28,7 +28,8 @@ If a function is used only in one view, it can be added at the end of that view.
 
 ## Images ##
 
-Images are stored in */assets/images*.
+Images used in the application's template are stored in */assets/images*.  
+If the application lets the user upload his own pictures, these will be stored in a separate folder (for example "uploads" folder).
 
 ## PHP (in general) ##
 
