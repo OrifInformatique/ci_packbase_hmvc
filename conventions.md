@@ -35,10 +35,11 @@ If the application lets the user upload his own pictures, these will be stored i
 
 ## SQL and database ##
 
-SQL scripts should allways be present in root/database folder for application specific tables and in application/module/<module name>/database for module tables.
+SQL scripts should allways be present in root/database folder for application specific tables and in application/module/{module name}/database folder for module tables.  
+One script to generate a new empty database and upgrade scripts to update from a version to the next without affecting content datas.
 Tables and attributes must be all lowercase and snake_case.  
-No prefix is used for tables names.
-fk_ prefix is used for foreign keys.
+No prefix is used for tables names.  
+fk_ prefix is used for foreign keys.  
 
 ## PHP (in general) ##
 
