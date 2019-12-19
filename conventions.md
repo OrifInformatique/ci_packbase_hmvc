@@ -33,9 +33,12 @@ If a function is used only in one view, it can be added at the end of that view.
 Images used in the application's template are stored in */assets/images*.  
 If the application lets the user upload his own pictures, these will be stored in a separate folder (for example "uploads" folder).
 
-## SQL ##
+## SQL and database ##
 
-Tables and attributes must be snake_case.
+SQL scripts should allways be present in root/database folder for application specific tables and in application/module/<module name>/database for module tables.
+Tables and attributes must be all lowercase and snake_case.  
+No prefix is used for tables names.
+fk_ prefix is used for foreign keys.
 
 ## PHP (in general) ##
 
