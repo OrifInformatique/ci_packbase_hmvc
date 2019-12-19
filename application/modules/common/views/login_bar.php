@@ -1,7 +1,13 @@
 <?php
 $CI =& get_instance();
-$CI->config->load('user/MY_user_config');
-$CI->lang->load(['user/MY_user']);
+if (ENVIRONMENT !== 'testing') {
+	$CI->config->load('user/MY_user_config');
+	$CI->lang->load('user/MY_user');
+} else {
+	// CI-PHPUnit checks from application/folder instead of module/folder
+	$CI->config->load('../modules/user/config/MY_user_config');
+	$CI->lang->load('../../modules/user/language/french/MY_user');
+}
 ?>
 <div class="container" >
   <div class="row xs-center">
