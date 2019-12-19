@@ -23,7 +23,7 @@ Variables and functions are named in camelCase.
 Variables should be declared using `let` or `const` instead of `var`.  
 Classes are named in PascalCase.  
 Files are stored in */assets/js*.  
-Filenames start with *MY_* and end with *.js*.
+Filenames start with *MY_* and end with *.js*.  
 If a function is used only in one view, it can be added at the end of that view.
 
 ## Images ##
