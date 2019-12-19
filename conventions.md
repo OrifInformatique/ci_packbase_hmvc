@@ -1,8 +1,7 @@
 # Conventions in this project #
 
 In addition to [CodeIgniter's conventions](https://codeigniter.com/user_guide/general/styleguide.html), we use our own additional conventions.  
-Functions and classes should be documented with DocBlock, or any equivalent.  
-Constants should be CAPITALIZED_SNAKE_CASE.
+Functions and classes should be documented with DocBlock.  
 
 ## Ignored CodeIgniter conventions ##
 
