@@ -10,7 +10,7 @@ Usage of `<?=$var;?>` is recommended, as CodeIgniter recommends at least 5.6, me
 
 ## HTML/PHP and CSS ##
 
-Element ids and classes are in kebab-case.
+Element ids and classes are in kebab-case, as Bootstrap classes.
 
 ## CSS ##
 
