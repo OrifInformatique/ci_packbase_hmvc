@@ -7,7 +7,7 @@ Functions and classes should be documented with DocBlock.
 
 There is no need to use `OR` instead of `||`.  
 Usage of `<?=$var;?>` is recommended, as CodeIgniter recommends at least 5.6, meaning it should work anyway.  
-There is no convention for spaces/tabs. You might see them mixed in some files.  
+The use of spaces instead of tabs for indentation is encouraged. You might see them mixed in some files.  
 There is no convention for end of lines.
 
 ## HTML/PHP and CSS ##
