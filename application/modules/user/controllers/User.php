@@ -465,7 +465,7 @@ class User extends MY_Controller
 	}
 
 	/**
-	 * Checks if the user is an admin and redirects to auth/login if they are not
+	 * Checks if the user is an admin and redirects to user/login if they are not
 	 *
 	 * @return void
 	 */
