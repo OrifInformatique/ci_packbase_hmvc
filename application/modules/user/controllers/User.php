@@ -212,9 +212,7 @@ class User extends MY_Controller
      */
     public function user_index($with_deleted = FALSE)
     {
-		if (!$this->check_permission($this->config->item('access_lvl_admin'))) {
-			redirect('user/login');
-		}
+		$this->redirect_if_not_admin();
 
         if ($with_deleted) {
             $users = $this->user_model->with_deleted()->get_all();
@@ -238,9 +236,7 @@ class User extends MY_Controller
      */
     public function user_add($user_id = 0, array $old_values = [])
     {
-		if (!$this->check_permission($this->config->item('access_lvl_admin'))) {
-			redirect('user/login');
-		}
+		$this->redirect_if_not_admin();
 
         $output = array(
             'title' => $this->lang->line('user_'.((bool)$user_id ? 'update' : 'new').'_title'),
@@ -259,9 +255,7 @@ class User extends MY_Controller
      */
     public function user_form()
     {
-		if (!$this->check_permission($this->config->item('access_lvl_admin'))) {
-			redirect('user/login');
-		}
+		$this->redirect_if_not_admin();
 
         $user_id = $this->input->post('id');
 
@@ -330,9 +324,7 @@ class User extends MY_Controller
      */
     public function user_delete($user_id, $action = 0)
     {
-		if (!$this->check_permission($this->config->item('access_lvl_admin'))) {
-			redirect('user/login');
-		}
+		$this->redirect_if_not_admin();
 
         $user = $this->user_model->with_deleted()->get($user_id);
         if (is_null($user)) {
@@ -370,9 +362,7 @@ class User extends MY_Controller
      */
     public function user_reactivate($user_id)
     {
-		if (!$this->check_permission($this->config->item('access_lvl_admin'))) {
-			redirect('user/login');
-		}
+		$this->redirect_if_not_admin();
 
         $user = $this->user_model->with_deleted()->get($user_id);
         if (is_null($user)) {
@@ -391,9 +381,7 @@ class User extends MY_Controller
      */
     public function user_password_change($user_id)
     {
-		if (!$this->check_permission($this->config->item('access_lvl_admin'))) {
-			redirect('user/login');
-		}
+		$this->redirect_if_not_admin();
 
         $user = $this->user_model->with_deleted()->get($user_id);
         if (is_null($user)) redirect('user/user_index');
@@ -413,9 +401,7 @@ class User extends MY_Controller
      */
     public function user_password_change_form()
     {
-		if (!$this->check_permission($this->config->item('access_lvl_admin'))) {
-			redirect('user/login');
-		}
+		$this->redirect_if_not_admin();
 
         $user_id = $this->input->post('id');
 
@@ -476,5 +462,17 @@ class User extends MY_Controller
     public function cb_not_null_user_type($user_type_id) : bool
     {
         return !is_null($this->user_type_model->get($user_type_id));
-    }
+	}
+
+	/**
+	 * Checks if the user is an admin and redirects to auth/login if they are not
+	 *
+	 * @return void
+	 */
+	private function redirect_if_not_admin()
+	{
+		if (!$this->check_permission($this->config->item('access_lvl_admin'))) {
+			redirect('user/login');
+		}
+	}
 }
