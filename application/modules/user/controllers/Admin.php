@@ -29,7 +29,7 @@ class Admin extends MY_Controller
     /**
      * Displays the list of users
      *
-     * @param boolean $with_deleted = Whether to select inactive users or only active
+     * @param boolean $with_deleted = Display archived users or not
      * @return void
      */
     public function list_user($with_deleted = FALSE)
@@ -49,7 +49,7 @@ class Admin extends MY_Controller
     }
 
     /**
-     * Adds or modify an user
+     * Adds or modify a user
      *
      * @param integer $user_id = The id of the user to modify, leave blank to create a new one
      * @return void
@@ -182,7 +182,7 @@ class Admin extends MY_Controller
     }
 
     /**
-     * Displays a form to change an user's password
+     * Displays a form to change a user's password
      *
      * @param integer $user_id = ID of the user to update
      * @return void
@@ -226,7 +226,7 @@ class Admin extends MY_Controller
     }
 
     /**
-     * Checks that an username doesn't not exist
+     * Checks that a username doesn't exist
      *
      * @param string $username = Username to check
      * @param int $user_id = ID of the user if it is an update
