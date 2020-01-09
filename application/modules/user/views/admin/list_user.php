@@ -10,18 +10,18 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <h1 class="title-section"><?= lang('user_list_title'); ?></h1>
+            <h1 class="title-section"><?= lang('title_user_list'); ?></h1>
         </div>
     </div>
     <div class="row">
         <div class="col-sm-3 text-left">
-            <a href="<?= base_url('user/user_add'); ?>" class="btn btn-primary">
+            <a href="<?= base_url('user/admin/save_user'); ?>" class="btn btn-primary">
                 <?= lang('btn_add_m'); ?>
             </a>
         </div>
         <div class="col-sm-9 text-right">
             <label class="btn btn-default form-check-label" for="toggle_deleted">
-                <?= lang('deleted_users_display'); ?>
+                <?= lang('field_deleted_users_display'); ?>
             </label>
             <?= form_checkbox('toggle_deleted', '', $with_deleted, [
                 'id' => 'toggle_deleted'
@@ -32,19 +32,19 @@
         <table class="table table-hover">
         <thead>
             <tr>
-                <th><?= lang('user_name'); ?></th>
-                <th><?= lang('user_usertype'); ?></th>
-                <th><?= lang('user_active'); ?></th>
+                <th><?= lang('field_user_name'); ?></th>
+                <th><?= lang('field_user_usertype'); ?></th>
+                <th><?= lang('field_user_active'); ?></th>
                 <th></th>
             </tr>
         </thead>
         <tbody id="userslist">
             <?php foreach($users as $user) { ?>
                 <tr>
-                    <td><a href="<?= base_url('user/user_add/'.$user->id); ?>"><?= $user->username; ?></td>
+                    <td><a href="<?= base_url('user/admin/save_user/'.$user->id); ?>"><?= $user->username; ?></td>
                     <td><?= $user_types[$user->fk_user_type]; ?></td>
                     <td><?= $this->lang->line($user->archive ? 'no' : 'yes'); ?></td>
-                    <td><a href="<?= base_url('user/user_delete/'.$user->id); ?>" class="close">×</td>
+                    <td><a href="<?= base_url('user/admin/delete_user/'.$user->id); ?>" class="close">×</td>
                 </tr>
             <?php } ?>
         </tbody>
@@ -56,7 +56,7 @@
 $(document).ready(function(){
     $('#toggle_deleted').change(e => {
         let checked = e.currentTarget.checked;
-        $.post('user/user_index/'+(+checked), data => {
+        $.post('<?=base_url();?>user/admin/list_user/'+(+checked), {}, data => {
             $('#userslist').empty();
             $('#userslist')[0].innerHTML = $(data).find('#userslist')[0].innerHTML;
         });

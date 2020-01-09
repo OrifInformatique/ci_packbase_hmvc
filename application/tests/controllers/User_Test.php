@@ -293,7 +293,7 @@ class User_Test extends TestCase {
         if ($redirect_expected) {
             $this->assertRedirect('user/user_index');
         } else {
-            $this->assertContains($this->CI->lang->line('user_password_reset_title'), $output);
+            $this->assertContains($this->CI->lang->line('title_user_password_reset'), $output);
         }
     }
     /**
@@ -400,19 +400,19 @@ class User_Test extends TestCase {
 
         $data['new_none'] = [
             '',
-            $this->CI->lang->line('user_new_title'),
+            $this->CI->lang->line('title_user_new'),
             function() { }
         ];
 
         $data['new_0'] = [
             '0',
-            $this->CI->lang->line('user_new_title'),
+            $this->CI->lang->line('title_user_new'),
             function() { }
         ];
 
         $data['update_active'] = [
             (string)$user_id,
-            $this->CI->lang->line('user_update_title'),
+            $this->CI->lang->line('title_user_update'),
             function($user_id) {
                 $CI =& self::_get_ci_instance();
                 $CI->load->model('user/user_model');

@@ -23,18 +23,18 @@ if (ENVIRONMENT !== 'testing') {
           
           <!-- ADMIN ACCESS ONLY -->
           <?php if ($_SESSION['user_access'] >= $CI->config->item('access_lvl_admin')) { ?>
-              <a href="<?php echo base_url("user/user_index"); ?>" ><?php echo lang('btn_admin'); ?></a><br />
+              <a href="<?php echo base_url("user/admin/list_user"); ?>" ><?php echo lang('btn_admin'); ?></a><br />
           <?php } ?>
           <!-- END OF ADMIN ACCESS -->
 
           <!-- Logged in, display a "change password" button -->
-          <a href="<?php echo base_url("user/change_password"); ?>" ><?php echo lang('btn_change_my_password'); ?></a>
+          <a href="<?php echo base_url("user/auth/change_password"); ?>" ><?php echo lang('btn_change_my_password'); ?></a>
           <!-- and a "logout" button -->
-          <a href="<?php echo base_url("user/logout"); ?>" ><?php echo lang('btn_logout'); ?></a><br />
+          <a href="<?php echo base_url("user/auth/logout"); ?>" ><?php echo lang('btn_logout'); ?></a><br />
 
         <?php } else { ?>
           <!-- Not logged in, display a "login" button -->
-          <a href="<?php echo base_url("user/login"); ?>" ><?php echo lang('btn_login'); ?></a>
+          <a href="<?php echo base_url("user/auth/login"); ?>" ><?php echo lang('btn_login'); ?></a>
         <?php } ?>
       </div>
     </div>

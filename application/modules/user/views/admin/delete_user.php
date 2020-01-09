@@ -14,7 +14,7 @@
                         <?php } ?>
                     </div>
                     <div class="text-right">
-                        <a href="<?= base_url('user/user_index'); ?>" class="btn btn-default">
+                        <a href="<?= base_url('user/admin/list_user'); ?>" class="btn btn-default">
                             <?= lang('btn_cancel'); ?>
                         </a>
                         <?php if (!$user->archive) { ?>

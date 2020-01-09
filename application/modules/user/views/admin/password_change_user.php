@@ -7,15 +7,13 @@
             'id' => 'user_change_password_form',
             'name' => 'user_change_password_form'
         );
-        echo form_open('user/user_password_change_form', $attributes, [
-            'id' => $user->id ?? 0
-        ]);
+        echo form_open('user/admin/password_change_user/'.$user->id, $attributes);
     ?>
     
     <!-- TITLE -->
     <div class="row">
         <div class="col-12">
-            <h1 class="title-section"><?= lang('user_password_reset_title'); ?></h1>
+            <h1 class="title-section"><?= lang('title_user_password_reset'); ?></h1>
             <h4><?= lang('user')." : ".$user->username ?></h4>
         </div>
     </div>
@@ -52,7 +50,7 @@
     <!-- SUBMIT / CANCEL -->
     <div class="row">
         <div class="col-12 text-right">
-            <a name="cancel" class="btn btn-default" href="<?= base_url('user/user_index'); ?>"><?= lang('btn_cancel'); ?></a>
+            <a name="cancel" class="btn btn-default" href="<?= base_url('user/admin/list_user'); ?>"><?= lang('btn_cancel'); ?></a>
             &nbsp;
             <?= form_submit('save', lang('btn_save'), ['class' => 'btn btn-primary']); ?>
         </div>

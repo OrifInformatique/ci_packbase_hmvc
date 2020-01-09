@@ -22,7 +22,7 @@ $update = !is_null($user);
         'id' => 'user_form',
         'name' => 'user_form'
     );
-    echo form_open('user/user_form', $attributes, [
+    echo form_open('user/admin/save_user', $attributes, [
         'id' => $user->id ?? 0
     ]);
     ?>
@@ -33,14 +33,14 @@ $update = !is_null($user);
         <!-- USER FIELDS -->
         <div class="row">
             <div class="col-sm-6 form-group">
-                <?= form_label(lang('user_name'), 'user_name', ['class' => 'form-label']); ?>
+                <?= form_label(lang('field_user_name'), 'user_name', ['class' => 'form-label']); ?>
                 <?= form_input('user_name', $user_name ?? $user->username ?? '', [
                     'maxlength' => $this->config->item('username_max_length'),
                     'class' => 'form-control', 'id' => 'user_name'
                 ]); ?>
             </div>
             <div class="col-sm-6 form-group">
-                <?= form_label(lang('user_usertype'), 'user_usertype', ['class' => 'form-label']); ?>
+                <?= form_label(lang('field_user_usertype'), 'user_usertype', ['class' => 'form-label']); ?>
                 <?php
                     $dropdown_options = ['class' => 'form-control', 'id' => 'user_usertype'];
                     if(isset($user) && $_SESSION['user_id'] == $user->id){
@@ -79,26 +79,26 @@ $update = !is_null($user);
             <div class="row">
                 <!-- RESET PASSWORD FOR EXISTING USER -->
                 <div class="col-12">
-                    <a href="<?= base_url('user/user_password_change/'.$user->id); ?>" >
-                        <?= lang("user_password_reset_title"); ?>
+                    <a href="<?= base_url('user/admin/password_change_user/'.$user->id); ?>" >
+                        <?= lang("title_user_password_reset"); ?>
                     </a>
                 </div>
                 
                 <!-- ACTIVATE / DISABLE EXISTING USER -->
                 <?php if ($user->archive) { ?>
                     <div class="col-12">
-                        <a href="<?= base_url('user/user_reactivate/'.$user->id); ?>" >
+                        <a href="<?= base_url('user/admin/reactivate_user/'.$user->id); ?>" >
                             <?= lang("user_reactivate"); ?>
                         </a>
                     </div>
                     <div class="col-12">
-                        <a href="<?= base_url('user/user_delete/'.$user->id); ?>" class="text-danger" >
+                        <a href="<?= base_url('user/admin/delete_user/'.$user->id); ?>" class="text-danger" >
                             <?= lang("btn_hard_delete"); ?>
                         </a>
                     </div>
                 <?php } else { ?>
                     <div class="col-12">
-                        <a href="<?= base_url('user/user_delete/'.$user->id); ?>" class="text-danger" >
+                        <a href="<?= base_url('user/admin/delete_user/'.$user->id); ?>" class="text-danger" >
                             <?= lang("user_delete"); ?>
                         </a>
                     </div>
@@ -109,7 +109,7 @@ $update = !is_null($user);
         <!-- FORM BUTTONS -->
         <div class="row">
             <div class="col text-right">
-                <a class="btn btn-default" href="<?= base_url('user/user_index'); ?>"><?= lang('btn_cancel'); ?></a>
+                <a class="btn btn-default" href="<?= base_url('user/admin/list_user'); ?>"><?= lang('btn_cancel'); ?></a>
                 <?= form_submit('save', lang('btn_save'), ['class' => 'btn btn-primary']); ?>
             </div>
         </div>

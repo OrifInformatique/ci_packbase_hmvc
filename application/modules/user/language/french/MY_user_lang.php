@@ -8,13 +8,12 @@
  */
 
  // Page titles
-$lang['user_list_title']                = 'Liste des utilisateurs';
-$lang['user_update_title']              = 'Modifier un utilisateur';
-$lang['user_new_title']                 = 'Ajouter un utilisateur';
-$lang['user_delete_title']              = 'Supprimer un utilisateur';
-$lang['user_password_reset_title']      = 'Réinitialiser le mot de passe';
-$lang['page_login']                     = 'Connexion';
-$lang['page_my_password_change']        = 'Modification de mon mot de passe';
+$lang['title_user_list']                = 'Liste des utilisateurs';
+$lang['title_user_update']              = 'Modifier un utilisateur';
+$lang['title_user_new']                 = 'Ajouter un utilisateur';
+$lang['title_user_delete']              = 'Supprimer un utilisateur';
+$lang['title_user_password_reset']      = 'Réinitialiser le mot de passe';
+$lang['title_page_login']               = 'Connexion';
 
 // Buttons
 $lang['btn_admin']                      = 'Administration';
@@ -28,10 +27,10 @@ $lang['field_password']                 = 'Mot de passe';
 $lang['field_old_password']             = 'Ancien mot de passe';
 $lang['field_new_password']             = 'Nouveau mot de passe';
 $lang['field_password_confirm']         = 'Confirmer le mot de passe';
-$lang['user_name']                      = 'Nom d\'utilisateur';
-$lang['user_usertype']                  = 'Type d\'utilisateur';
-$lang['user_active']                    = 'Activé';
-$lang['deleted_users_display']          = 'Afficher les utilisateurs désactivés';
+$lang['field_user_name']                = 'Nom d\'utilisateur';
+$lang['field_user_usertype']            = 'Type d\'utilisateur';
+$lang['field_user_active']              = 'Activé';
+$lang['field_deleted_users_display']    = 'Afficher les utilisateurs désactivés';
 
 // Error messages
 $lang['msg_err_user_not_exist']         = 'L\'utilisateur sélectionné n\'existe pas';
@@ -56,3 +55,4 @@ $lang['user_delete_explanation']        = 'La désactivation d\'un compte utilis
 $lang['user_allready_disabled']         = 'Cet utilisateur est déjà désactivé. Voulez-vous le supprimer définitivement ?';
 $lang['user_update_usertype_himself']   = 'Vous ne pouvez pas modifier votre propre type d\'utilisateur. Cette opération doit être faite par un autre administrateur.';
 $lang['user_delete_himself']            = 'Vous ne pouvez pas désactiver ou supprimer votre propre compte. Cette opération doit être faite par un autre administrateur.';
+$lang['page_my_password_change']        = 'Modification de mon mot de passe';
