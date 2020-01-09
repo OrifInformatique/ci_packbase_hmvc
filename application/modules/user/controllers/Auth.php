@@ -1,34 +1,36 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * Authentication System
+ * User Authentication
  *
  * @author      Orif (ViDi)
  * @link        https://github.com/OrifInformatique
  * @copyright   Copyright (c), Orif (https://www.orif.ch)
  * @version     2.0
  */
-class Auth extends MY_Controller
-{
+class Auth extends MY_Controller {
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct()
     {
         /* Define controller access level */
-        $this->access_level = "*";
+        $this->access_level = '*';
 
         parent::__construct();
-        $this->load->model('user_model');
-        $this->load->model('user_type_model');
 
-        $this->load->library('form_validation');
+        // Load required items
+        $this->load->library('form_validation')->model('user_model');
+
+        // Assign form_validation CI instance to this
         $this->form_validation->CI =& $this;
     }
 
     /**
-     * Login and create session variables
+     * Login user and create session variables
+     *
+     * @return void
      */
-    public function login ()
+    public function login()
     {
         // If user already logged
         if(!(isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true)) {
@@ -69,7 +71,7 @@ class Auth extends MY_Controller
                 if ($this->form_validation->run() == true) {
                     $username = $this->input->post('username');
                     $password = $this->input->post('password');
-                    
+
                     if ($this->user_model->check_password($username, $password)) {
                         // Login success
                         $user = $this->user_model->with('user_type')
@@ -87,13 +89,13 @@ class Auth extends MY_Controller
                     } else {
                         // Login failed
                         $this->session->set_flashdata('message-danger', lang('msg_err_invalid_password'));
-                    }               
+                    }
                 }
             }
 
             // Display login page
-            $output = array('title' => lang('page_login'));
-            $this->display_view('auth/login_form', $output);
+            $output = array('title' => lang('title_page_login'));
+            $this->display_view('user/auth/login', $output);
         } else {
             redirect(base_url());
         }
@@ -101,6 +103,8 @@ class Auth extends MY_Controller
 
     /**
      * Logout and destroy session
+     *
+     * @return void
      */
     public function logout()
     {
@@ -113,7 +117,9 @@ class Auth extends MY_Controller
     }
 
     /**
-     * Display a form to let user change his password
+     * Displays a form to let user change his password
+     *
+     * @return void
      */
     public function change_password()
     {
@@ -132,9 +138,9 @@ class Auth extends MY_Controller
                         'rules' => 'trim|required|'
                                  . 'min_length['.$this->config->item('password_min_length').']|'
                                  . 'max_length['.$this->config->item('password_max_length').']|'
-                                 . 'callback_old_password_check['.$username.']',
+                                 . 'callback_cb_old_password_check['.$username.']',
                         'errors' => array(
-                            'old_password_check' => lang('msg_err_invalid_old_password')
+                            'cb_old_password_check' => lang('msg_err_invalid_old_password')
                         )
                     ),
                     array(
@@ -172,10 +178,10 @@ class Auth extends MY_Controller
 
             // Display the password change form
             $output['title'] = $this->lang->line('page_password_change');
-            $this->display_view('auth/password_change_form', $output);
+            $this->display_view('user/auth/change_password', $output);
         } else {
             // Access is not allowed
-            $this->ask_for_login();
+            $this->login();
         }
     }
 
@@ -186,7 +192,8 @@ class Auth extends MY_Controller
      * @param string $user = The username
      * @return boolean = Whether or not the combination is correct
      */
-    public function old_password_check($pwd,$user){
+    public function cb_old_password_check($pwd, $user)
+    {
         return $this->user_model->check_password($user, $pwd);
     }
 }

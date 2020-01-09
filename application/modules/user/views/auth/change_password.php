@@ -5,7 +5,7 @@
                 $attributes = array("class" => "form-horizontal",
                                     "id" => "change_password",
                                     "name" => "change_password");
-                echo form_open("auth/change_password", $attributes);
+                echo form_open("user/auth/change_password", $attributes);
             ?>
             <fieldset>
                 <legend><?= lang('page_my_password_change'); ?></legend>
