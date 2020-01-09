@@ -1,15 +1,17 @@
 <?php
-// Load user controller for callback tests
-require_once(__DIR__.'/../../modules/user/controllers/User.php');
+// Load Admin controller for callback tests
+require_once(__DIR__.'/../../../modules/user/controllers/Admin.php');
 
 /**
- * Class for tests for User controller
+ * Class for tests for Admin controller
  * 
  * @author      Orif, section informatique (ViDi, MeSa, BuYa)
  * @link        https://github.com/OrifInformatique/gestion_questionnaires
  * @copyright   Copyright (c) Orif (http://www.orif.ch)
+ * 
+ * @todo Write tests for `Admin::cb_unique_user`
  */
-class User_Test extends TestCase {
+class Admin_Test extends TestCase {
     /**
      * Stores the dummy values for dummy entries
      *
@@ -35,7 +37,7 @@ class User_Test extends TestCase {
      */
     private static $_dummy_ids = [
         'user' => NULL
-    ];
+	];
 
     /**
      * Saves the previous database errors
@@ -83,7 +85,7 @@ class User_Test extends TestCase {
         self::_dummy_user_create();
 
         // Load User for future use
-        $this->class_map['User'] = User::class;
+        $this->class_map['User'] = Admin::class;
     }
     /**
      * Called after a test
@@ -115,19 +117,19 @@ class User_Test extends TestCase {
      * TESTS
      *******/
     /**
-     * Test for `User::user_index`
+     * Test for `Admin::list_user`
      * 
-     * @dataProvider provider_index
+     * @dataProvider provider_list_user
      *
      * @param string $with_deleted = Value to pass to $with_deleted
      * @param integer $expected_count = Amount of users expected
      * @return void
      */
-    public function test_user_index(string $with_deleted, int $expected_count)
+    public function test_list_user(string $with_deleted, int $expected_count)
     {
         $this->_db_errors_save();
 
-        $output = $this->request('GET', 'user/user_index/'.$with_deleted);
+        $output = $this->request('GET', 'user/admin/list_user/'.$with_deleted);
 
         $this->assertFalse(
             $this->_db_errors_diff(),
@@ -140,25 +142,25 @@ class User_Test extends TestCase {
         $this->assertEquals($expected_count, $actual_count);
     }
     /**
-     * Test for `User::user_add`
+     * Test for `User::save_user` without $_POST data
      * 
-     * @dataProvider provider_user_add
+     * @dataProvider provider_save_user
      *
      * @param string $user_id = ID of the user to modify
      * @param string $expected_title = Expected title of the page
      * @return void
      */
-    public function test_user_add(string $user_id, string $expected_title, callable $setup)
+    public function test_save_user(string $user_id, string $expected_title, callable $setup)
     {
         $setup($user_id);
         $this->CI->lang->load('MY_application');
         $expected_title = '<title>'.$this->CI->lang->line('page_prefix').' - '.$expected_title.'</title>';
 
         // First request always fails, so make sure it's not first
-        $this->request('GET', 'user/user_add');
+        $this->request('GET', 'user/admin/save_user');
 
         $this->_db_errors_save();
-        $output = $this->request('GET', 'user/user_add/'.$user_id);
+        $output = $this->request('GET', 'user/admin/save_user/'.$user_id);
 
         $this->assertFalse(
             $this->_db_errors_diff(),
@@ -168,20 +170,20 @@ class User_Test extends TestCase {
         $this->assertTrue(strpos($output, $expected_title) !== FALSE);
     }
     /**
-     * Test for `User::user_form`
+     * Test for `User::save_user` with $_POST data
      * 
-     * @dataProvider provider_user_form
+     * @dataProvider provider_save_user_post
      *
      * @param array $post_params = Parameters to pass to $_POST
      * @param boolean $error_expected = Whether or not an error is expected in `validation_errors()`
      * @param boolean $redirect_expected = Whether or not a redirect is expected
      * @return void
      */
-    public function test_user_form(array $post_params, bool $error_expected, bool $redirect_expected)
+    public function test_save_user_post(array $post_params, bool $error_expected, bool $redirect_expected)
     {
         $this->_db_errors_save();
 
-        $this->request('POST', 'user/user_form', $post_params);
+        $this->request('POST', 'user/admin/save_user', $post_params);
 
         $this->assertFalse(
             $this->_db_errors_diff(),
@@ -195,13 +197,13 @@ class User_Test extends TestCase {
         }
 
         if ($redirect_expected) {
-            $this->assertRedirect('user/user_index');
+            $this->assertRedirect('user/admin/list_user');
         }
     }
     /**
-     * Test for `User::user_delete`
+     * Test for `User::delete_user`
      * 
-     * @dataProvider provider_user_delete
+     * @dataProvider provider_delete_user
      *
      * @param string $user_id = ID of the user to "delete"
      * @param string $action = Value to pass to $action
@@ -209,7 +211,7 @@ class User_Test extends TestCase {
      * @param boolean $redirect_expected = Whether a redirect is expected
      * @return void
      */
-    public function test_user_delete(string $user_id, string $action, array $status, bool $redirect_expected)
+    public function test_delete_user(string $user_id, string $action, array $status, bool $redirect_expected)
     {
         $this->CI->load->model('user/user_model');
 
@@ -222,7 +224,7 @@ class User_Test extends TestCase {
 
         $this->_db_errors_save();
 
-        $this->request('GET', "user/user_delete/{$user_id}/{$action}");
+        $this->request('GET', "user/admin/delete_user/{$user_id}/{$action}");
 
         $this->assertFalse(
             $this->_db_errors_diff(),
@@ -236,54 +238,54 @@ class User_Test extends TestCase {
             $this->assertTrue((int)$user->archive == (int)$status['archived']['post']);
         }
         if ($redirect_expected) {
-            $this->assertRedirect('user/user_index');
+            $this->assertRedirect('user/admin/list_user');
         }
     }
     /**
-     * Test for `User::user_reactivate`
+     * Test for `User::reactivate_user`
      * 
-     * @dataProvider provider_user_reactivate
+     * @dataProvider provider_reactivate_user
      *
      * @param integer $user_id = ID of the user to reactivate
      * @param boolean $redirect_to_index = Whether the method redirects to index or to add
      * @return void
      */
-    public function test_user_reactivate(int $user_id, bool $redirect_to_index)
+    public function test_reactivate_user(int $user_id, bool $redirect_to_index)
     {
         $this->_db_errors_save();
 
-        $this->request('GET', "user/user_reactivate/{$user_id}");
+        $this->request('GET', "user/admin/reactivate_user/{$user_id}");
 
         $this->assertFalse(
             $this->_db_errors_diff(),
             'One or more error occured in an SQL statement'
         );
 
-        $target = 'user/user_';
+        $target = 'user/admin/';
         if ($redirect_to_index) {
-            $target .= 'index';
+            $target .= 'list_user';
         } else {
-            $target .= "add/{$user_id}";
+            $target .= "save_user/{$user_id}";
         }
 
         $this->assertRedirect($target);
     }
     /**
-     * Test for `User::user_password_change`
+     * Test for `User::password_change_user` without $_POST data
      * 
-     * @dataProvider provider_user_password_change
+     * @dataProvider provider_password_change_user
      *
      * @param integer $user_id = ID of the user
      * @param boolean $redirect_expected = Whether a redirect is expected
      * @return void
      */
-    public function test_user_password_change(int $user_id, bool $redirect_expected)
+    public function test_password_change_user(int $user_id, bool $redirect_expected)
     {
         $this->CI->lang->load('MY_application');
 
         $this->_db_errors_save();
 
-        $output = $this->request('GET', "user/user_password_change/{$user_id}");
+        $output = $this->request('GET', "user/admin/password_change_user/{$user_id}");
 
         $this->assertFalse(
             $this->_db_errors_diff(),
@@ -291,26 +293,26 @@ class User_Test extends TestCase {
         );
 
         if ($redirect_expected) {
-            $this->assertRedirect('user/user_index');
+            $this->assertRedirect('user/admin/list_user');
         } else {
             $this->assertContains($this->CI->lang->line('title_user_password_reset'), $output);
         }
     }
     /**
-     * Test for `User::user_password_form`
+     * Test for `User::password_change_user` with $_POST data
      * 
-     * @dataProvider provider_user_password_change_form
+     * @dataProvider provider_password_change_user_post
      *
      * @param array $post_params = Parameters to pass to $_POST
      * @param boolean $error_expected = Whether an error is expected
      * @param boolean $redirect_expected = Whether a redirect is expected
      * @return void
      */
-    public function test_user_password_change_form(array $post_params, bool $error_expected, bool $redirect_expected)
+    public function test_password_change_user_post(array $post_params, bool $error_expected, bool $redirect_expected)
     {
         $this->_db_errors_save();
 
-        $this->request('POST', 'user/user_password_change_form', $post_params);
+        $this->request('POST', "user/admin/password_change_user/{$post_params['id']}", $post_params);
 
         $this->assertFalse(
             $this->_db_errors_diff(),
@@ -321,7 +323,7 @@ class User_Test extends TestCase {
             $this->assertNotEmpty(validation_errors());
         }
         if ($redirect_expected) {
-            $this->assertRedirect('user/user_index');
+            $this->assertRedirect('user/admin/list_user');
         }
     }
     /**
@@ -354,17 +356,17 @@ class User_Test extends TestCase {
     /***********
      * PROVIDERS
      ***********/
-    /**
-     * Provider for `test_user_index`
-     *
-     * @return array
-     */
-    public function provider_index() : array
-    {
+	/**
+	 * Provider for `test_list_user`
+	 *
+	 * @return array
+	 */
+	public function provider_list_user() : array
+	{
         self::_dummy_user_create();
         $this->resetInstance();
         $this->CI->load->database();
-        $this->CI->load->model('..modules/user/models/user_model');
+        $this->CI->load->model('user/user_model');
 
         $data = [];
 
@@ -384,13 +386,13 @@ class User_Test extends TestCase {
         ];
 
         return $data;
-    }
+	}
     /**
-     * Provider for `test_user_add`
+     * Provider for `test_save_user`
      *
      * @return array
      */
-    public function provider_user_add() : array
+    public function provider_save_user() : array
     {
         $this->resetInstance();
         $user_id =& self::_dummy_user_create();
@@ -424,11 +426,11 @@ class User_Test extends TestCase {
         return $data;
     }
     /**
-     * Provider for `test_user_form`
+     * Provider for `test_save_user_post`
      *
      * @return array
      */
-    public function provider_user_form() : array
+    public function provider_save_user_post() : array
     {
         $this->resetInstance();
         $this->CI->load->model(['user/user_model', 'user/user_type_model']);
@@ -580,11 +582,11 @@ class User_Test extends TestCase {
         return $data;
     }
     /**
-     * Provider for `test_user_delete`
+     * Provider for `test_delete_user`
      *
      * @return array
      */
-    public function provider_user_delete() : array
+    public function provider_delete_user() : array
     {
         $this->resetInstance();
         $this->CI->load->model('user/user_model');
@@ -671,11 +673,11 @@ class User_Test extends TestCase {
         return $data;
     }
     /**
-     * Provider for `test_user_reactivate`
+     * Provider for `test_reactivate_user`
      *
      * @return array
      */
-    public function provider_user_reactivate() : array
+    public function provider_reactivate_user() : array
     {
         $this->resetInstance();
         $this->CI->load->model('user/user_model');
@@ -697,11 +699,11 @@ class User_Test extends TestCase {
         return $data;
     }
     /**
-     * Provider for `test_user_password_change`
+     * Provider for `test_password_change_user`
      *
      * @return array
      */
-    public function provider_user_password_change() : array
+    public function provider_password_change_user() : array
     {
         $this->resetInstance();
         $this->CI->load->model('user/user_model');
@@ -723,11 +725,11 @@ class User_Test extends TestCase {
         return $data;
     }
     /**
-     * Provider for `test_user_password_change_form`
+     * Provider for `test_password_change_user_post`
      *
      * @return array
      */
-    public function provider_user_password_change_form() : array
+    public function provider_password_change_user_post() : array
     {
         $this->resetInstance();
         $this->CI->load->model('user/user_model');
