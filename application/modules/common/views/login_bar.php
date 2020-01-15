@@ -8,18 +8,6 @@ if (ENVIRONMENT !== 'testing') {
 	$CI->config->load('../modules/user/config/MY_user_config');
 	$CI->lang->load('../../modules/user/language/french/MY_user');
 }
-$modules = scandir('application/modules');
-$modules = array_filter($modules, function($module) {
-  // Remove hidden folders and files
-  return $module[0] != '.' && is_dir("application/modules/{$module}");
-});
-foreach ($modules as $module) {
-  if (file_exists("application/modules/{$module}/config/MY_{$module}_nav.php")) {
-    $CI->load->config("{$module}/MY_{$module}_nav.php");
-  }
-}
-// Stores navigation links for display
-$navLinks = $CI->config->item('nav');
 ?>
 <div class="container" >
   <div class="row xs-center">
@@ -31,12 +19,23 @@ $navLinks = $CI->config->item('nav');
     </div>
     <div class="col-sm-3" >
       <div class="nav flex-column">
-				<?php foreach($navLinks as $navLink) {
-					if(!$navLink['cond']()) continue; ?>
-					<a href="<?=base_url($navLink['link']);?>">
-						<?=lang($navLink['text']);?>
-					</a>
-				<?php } ?>
+        <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) { ?>
+          
+          <!-- ADMIN ACCESS ONLY -->
+          <?php if ($_SESSION['user_access'] >= $CI->config->item('access_lvl_admin')) { ?>
+              <a href="<?php echo base_url("user/admin/list_user"); ?>" ><?php echo lang('btn_admin'); ?></a><br />
+          <?php } ?>
+          <!-- END OF ADMIN ACCESS -->
+
+          <!-- Logged in, display a "change password" button -->
+          <a href="<?php echo base_url("user/auth/change_password"); ?>" ><?php echo lang('btn_change_my_password'); ?></a>
+          <!-- and a "logout" button -->
+          <a href="<?php echo base_url("user/auth/logout"); ?>" ><?php echo lang('btn_logout'); ?></a><br />
+
+        <?php } else { ?>
+          <!-- Not logged in, display a "login" button -->
+          <a href="<?php echo base_url("user/auth/login"); ?>" ><?php echo lang('btn_login'); ?></a>
+        <?php } ?>
       </div>
     </div>
   </div>
