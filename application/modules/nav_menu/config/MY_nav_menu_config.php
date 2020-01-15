@@ -13,7 +13,8 @@
  * 	- 'pattern' is a pattern to check whether the link has the `active` CSS class.
  * 		It will be checked against the current URI. Leave blank to never have `active`.
  * 		Defaults to ''.
- * 	- 'classes' is an array of CSS classes for the link. Defaults to [].
+ * 	- 'aClasses' is an array of CSS classes for the link. Defaults to [].
+ * 	- 'liClasses' is an array of CSS classes for the list entry. Defaults to [].
  */
 
 // In case nothing has been added, this will make sure there is no error.

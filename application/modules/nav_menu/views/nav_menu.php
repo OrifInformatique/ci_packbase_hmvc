@@ -39,12 +39,12 @@ $navLinks = $CI->config->item('nav');
 if (empty($navLinks)) return;
 // Remove links when the condition is FALSE
 $navLinks = array_filter($navLinks, function($nl) {
-	return $nl['cond']();
+	return $nl['cond']() && isset($nl['cond'], $nl['link'], $nl['text']);
 });
 // Prepare css for parsing
 array_walk($navLinks, function(&$nl) {
-	$nl['li_class'] = trim('nav-item'.(check_active($nl['pattern'] ?? '')?' active':''));
-	$nl['a_class'] = trim('nav-link '.implode(' ', $nl['classes'] ?? []));
+	$nl['li_class'] = trim('nav-item'.(check_active($nl['pattern'] ?? '')?' active ':' ').implode(' ', $nl['liClasses']));
+	$nl['a_class'] = trim('nav-link '.implode(' ', $nl['aClasses'] ?? []));
 });
 ?>
 <nav id="my-navbar" class="container">
