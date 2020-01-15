@@ -2,7 +2,7 @@
 /**
  * Config for the navigation menu.
  * 
- * Creating a new entry:
+ * Creating a new link:
  * 	- Use `$config['nav'][] = [<entry values>];`.
  * 	- 'cond' is a function returning TRUE or FALSE. It decides if the link will
  * 		be shown. Required.
@@ -15,6 +15,8 @@
  * 		Defaults to ''.
  * 	- 'aClasses' is an array of CSS classes for the link. Defaults to [].
  * 	- 'liClasses' is an array of CSS classes for the list entry. Defaults to [].
+ * 
+ * If a required part is missing, the link will be skipped.
  */
 
 // In case nothing has been added, this will make sure there is no error.
