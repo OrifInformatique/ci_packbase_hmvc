@@ -38,10 +38,10 @@ class MY_Controller extends MX_Controller
     */
     protected function check_permission($required_level = NULL)
     {
-        if (!isset($_SESSION)) {
+        if (!isset($_SESSION['logged_in'])) {
             // Tests can accidentally delete $_SESSION,
             // this makes sure it always exists.
-            $_SESSION = array('logged_in' => FALSE);
+            $_SESSION['logged_in'] = FALSE;
         }
         if (is_null($required_level)) {
             $required_level = $this->access_level;

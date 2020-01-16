@@ -6,7 +6,7 @@ require_once(__DIR__.'/../../../modules/user/controllers/Admin.php');
  * Class for tests for Admin controller
  * 
  * @author      Orif, section informatique (ViDi, MeSa, BuYa)
- * @link        https://github.com/OrifInformatique/gestion_questionnaires
+ * @link        https://github.com/OrifInformatique
  * @copyright   Copyright (c) Orif (http://www.orif.ch)
  * 
  * @todo Write tests for `Admin::cb_unique_user`
@@ -64,8 +64,6 @@ class Admin_Test extends TestCase {
 
         self::$_dummy_values['user']['type'] = $CI->user_type_model->get_all()[0]->id;
 
-        // Make sure everything exists before counting
-        self::_dummy_user_create();
         // Save most recent db errors, for the first use
         self::_db_errors_save();
     }
@@ -84,8 +82,9 @@ class Admin_Test extends TestCase {
         // Make sure everything exists before testing
         self::_dummy_user_create();
 
-        // Load User for future use
-        $this->class_map['User'] = Admin::class;
+        // Load Admin for future use
+        // It can't be put in a static function
+        $this->class_map['Admin'] = Admin::class;
     }
     /**
      * Called after a test
@@ -117,6 +116,26 @@ class Admin_Test extends TestCase {
      * TESTS
      *******/
     /**
+     * Test for `Admin::list_user` without being logged
+     *
+     * @return void
+     */
+    public function test_list_user_not_logged()
+    {
+        self::_logout();
+
+        $this->_db_errors_save();
+
+        $this->request('GET', 'user/admin/list_user');
+
+        $this->assertFalse(
+            $this->_db_errors_diff(),
+            'One or more error occured in an SQL statement'
+        );
+
+        $this->assertRedirect('user/auth/login');
+    }
+    /**
      * Test for `Admin::list_user`
      * 
      * @dataProvider provider_list_user
@@ -142,7 +161,7 @@ class Admin_Test extends TestCase {
         $this->assertEquals($expected_count, $actual_count);
     }
     /**
-     * Test for `User::save_user` without $_POST data
+     * Test for `Admin::save_user` without $_POST data
      * 
      * @dataProvider provider_save_user
      *
@@ -170,7 +189,7 @@ class Admin_Test extends TestCase {
         $this->assertTrue(strpos($output, $expected_title) !== FALSE);
     }
     /**
-     * Test for `User::save_user` with $_POST data
+     * Test for `Admin::save_user` with $_POST data
      * 
      * @dataProvider provider_save_user_post
      *
@@ -201,7 +220,7 @@ class Admin_Test extends TestCase {
         }
     }
     /**
-     * Test for `User::delete_user`
+     * Test for `Admin::delete_user`
      * 
      * @dataProvider provider_delete_user
      *
@@ -242,7 +261,7 @@ class Admin_Test extends TestCase {
         }
     }
     /**
-     * Test for `User::reactivate_user`
+     * Test for `Admin::reactivate_user`
      * 
      * @dataProvider provider_reactivate_user
      *
@@ -271,7 +290,7 @@ class Admin_Test extends TestCase {
         $this->assertRedirect($target);
     }
     /**
-     * Test for `User::password_change_user` without $_POST data
+     * Test for `Admin::password_change_user` without $_POST data
      * 
      * @dataProvider provider_password_change_user
      *
@@ -299,7 +318,7 @@ class Admin_Test extends TestCase {
         }
     }
     /**
-     * Test for `User::password_change_user` with $_POST data
+     * Test for `Admin::password_change_user` with $_POST data
      * 
      * @dataProvider provider_password_change_user_post
      *
@@ -327,7 +346,7 @@ class Admin_Test extends TestCase {
         }
     }
     /**
-     * Test for `User::cb_not_null_user`
+     * Test for `Admin::cb_not_null_user`
      * 
      * @dataProvider provider_not_null_user
      *
@@ -337,10 +356,10 @@ class Admin_Test extends TestCase {
      */
     public function test_not_null_user(int $user_id, bool $expected_result)
     {
-        $this->assertSame($expected_result, $this->User->cb_not_null_user($user_id));
+        $this->assertSame($expected_result, $this->Admin->cb_not_null_user($user_id));
     }
     /**
-     * Test for `User::cb_not_null_user_type`
+     * Test for `Admin::cb_not_null_user_type`
      * 
      * @dataProvider provider_not_null_user_type
      *
@@ -350,7 +369,7 @@ class Admin_Test extends TestCase {
      */
     public function test_not_null_user_type(int $user_type, bool $expected_result)
     {
-        $this->assertSame($expected_result, $this->User->cb_not_null_user_type($user_type));
+        $this->assertSame($expected_result, $this->Admin->cb_not_null_user_type($user_type));
     }
 
     /***********
