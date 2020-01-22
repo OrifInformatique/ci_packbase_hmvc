@@ -54,8 +54,8 @@ class MY_Exceptions extends CI_Exceptions {
         if ($displayed['error'] <= 1) {
             include($errors_templates_path.$template.'.php');
         }
-        $displayed['footer']++;
         if (!is_cli()) {
+            $displayed['footer']++;
             if ($displayed['footer'] <= 1) {
                 include($common_templates_path.'footer.php');
             }
