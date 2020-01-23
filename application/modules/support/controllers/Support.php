@@ -69,6 +69,7 @@ class Support extends MY_Controller {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $result = curl_exec($ch);
+            $_SESSION['last_issue_json'] = json_decode($result);
             if(curl_getinfo($ch, CURLINFO_HTTP_CODE) != 201){
                 $state = 2;
             } else {

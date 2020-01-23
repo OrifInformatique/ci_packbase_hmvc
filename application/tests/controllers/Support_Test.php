@@ -110,6 +110,9 @@ class Support_Test extends TestCase {
         else {
             $this->CI->lang->load('../../modules/support/language/french/MY_support');
             $this->assertContains($this->CI->lang->line('title_problem_submitted'), $output);
+
+            $issueNumber = $_SESSION['last_issue_json']->number;
+            $this->delete_issue($issueNumber);
         }
     }
 
@@ -174,5 +177,33 @@ class Support_Test extends TestCase {
         // We can't know the current configuration for admin access, so we max it
         $_SESSION['user_access'] = PHP_INT_MAX;
         $_SESSION['user_id'] = 0;
+    }
+
+    /**
+     * Delete a created issue
+     *
+     * @param int $issueNumber = issue number on GitHub
+     * @return void
+     */
+    public function delete_issue(int $issueNumber) {
+        $url = 'https://api.github.com/repos/'.$this->CI->config->item('github_repo').'/issues/'.$issueNumber;
+        $ch = curl_init($url);
+
+        $body = ['state' => 'closed'];
+        $json = json_encode($body);
+
+        $header = array(
+            'Content-Type: application/json; charset=utf-8',
+            'Authorization: Basic '.base64_encode($this->CI->config->item('github_username').':'.$this->CI->config->item('github_token')),
+            'User-Agent: PHP-Server'
+        );
+
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $json);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+        $result = curl_exec($ch);
+        curl_close($ch);
     }
 }
