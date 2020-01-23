@@ -41,6 +41,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <body>
     <?php
         if (ENVIRONMENT != 'production') {
-            echo '<div class="alert alert-warning text-center">CodeIgniter environment variable is set to '.strtoupper(ENVIRONMENT).'</div>';
+            echo '<div class="alert alert-warning text-center">CodeIgniter environment variable is set to '.strtoupper(ENVIRONMENT).'. You can change it in .htaccess file.</div>';
         }
     ?>
