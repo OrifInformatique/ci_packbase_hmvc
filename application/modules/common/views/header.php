@@ -39,3 +39,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <link rel="stylesheet" href="<?= base_url("assets/css/MY_styles.css"); ?>" />
 </head>
 <body>
+    <?php
+        if (ENVIRONMENT != 'production') {
+            echo '<div class="alert alert-warning text-center">CodeIgniter environment variable is set to '.strtoupper(ENVIRONMENT).'. You can change it in .htaccess file.</div>';
+        }
+    ?>

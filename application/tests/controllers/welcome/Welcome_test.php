@@ -13,7 +13,7 @@ class Welcome_test extends TestCase
 	public function test_index()
 	{
 		$output = $this->request('GET', 'welcome/index');
-		$this->assertContains('<title>Welcome to CodeIgniter</title>', $output);
+		$this->assertContains('<h1>Welcome to CodeIgniter with HMVC !</h1>', $output);
 	}
 
 	public function test_method_404()
@@ -25,7 +25,7 @@ class Welcome_test extends TestCase
 	public function test_APPPATH()
 	{
 		$actual = realpath(APPPATH);
-		$expected = realpath(__DIR__ . '/../..');
+		$expected = realpath(__DIR__ . '/../../..');
 		$this->assertEquals(
 			$expected,
 			$actual,
