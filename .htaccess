@@ -1,3 +1,15 @@
-RewriteEngine on
-RewriteCond $1 !^(index\.php|images|public|assets|public|uploads|robots\.txt)
+### CODEIGNITER ###
+
+# Suppress index.php from the URL
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ index.php/$1 [L]
+</IfModule>
+
+# Define CI execution environment :
+# "development" (default) on development servers
+# "testing" for running automated tests, set automatically by PHPUnit
+# "production" on production servers
+SetEnv CI_ENV development
