@@ -19,11 +19,17 @@ class Support extends MY_Controller {
         $this->form_validation->CI =& $this;
     }
 
-    public function index($sumbitted = false) {
-        if($sumbitted){
-            $this->display_view('support/problem_sumbitted');
-        } else {
-            $this->display_view('support/report_problem');
+    public function index($state = 0) {
+        switch ($state) {
+            case 0:
+                $this->display_view('support/report_problem');
+                break;
+            case 1:
+                $this->display_view('support/problem_sumbitted');
+                break;
+            case 2:
+                $this->display_view('support/error_occurred');
+                break;
         }
     }
 
@@ -63,9 +69,14 @@ class Support extends MY_Controller {
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
             $result = curl_exec($ch);
+            if(curl_getinfo($ch, CURLINFO_HTTP_CODE) != 201){
+                $state = 2;
+            } else {
+                $state = 1;
+            }
             curl_close($ch);
 
-            $this->index(true);
+            $this->index($state);
         }else{
             $this->index();
         }

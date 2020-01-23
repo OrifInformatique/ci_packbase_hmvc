@@ -8,7 +8,7 @@ if (ENVIRONMENT !== 'testing') {
 	// CI-PHPUnit checks from application/folder instead of module/folder
 	$autoload['language'] = ['../../modules/support/language/french/MY_support'];
 	$autoload['config'] = array(
-		'../modules/support/config/MY_support_config',
+		'../modules/support/config/MY_support_config', 
 		'../modules/support/config/MY_support_token', 
 		'../modules/user/config/MY_user_config'
 	);

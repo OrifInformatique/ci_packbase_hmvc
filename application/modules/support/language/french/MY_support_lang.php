@@ -17,3 +17,7 @@ $lang['btn_cancel']                     = 'Annuler';
 // Confirmation page
 $lang['title_problem_submitted']        = 'Problème signalé';
 $lang['msg_problem_submitted']          = 'Merci, le problème nous a été signalé.';
+
+// Error page
+$lang['title_error_occurred']           = 'Une erreur s\'est produite';
+$lang['msg_error_occurred']             = 'Merci de réssayer plus tard.';

@@ -34,15 +34,11 @@ class Support_Test extends TestCase {
     public function provider_fields_not_empty() {
         $this->resetInstance();
 
-        $this->CI->load->config('../modules/support/config/MY_support_config');
-        $this->CI->load->config('../modules/support/config/MY_support_token');
-        $this->CI->load->config('../modules/user/config/MY_user_config');
-
         $data = [];    
         $data['no_error'] = [
             [
-                'issue_title' => 'Test',
-                'issue_body' => 'Test'
+                'issue_title' => 'Test PHPUnit',
+                'issue_body' => date("d.m.Y H:i:s")
             ],
             FALSE
         ];
@@ -97,6 +93,15 @@ class Support_Test extends TestCase {
     public function test_fields_not_empty(array $post_params, bool $error_expected){
 
         self::_login_as_admin();
+
+        // https://github.com/kenjis/ci-phpunit-test/issues/31
+        $this->request->setCallable(
+            function ($CI) {
+                $CI->config->set_item('github_repo', 'OrifInformatique/test');
+            }
+        );
+
+
         $output = $this->request('POST', 'support/form_report_problem', $post_params);
 
         if ($error_expected) {
@@ -106,6 +111,53 @@ class Support_Test extends TestCase {
             $this->CI->lang->load('../../modules/support/language/french/MY_support');
             $this->assertContains($this->CI->lang->line('title_problem_submitted'), $output);
         }
+    }
+
+    /**
+     * Test for `Support::form_report_problem`
+     * 
+     * @return void
+     */
+    public function test_repository_does_not_exist(){
+
+        self::_login_as_admin();
+
+        // https://github.com/kenjis/ci-phpunit-test/issues/31
+        $this->request->setCallable(
+            function ($CI) {
+                $CI->config->set_item('github_repo', 'OrifInformatique/notexist');
+            }
+        );
+
+
+        $output = $this->request('POST', 'support/form_report_problem', ['issue_title' => 'Test', 'issue_body' => 'test']);
+
+        $this->CI->lang->load('../../modules/support/language/french/MY_support');
+        $this->assertContains($this->CI->lang->line('title_error_occurred'), $output);
+    }
+
+    /**
+     * Test for `Support::form_report_problem`
+     * 
+     * @return void
+     */
+    public function test_bad_token(){
+
+        self::_login_as_admin();
+
+        // https://github.com/kenjis/ci-phpunit-test/issues/31
+        $this->request->setCallable(
+            function ($CI) {
+                $CI->config->set_item('github_repo', 'OrifInformatique/test');
+                $CI->config->set_item('github_token', 'badtoken');
+            }
+        );
+
+
+        $output = $this->request('POST', 'support/form_report_problem', ['issue_title' => 'Test', 'issue_body' => 'test']);
+
+        $this->CI->lang->load('../../modules/support/language/french/MY_support');
+        $this->assertContains($this->CI->lang->line('title_error_occurred'), $output);
     }
 
     /**************
