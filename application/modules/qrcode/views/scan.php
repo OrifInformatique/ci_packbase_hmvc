@@ -6,10 +6,10 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <video id="preview"></video>
+            <video id="preview" width="100%"></video>
         </div>
     </div>
-    <form action="<?=base_url('scanqrcode/read')?>" method="POST" id="form">
+    <form action="<?=base_url('qrcode/scanQRCode/read')?>" method="POST" id="form">
         <input type="hidden" name="json" id="json">
     </form>
 </div>

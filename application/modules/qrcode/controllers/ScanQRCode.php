@@ -28,30 +28,30 @@ class ScanQRCode extends MY_Controller
 
     public function index()
     {
-        redirect('scanqrcode/scan');
+        redirect('qrcode/scanQRCode/scan');
     }
 
-    public function generate($type = '', $id = 0)
+    public function generate($type = '', $value = '')
     {
-        if(!empty($type) && !empty($id)){
+        if(!empty($type) && !empty($value)){
             $this->load->library('ciqrcode');
 
             $json = [
                 'type' => $type,
-                'id' => $id
+                'value' => $value
             ];
             $params['data'] = json_encode($json);
 
             header("Content-Type: image/png");
             $this->ciqrcode->generate($params);
         } else {
-            redirect('scanqrcode');
+            redirect('qrcode/scanQRCode');
         }
     }
 
     public function scan()
     {
-        $this->display_view('scanqrcode/scan');
+        $this->display_view('qrcode/scan');
     }
 
     public function read()
@@ -59,15 +59,18 @@ class ScanQRCode extends MY_Controller
         if(isset($_POST['json'])){
             $json = json_decode($_POST['json']);
             switch ($json->type) {
+                case 'text':
+                    echo urldecode($json->value);
+                    break;
                 case 'user':
-                    redirect('user/admin/save_user/'.$json->id);
+                    redirect('user/admin/save_user/'.$json->value);
                     break;
                 default:
-                    redirect('scanqrcode');
+                    redirect('qrcode/scanQRCode');
                     break;
             }
         } else {
-            redirect('scanqrcode');
+            redirect('qrcode/scanQRCode');
         }
     }
 }
