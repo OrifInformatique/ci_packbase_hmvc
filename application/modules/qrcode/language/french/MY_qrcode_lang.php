@@ -7,4 +7,5 @@
  * @copyright   Copyright (c), Orif (http://www.orif.ch)
  */
 
-$lang['btn_scan'] = 'Scanner';
+$lang['msg_no_cam']        = '🎥 Aucun accès à la caméra. Vérifiez que vous l\'avez autoriser.';
+$lang['msg_loading_video'] = '⌛ Chargement...';
