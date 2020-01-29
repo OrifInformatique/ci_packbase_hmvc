@@ -19,5 +19,4 @@ $lang['title_problem_submitted']        = 'Problème signalé';
 $lang['msg_problem_submitted']          = 'Merci, le problème nous a été signalé.';
 
 // Error page
-$lang['title_error_occurred']           = 'Une erreur s\'est produite';
-$lang['msg_error_occurred']             = 'Merci de réssayer plus tard.';
+$lang['msg_error_occurred']             = 'La configuration de l\'application ne permet pas d\'utiliser le formulaire de signalement de problème. Merci de contacter l\'administrateur de cette application par un autre moyen et de l\'informer de cette situation.';

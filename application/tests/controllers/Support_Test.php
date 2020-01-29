@@ -98,6 +98,7 @@ class Support_Test extends TestCase {
         $this->request->setCallable(
             function ($CI) {
                 $CI->config->set_item('github_repo', 'OrifInformatique/test');
+                $CI->config->load('../modules/support/config/MY_support_token');
             }
         );
 
@@ -136,7 +137,7 @@ class Support_Test extends TestCase {
         $output = $this->request('POST', 'support/form_report_problem', ['issue_title' => 'Test', 'issue_body' => 'test']);
 
         $this->CI->lang->load('../../modules/support/language/french/MY_support');
-        $this->assertContains($this->CI->lang->line('title_error_occurred'), $output);
+        $this->assertContains($this->CI->lang->line('msg_error_occurred'), $output);
     }
 
     /**
@@ -160,7 +161,7 @@ class Support_Test extends TestCase {
         $output = $this->request('POST', 'support/form_report_problem', ['issue_title' => 'Test', 'issue_body' => 'test']);
 
         $this->CI->lang->load('../../modules/support/language/french/MY_support');
-        $this->assertContains($this->CI->lang->line('title_error_occurred'), $output);
+        $this->assertContains($this->CI->lang->line('msg_error_occurred'), $output);
     }
 
     /**************
@@ -186,6 +187,8 @@ class Support_Test extends TestCase {
      * @return void
      */
     public function delete_issue(int $issueNumber) {
+        $this->CI->config->load('../modules/support/config/MY_support_token');
+
         $url = 'https://api.github.com/repos/'.$this->CI->config->item('github_repo').'/issues/'.$issueNumber;
         $ch = curl_init($url);
 
