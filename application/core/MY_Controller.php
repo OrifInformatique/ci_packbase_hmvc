@@ -89,6 +89,7 @@ class MY_Controller extends MX_Controller
         // Display common headers
         $this->load->view('common/header', $data);
         $this->load->view('common/login_bar');
+        $this->load->view('nav_menu/nav_menu');
 
         if (is_array($view_parts)) {
             // Display multiple view parts defined in $data

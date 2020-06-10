@@ -18,7 +18,7 @@ if (ENVIRONMENT !== 'testing') {
       <a href="<?php echo base_url(); ?>" class="text-info"><h1><?php echo lang('app_title'); ?></h1></a>
     </div>
     <div class="col-sm-3" >
-      <div class="nav flex-column" >
+      <div class="nav flex-column">
         <?php if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] == true) { ?>
           
           <!-- ADMIN ACCESS ONLY -->
