@@ -203,6 +203,6 @@ class Auth extends MY_Controller {
      */
     public function cb_old_password_check($pwd, $user)
     {
-        return $this->user_model->check_password($user, $pwd);
+        return $this->user_model->check_password_name($user, $pwd);
     }
 }
