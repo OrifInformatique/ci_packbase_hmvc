@@ -39,7 +39,7 @@ $navLinks = $CI->config->item('nav');
 if (empty($navLinks)) return;
 // Remove links when the condition is FALSE
 $navLinks = array_filter($navLinks, function($nl) {
-	return $nl['cond']() && isset($nl['cond'], $nl['link'], $nl['text']);
+	return isset($nl['cond'], $nl['link'], $nl['text']) && $nl['cond']();
 });
 // Prepare css for parsing
 array_walk($navLinks, function(&$nl) {
