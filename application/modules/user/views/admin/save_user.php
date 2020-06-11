@@ -75,7 +75,17 @@ $update = !is_null($user);
                     ]); ?>
                 </div>
             </div>
-        <?php } else { ?>
+        <?php } ?>
+            <div class="row">
+                <div class="col-sm-6 form-group">
+                    <?= form_label(lang('field_email'), 'user_email', ['class' => 'form-label']); ?>
+                    <?= form_input('user_email', $user->email ?? '', [
+                        'maxlength' => $this->config->item('email_max_length'),
+                        'class' => 'form-control', 'id' => 'user_email'
+                    ]); ?>
+                </div>
+            </div>
+        <?php if ($update) { ?>
             <div class="row">
                 <!-- RESET PASSWORD FOR EXISTING USER -->
                 <div class="col-12">
