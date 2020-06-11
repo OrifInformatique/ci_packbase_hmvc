@@ -1,5 +1,5 @@
 # welcome module #
 
-## Version ##
+A simple homepage as a demonstration module
 
-Version 1.0
+## Version 1.0 ##
