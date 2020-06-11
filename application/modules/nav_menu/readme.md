@@ -2,6 +2,10 @@
 
 Adds a dynamic navigation menu, to remove the need to remake it each time a module is added or removed
 
+## Version ##
+
+Version 1.0
+
 ## Adding a link ##
 
 Add the link with `$config['nav'][] = <values>` in `MY_nav_menu_config.php`.
