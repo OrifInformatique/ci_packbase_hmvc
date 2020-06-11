@@ -4,7 +4,7 @@ This module contains all elements needed for user administration and authenticat
 
 ## Version ##
 
-This module was last updated on 10/06/2020
+Version 1.1
 
 ## Configuration ##
 
