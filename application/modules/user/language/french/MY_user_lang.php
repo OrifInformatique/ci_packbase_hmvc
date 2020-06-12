@@ -32,6 +32,7 @@ $lang['field_user_name']                = 'Nom d\'utilisateur';
 $lang['field_user_usertype']            = 'Type d\'utilisateur';
 $lang['field_user_active']              = 'Activé';
 $lang['field_deleted_users_display']    = 'Afficher les utilisateurs désactivés';
+$lang['field_login_input']              = 'Nom d\'utilisateur ou e-mail';
 
 // Error messages
 $lang['msg_err_user_not_exist']         = 'L\'utilisateur sélectionné n\'existe pas';
