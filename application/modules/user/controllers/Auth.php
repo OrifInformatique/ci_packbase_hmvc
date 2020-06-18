@@ -190,7 +190,7 @@ class Auth extends MY_Controller {
             $this->display_view('user/auth/change_password', $output);
         } else {
             // Access is not allowed
-            $this->login();
+            redirect('user/auth/login');
         }
     }
 
