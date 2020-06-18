@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title><?php
-        if (is_null($title) || $title == '') {
+        if (!isset($title) || is_null($title) || $title == '') {
             echo lang('page_prefix');
         } else {
             echo lang('page_prefix').' - '.$title;
