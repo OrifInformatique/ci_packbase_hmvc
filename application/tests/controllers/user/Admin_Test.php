@@ -24,7 +24,8 @@ class Admin_Test extends TestCase {
 			'name_unique' => 'admin_user_unique',
             'pass' => 'dummy_password',
             'pass_alt' => 'password_dummy',
-            'type' => NULL
+            'type' => NULL,
+            'email' => 'test@email.com'
         ]
     ];
 
@@ -74,7 +75,7 @@ class Admin_Test extends TestCase {
      */
     public function setUp()
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         // Required to load the correct url_helper
         $this->CI->load->helper('url');
         // Tests cannot work without this
@@ -385,6 +386,9 @@ class Admin_Test extends TestCase {
 	public function provider_list_user() : array
 	{
         self::_dummy_user_create();
+        $this->CI =& self::_get_ci_instance();
+        $this->CI->load->database();
+        $this->CI->load->model('user/user_model');
 
         $data = [];
 
@@ -424,7 +428,7 @@ class Admin_Test extends TestCase {
      */
     public function provider_save_user() : array
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         $user_id =& self::_dummy_user_create();
         $this->CI->lang->load('../../modules/user/language/french/MY_user');
 
@@ -462,7 +466,7 @@ class Admin_Test extends TestCase {
      */
     public function provider_save_user_post() : array
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         $this->CI->load->model(['user/user_model', 'user/user_type_model']);
         $this->CI->load->config('../modules/user/config/MY_user_config');
 
@@ -471,6 +475,7 @@ class Admin_Test extends TestCase {
 		$user_name_unique = self::$_dummy_values['user']['name_unique'];
         $user_type = self::$_dummy_values['user']['type'];
         $user_pass = self::$_dummy_values['user']['pass'];
+        $user_email = self::$_dummy_values['user']['email'];
 
         $data = [];
 
@@ -480,7 +485,8 @@ class Admin_Test extends TestCase {
                 'user_name' => $user_name_unique,
                 'user_usertype' => $user_type,
                 'user_password' => $user_pass,
-                'user_password_again' => $user_pass
+                'user_password_again' => $user_pass,
+                'user_email' => $user_email
             ],
             FALSE,
             TRUE
@@ -491,7 +497,8 @@ class Admin_Test extends TestCase {
                 'save' => 1,
                 'id' => &$user_id,
                 'user_name' => $user_name,
-                'user_usertype' => $user_type
+                'user_usertype' => $user_type,
+                'user_email' => NULL
             ],
             FALSE,
             TRUE
@@ -618,7 +625,7 @@ class Admin_Test extends TestCase {
      */
     public function provider_delete_user() : array
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         $this->CI->load->model('user/user_model');
         $user_id =& self::_dummy_user_create();
 
@@ -709,7 +716,7 @@ class Admin_Test extends TestCase {
      */
     public function provider_reactivate_user() : array
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         $this->CI->load->model('user/user_model');
         $user_id =& self::_dummy_user_create();
 
@@ -735,7 +742,7 @@ class Admin_Test extends TestCase {
      */
     public function provider_password_change_user() : array
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         $this->CI->load->model('user/user_model');
         $user_id =& self::_dummy_user_create();
 
@@ -761,7 +768,7 @@ class Admin_Test extends TestCase {
      */
     public function provider_password_change_user_post() : array
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         $this->CI->load->model('user/user_model');
         $this->CI->load->config('../modules/user/config/MY_user_config');
 
@@ -833,7 +840,7 @@ class Admin_Test extends TestCase {
      */
     public function provider_not_null_user() : array
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         $this->CI->load->model('user/user_model');
         $user_id =& self::_dummy_user_create();
 
@@ -864,7 +871,7 @@ class Admin_Test extends TestCase {
      */
     public function provider_not_null_user_type() : array
     {
-        $this->resetInstance();
+        $this->CI =& self::_get_ci_instance();
         $this->CI->load->model('user/user_type_model');
         $user_type = self::$_dummy_values['user']['type'];
 
@@ -953,7 +960,8 @@ class Admin_Test extends TestCase {
             $user = array(
                 'fk_user_type' => $dummy_values['type'],
                 'username' => $dummy_values['name'],
-                'password' => password_hash($dummy_values['pass'], $CI->config->item('password_hash_algorithm'))
+                'password' => password_hash($dummy_values['pass'], $CI->config->item('password_hash_algorithm')),
+                'email' => $dummy_values['email']
             );
 
             self::$_dummy_ids['user'] = $CI->user_model->insert($user);
@@ -984,6 +992,7 @@ class Admin_Test extends TestCase {
                 'fk_user_type' => $dummy_values['type'],
                 'username' => $dummy_values['name'],
                 'password' => password_hash($dummy_values['pass'], $CI->config->item('password_hash_algorithm')),
+                'email' => $dummy_values['email'],
                 'archive' => 0
             );
 
