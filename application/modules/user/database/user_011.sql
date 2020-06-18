@@ -37,7 +37,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `fk_user_type`, `username`, `password`) VALUES
-(1, 1, 'admin', '$2y$10$pwuT9mkG32DNRaG4zXNAIerHVqceBL3RkAGlL.n24UeqtH2P0QXcq');
+(1, 1, 'admin', '$2y$10$xD6VFLqS9PgCffufHzEJ9eW0ORtoA9w.W47EjHNDEkYaH/Cx8ElHW');
 
 -- --------------------------------------------------------
 
