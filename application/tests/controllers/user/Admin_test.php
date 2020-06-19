@@ -395,7 +395,7 @@ class Admin_Test extends TestCase {
         $data['none_hide'] = [
             '',
             function() {
-                $CI =& get_instance();
+                $CI =& self::_get_ci_instance();
                 $CI->load->model('user/user_model');
                 return $CI->user_model->count_by(['archive' => 0]);
             }
@@ -404,7 +404,7 @@ class Admin_Test extends TestCase {
         $data['hide'] = [
             '0',
             function() {
-                $CI =& get_instance();
+                $CI =& self::_get_ci_instance();
                 $CI->load->model('user/user_model');
                 return $CI->user_model->count_by(['archive' => 0]);
             }
@@ -413,7 +413,7 @@ class Admin_Test extends TestCase {
         $data['show'] = [
             '1',
             function() {
-                $CI =& get_instance();
+                $CI =& self::_get_ci_instance();
                 $CI->load->model('user/user_model');
                 return $CI->user_model->with_deleted()->count_all();
             }
