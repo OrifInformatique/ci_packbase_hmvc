@@ -942,6 +942,7 @@ class Admin_Test extends TestCase {
     {
         // Make sure CI is initialized
         $CI =& self::_get_ci_instance();
+        $CI->load->database();
         $CI->load->model(['user/user_model', 'user/user_type_model']);
 
         // Only create user if it does not exist
