@@ -2,9 +2,7 @@
 
 Adds a dynamic navigation menu, to remove the need to remake it each time a module is added or removed
 
-## Version ##
-
-Version 1.0
+## Version 1.0 ##
 
 ## Adding a link ##
 
