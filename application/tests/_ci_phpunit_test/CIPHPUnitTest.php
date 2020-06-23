@@ -10,7 +10,8 @@
 
 class CIPHPUnitTest
 {
-	private static $loader_class = 'MX_Loader';
+	private static $loader_class = 'CI_Loader';
+	private static $config_class = 'CI_Config';
 	private static $controller_class;
 	private static $autoload_dirs;
 
@@ -18,11 +19,21 @@ class CIPHPUnitTest
 	 * Initialize CIPHPUnitTest
 	 *
 	 * @param array $autoload_dirs directories to search class file for autoloader
+	 *
+	 * Exclude from code coverage:  This is test suite bootstrap code, so we
+	 * know it's executed, but because it's bootstrap code, it runs outside of
+	 * any coverage tracking.
+	 *
+	 * @codeCoverageIgnore
 	 */
 	public static function init(array $autoload_dirs = null)
 	{
 		if (! defined('TESTPATH')) {
 			define('TESTPATH', APPPATH.'tests'.DIRECTORY_SEPARATOR);
+		}
+		// Current Bootstrap.php should define this, but in case it doesn't:
+		if (! defined('CI_PHPUNIT_TESTPATH')) {
+			define('CI_PHPUNIT_TESTPATH', dirname(__FILE__).DIRECTORY_SEPARATOR);
 		}
 
 		// Fix CLI args
@@ -74,6 +85,9 @@ class CIPHPUnitTest
 		// Change current directory
 		chdir(FCPATH);
 
+		// Replace helpers before loading CI (which could auto load helpers)
+		self::replaceHelpers();
+
 		/*
 		 * --------------------------------------------------------------------
 		 * LOAD THE BOOTSTRAP FILE
@@ -82,8 +96,6 @@ class CIPHPUnitTest
 		 * And away we go...
 		 */
 		require __DIR__ . '/replacing/core/CodeIgniter.php';
-
-		self::replaceHelpers();
 
 		// Create CodeIgniter instance
 		if (! self::wiredesignzHmvcInstalled())
@@ -97,6 +109,9 @@ class CIPHPUnitTest
 
 		// This code is here, not to cause errors with HMVC
 		self::replaceLoader();
+		if (self::wiredesignzHmvcInstalled()) {
+			self::replaceConfig();
+		}
 
 		// Restore $_SERVER. We need this for NetBeans
 		$_SERVER = $_server_backup;
@@ -184,6 +199,22 @@ class CIPHPUnitTest
 		self::loadLoader();
 	}
 
+	protected static function replaceConfig()
+	{
+		$my_config_file =
+			APPPATH . 'core/' . config_item('subclass_prefix') . 'Config.php';
+
+		if (file_exists($my_config_file))
+		{
+			self::$config_class = config_item('subclass_prefix') . 'Config';
+			if ( ! class_exists(self::$config_class))
+			{
+				require $my_config_file;
+			}
+		}
+		self::loadConfig();
+	}
+
 	protected static function replaceHelpers()
 	{
 		$helpers = ['url_helper', 'download_helper'];
@@ -206,7 +237,7 @@ class CIPHPUnitTest
 	{
 		if ($dir === null)
 		{
-			$dir = TESTPATH . '_ci_phpunit_test/tmp/cache';
+			$dir = CI_PHPUNIT_TESTPATH . 'tmp/cache';
 		}
 
 		MonkeyPatchManager::setCacheDir(
@@ -218,5 +249,11 @@ class CIPHPUnitTest
 	{
 		$loader = new self::$loader_class;
 		load_class_instance('Loader', $loader);
+	}
+
+	public static function loadConfig()
+	{
+		$config= new self::$config_class;
+		load_class_instance('Config', $config);
 	}
 }

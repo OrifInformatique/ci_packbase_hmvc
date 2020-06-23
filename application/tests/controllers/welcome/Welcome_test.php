@@ -10,6 +10,13 @@
 
 class Welcome_test extends TestCase
 {
+	public function setUp()
+	{
+		$this->resetInstance();
+        // Required to load the correct url_helper
+        $this->CI->load->helper('url');
+	}
+
 	public function test_index()
 	{
 		$output = $this->request('GET', 'welcome/index');

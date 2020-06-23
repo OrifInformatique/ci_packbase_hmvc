@@ -3,10 +3,7 @@
 	backupGlobals="true"
 	colors="true">
 	<testsuites>
-		<testsuite name="HMVC Test Suite">
-			<directory suffix="test.php">../modules/**/tests/</directory>
-		</testsuite>
-		<testsuite name="CodeIgniter Application Test Suite">
+		<testsuite name="CodeIgniter Modules and Application Test Suite">
 			<directory suffix="test.php">./</directory>
 			<exclude>./_ci_phpunit_test/</exclude>
 		</testsuite>

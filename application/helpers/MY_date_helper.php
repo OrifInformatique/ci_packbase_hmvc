@@ -50,7 +50,7 @@ function mysqlDate($date)
     }
     else
     {
-        return nice_date($date, 'Y-m-d');
+        return date('Y-m-d', $date);
     }
 }
 

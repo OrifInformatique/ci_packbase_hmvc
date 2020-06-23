@@ -3,47 +3,45 @@
 class MY_Exceptions extends CI_Exceptions {
     public function show_error($heading, $message, $template = 'error_general', $status_code = 500)
     {
-        $title = $heading;
-		$errors_templates_path = config_item('error_views_path');
-		if (empty($errors_templates_path))
-		{
-			$errors_templates_path = VIEWPATH.'errors'.DIRECTORY_SEPARATOR;
-		}
+        // Common views path, in the common module
+        static $common_views_path = APPPATH.'modules'.DIRECTORY_SEPARATOR.'common'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR;
+        
+        // Header and footer views displayed before and after the error messages
+        static $header_views = ['header', 'login_bar'];
+        static $footer_views = ['footer'];
 
-		if (is_cli())
-		{
-			$message = "\t".(is_array($message) ? implode("\n\t", $message) : $message);
-			$template = 'cli'.DIRECTORY_SEPARATOR.$template;
-		}
-		else
-		{
-			set_status_header($status_code);
-			$message = '<p>'.(is_array($message) ? implode('</p><p>', $message) : $message).'</p>';
-			$template = 'html'.DIRECTORY_SEPARATOR.$template;
-        }
+        if (is_cli())
+        {
+            return parent::show_error($heading, $message, $template, $status_code);
 
-        // Default to application/views/common
-        $common_templates_path = VIEWPATH.'common'.DIRECTORY_SEPARATOR;
-        if (!file_exists($common_templates_path)) {
-            // Select the views in the common module
-            $common_templates_path = APPPATH.'modules'.DIRECTORY_SEPARATOR.'common'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR;
-        }
+        } else {
+            $message = parent::show_error($heading, $message, $template, $status_code);
 
-		if (ob_get_level() > $this->ob_level + 1)
-		{
-			ob_end_flush();
+            if (ob_get_level() > $this->ob_level + 1)
+            {
+                ob_end_flush();
+            }
+
+            ob_start();
+            // Include header views
+            foreach ($header_views as $view)
+            {
+                include($common_views_path.$view.'.php');
+            }
+
+            // Include error message
+            echo $message;
+
+            // Include footer views
+            foreach ($footer_views as $view)
+            {
+                include($common_views_path.$view.'.php');
+            }
+
+            $buffer = ob_get_contents();
+            ob_end_clean();
+
+            return $buffer;
         }
-        ob_start();
-        if (!is_cli()) {
-            include($common_templates_path.'header.php');
-            include($common_templates_path.'login_bar.php');
-        }
-        include($errors_templates_path.$template.'.php');
-        if (!is_cli()) {
-            include($common_templates_path.'footer.php');
-        }
-        $buffer = ob_get_contents();
-        ob_end_clean();
-        return $buffer;
     }
 }
