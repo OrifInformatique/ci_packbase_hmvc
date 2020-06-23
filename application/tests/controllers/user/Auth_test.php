@@ -422,17 +422,15 @@ class Auth_Test extends TestCase {
      */
     private static function _dummy_user_create() : int
     {
-		reset_instance();
-		CIPHPUnitTest::createCodeIgniterInstance();
-        $CI =& get_instance();
+        $CI =& self::_get_ci_instance();
         $CI->load->model('user/user_model');
         $CI->config->load('../modules/user/config/MY_user_config');
 
         $dummy_user = array(
-            'Username' => self::$_dummy_values['user'],
-            'FK_User_Type' => self::$_dummy_values['user_type'],
-            'Password' => password_hash(self::$_dummy_values['password'], $CI->config->item('password_hash_algorithm')),
-            'Archive' => 0
+            'username' => self::$_dummy_values['user'],
+            'fk_user_type' => self::$_dummy_values['user_type'],
+            'password' => password_hash(self::$_dummy_values['password'], $CI->config->item('password_hash_algorithm')),
+            'archive' => 0
         );
 
         return self::$dummy_ids[] = (int)$CI->user_model->insert($dummy_user);
@@ -444,19 +442,17 @@ class Auth_Test extends TestCase {
      */
     private static function _dummy_users_reset()
     {
-		reset_instance();
-		CIPHPUnitTest::createCodeIgniterInstance();
-        $CI =& get_instance();
+        $CI =& self::_get_ci_instance();
         $CI->load->model('user/user_model');
         $CI->config->load('../modules/user/config/MY_user_config');
 
         $dummy_user = array(
-            'Username' => self::$_dummy_values['user'],
-            'FK_User_Type' => self::$_dummy_values['user_type'],
-            'Password' => password_hash(self::$_dummy_values['password'], $CI->config->item('password_hash_algorithm')),
-            'Archive' => 0
+            'username' => self::$_dummy_values['user'],
+            'fk_user_type' => self::$_dummy_values['user_type'],
+            'password' => password_hash(self::$_dummy_values['password'], $CI->config->item('password_hash_algorithm')),
+            'archive' => 0
         );
-        $CI->user_model->update_many(self::$dummy_ids, $dummy_user);
+        $CI->user_model->update_many(end(self::$dummy_ids), $dummy_user);
     }
     /**
      * Deletes all the dummy users

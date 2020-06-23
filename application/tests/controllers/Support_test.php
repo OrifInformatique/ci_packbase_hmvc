@@ -32,7 +32,7 @@ class Support_Test extends TestCase {
      * @return array
      */
     public function provider_fields_not_empty() {
-        $this->resetInstance();
+        // This line raises a warning : $this->resetInstance();
 
         $data = [];    
         $data['no_error'] = [
