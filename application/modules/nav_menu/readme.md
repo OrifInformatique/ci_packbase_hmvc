@@ -19,3 +19,18 @@ Values is an array, with up to 6 distinct keys.
 - The key `liClasses` can contain an array of strings. It will be used for the CSS classes to add to the list entry. If not specified, no class will be added to the list entry.
 
 If `cond`, `link`, or `text` are not specified, the link will be skipped.
+
+Example:
+
+```php
+$config['nav'][] = [
+    'cond' => function() {
+        $CI =& get_instance();
+        $CI->config->load('user/MY_user_config');
+        return $_SESSION['user_access'] >= $CI->config->item('access_lvl_admin');
+    },
+    'link' => 'user/admin/list_user',
+    'text' => 'btn_admin',
+    'pattern' => '/user\/admin/'
+];
+```
