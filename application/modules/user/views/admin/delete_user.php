@@ -33,7 +33,7 @@
                     </div>
                     <div class="text-right">
                         <a href="<?= base_url('user/admin/list_user'); ?>" class="btn btn-secondary">
-                            <?= lang('btn_return'); ?>
+                            <?= lang('btn_back'); ?>
                         </a>
                     </div>
                 <?php } ?>
