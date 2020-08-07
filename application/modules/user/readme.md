@@ -2,7 +2,7 @@
 
 This module contains all elements needed for user administration and authentication.
 
-## Version 1.1 ##
+## Version 1.2 ##
 
 ## Configuration ##
 
