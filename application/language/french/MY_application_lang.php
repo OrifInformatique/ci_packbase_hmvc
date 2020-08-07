@@ -19,7 +19,7 @@ $lang['datetime_format_short']          = 'd.m.Y H:i';
 
 // Buttons
 $lang['btn_cancel']                     = 'Annuler';
-$lang['btn_return']                       = 'Retour';
+$lang['btn_return']                     = 'Retour';
 $lang['btn_add_m']                      = 'Nouveau';
 $lang['btn_add_f']                      = 'Nouvelle';
 $lang['btn_save']                       = 'Enregistrer';
