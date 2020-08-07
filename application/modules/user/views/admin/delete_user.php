@@ -32,8 +32,8 @@
                         <div class = "alert alert-danger" ><?= lang('user_delete_himself')?></div>
                     </div>
                     <div class="text-right">
-                        <a href="<?= base_url('user/admin/list_user'); ?>" class="btn btn-default">
-                            <?= lang('btn_cancel'); ?>
+                        <a href="<?= base_url('user/admin/list_user'); ?>" class="btn btn-secondary">
+                            <?= lang('btn_back'); ?>
                         </a>
                     </div>
                 <?php } ?>
