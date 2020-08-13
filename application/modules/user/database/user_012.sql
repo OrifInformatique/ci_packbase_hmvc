@@ -44,7 +44,7 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `fk_user_type`, `username`, `password`, `email`, `archive`, `date_creation`) VALUES
 (1, 1, 'admin', '$2y$10$QoCGL3cJt7nPyDHEG6MlQ.MiXhm5vHibwxhLshwV/DkNGzbtepBHG', NULL, 0, '2020-06-30 05:59:30'),
-(2, 2, 'utilisateur', '$2y$10$mByPFVzkTIfmWRCkYnShTeOgh4HQHJgrRv3lxB1a56vW/8mcxVNl.', 'test@test.com', 0, '2020-06-30 06:04:29');
+(2, 2, 'utilisateur', '$2y$10$mByPFVzkTIfmWRCkYnShTeOgh4HQHJgrRv3lxB1a56vW/8mcxVNl.', NULL, 0, '2020-06-30 06:04:29');
 
 -- --------------------------------------------------------
 
