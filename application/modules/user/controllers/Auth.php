@@ -163,8 +163,6 @@ class Auth extends MY_Controller {
                         'field' => 'confirm_password',
                         'label' => 'lang:field_password_confirm',
                         'rules' => 'trim|required|'
-                                 . 'min_length['.$this->config->item('password_min_length').']|'
-                                 . 'max_length['.$this->config->item('password_max_length').']|'
                                  . 'matches[new_password]'
                     )
                 );
