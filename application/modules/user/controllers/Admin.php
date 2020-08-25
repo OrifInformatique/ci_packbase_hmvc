@@ -97,7 +97,7 @@ class Admin extends MY_Controller
 					'max_length['.$this->config->item('password_max_length').']'
 				]);
 				$this->form_validation->set_rules('user_password_again', $this->lang->line('field_password_confirm'), [
-					'required', 'trim', 'matches[user_password]'
+					'trim', 'matches[user_password]'
 				]);
 			}
 
