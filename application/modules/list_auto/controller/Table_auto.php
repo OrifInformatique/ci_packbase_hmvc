@@ -29,39 +29,45 @@ class Table_auto extends MY_Controller{
  * 
  * @param array 		$thead			an array which contains the group header for the table (use your language file)
  * 										example :
- * 										
+ *
  * 										$thead = (
  * 											$this->lang->line('thead_1'),
  * 											$this->lang->line('thead_2'),
  * 											$this->lang->line('thead_3'),
  * 											$this->lang->line('thead_4')
  * 										)
- * 
- * @param array			$sort			an associative array which contains the param you need to sort your items. 
- * 										!!DO NOT FORGET DEFAULT CASE!! 
- * 										exemple :
- * 										
- * 										$sort = (
- * 											'question_asc'  		= "Question ASC, FK_Question_Type ASC, Points ASC, ID ASC"
- * 											'question_desc' 		= "Question DESC, FK_Question_Type ASC, Points ASC, ID ASC"
- * 											'question_type_asc'		= "FK_Question_Type ASC, Question ASC, Points ASC, ID ASC"
- * 											'question_type_desc'	= "FK_Question_Type DESC, Question ASC, Points ASC, ID ASC"
- * 											'points_asc'			= "Points ASC, Question ASC, FK_Question_Type ASC, ID ASC"
- * 											'points_desc'			= "Points DESC, Question ASC, FK_Question_Type ASC, ID ASC"
- * 											'default'				= "Question ASC, FK_Question_Type ASC, Points ASC, ID ASC"
- * 										)
- * 
+ *
+ *
  * @return html_code 	html code for a table which has paging, sort (asc or desc), display all of your items
  */
     public function table_auto($data = NULL, $page = 1){
 
-
-
         $this->load->library('pagination');
 
-        $config = array(
+		settype($items_per_page, "integer"); // initialize var
+
+		if(empty($_GET['nb_items'])){ // setup how many item to display per page
+			$items_per_page = ITEMS_NB[0];
+		} elseif($_GET['nb_items'] == $this->lang->line('all_items')){
+			$items_per_page = count($items);
+		} else{
+			$items_per_page = $_GET['nb_items'];
+		}
+
+	    if(($page - 1) * $items_per_page > count($items)) {
+	    	redirect($controller.'/display_list/1');
+		}
+
+		$items_nb_dropdown = array(); // initialize var 
+
+		foreach(ITEMS_NB as $value){	// setup dropdown
+			array_push($items_nb_dropdown, $value);
+		};
+		array_push($items_nb_dropdown, $this->lang->line('all_items'));
+
+		$config = array( 	// config for paging
 			'base_url' => base_url(),
-			'total_rows' => count($data['items']),
+			'total_rows' => count($items),
 			'per_page' => $items_per_page,
 			'use_page_numbers' => TRUE,
 			'reuse_query_string' => TRUE,
@@ -89,31 +95,37 @@ class Table_auto extends MY_Controller{
 			'attributes' => ['class' => 'page-link']
         );
 
-        $items_nb = array();
-
-        foreach(ITEMS_NB as $value){
-			array_push($items_nb, $value);
-		};
-        array_push($items_nb, $this->lang->line('all_items'));
-
 		$this->pagination->initialize($config);
+
+
+		$item_sort = array(); 
+		foreach($field_names as $names){
+			array_push($item_sort, $names." ASC");
+			array_push($item_sort, $names." DESC");
+		};
 
 		$this->db->order_by($orderby);
 
-		$controller_update = CONTROLLER_UPDATE_NAME;
-		$method_update = METHOD_UPDATE_NAME;
 
-		$output = array(
+		// var needed in view file
+		$controller = CONTROLLER_NAME;
+		$method_update = METHOD_UPDATE_NAME;
+		$method_delete = METHOD_DELETE_NAME;
+		$field_names = mysql_field_array($items);
+
+		$output = array( // all the datas passed to the view
 			'pagination' => $this->pagination->create_links(),
 			'items' => array_slice($data['items'], ($page-1)*$items_per_page, $items_per_page),
-			'items_nb' => $items_nb,
+			'items_nb_dropdown' => $items_nb_dropdown,
 			'thead' => $thead,
-			'sort' => $item_sort,
-			'controller_update' => $controller_update,
-			'method_update' => $method_update
+			'item_sort' => $item_sort,
+			'controller' => $controller,
+			'method_update' => $method_update,
+			'method_delete' => $method_delete,
+			'field_names' => $field_names
 		);
 
-		if(is_array($data)){
+		if(is_array($data)){ // if data recevied are in array, let the function start, else, do nothing
 			$list_auto = $this->load->view('display_list', $output, true);
 		}
 		else{
@@ -123,11 +135,11 @@ class Table_auto extends MY_Controller{
 		return $list_auto;
 	}
 
-function mysql_field_array($query){
-	$field = mysqli_num_fields($query);
-	for ( $i = 0; $i < $field; $i++ ){
-		$names[] = mysql_field_name( $query, $i );
+	function mysql_field_array($data){ // get field's name and put them in an array
+		$field = mysqli_num_fields($data);
+		for ($i = 0; $i < $field; $i++){
+			$field_names[] = mysql_field_name($data, $i);
+		}
+		return $field_names;
 	}
-	return $names;
-}
 }

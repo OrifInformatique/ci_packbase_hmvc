@@ -17,6 +17,11 @@ define('ITEMS_NB', array(
     )
 );
 
-define('CONTROLLER_UPDATE_NAME', '');
+// Define CRUD controller
+define('CONTROLLER_NAME', '');
 
+// Define update method found in the CRUD controller 
 define('METHOD_UPDATE_NAME', '');
+
+// Define delete method found in the CRUD controller
+define('METHOD_DELETE_NAME', '');
