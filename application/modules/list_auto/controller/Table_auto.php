@@ -97,6 +97,7 @@ class Table_auto extends MY_Controller{
 
 		$this->pagination->initialize($config);
 
+		$field_names = mysql_field_array($items);
 		$item_sort = array();
 		$item_sort_asc = array();
 		$item_sort_desc = array();
@@ -115,7 +116,6 @@ class Table_auto extends MY_Controller{
 		$controller = CONTROLLER_NAME;
 		$method_update = METHOD_UPDATE_NAME;
 		$method_delete = METHOD_DELETE_NAME;
-		$field_names = mysql_field_array($items);
 
 		$output = array( // all the datas passed to the view
 			'pagination' => $this->pagination->create_links(),
