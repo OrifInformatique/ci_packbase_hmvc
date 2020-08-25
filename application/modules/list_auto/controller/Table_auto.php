@@ -42,7 +42,12 @@ class Table_auto extends MY_Controller{
  */
     public function table_auto($data = NULL, $page = 1){
 
-        $this->load->library('pagination');
+		$this->load->library('pagination');
+		
+		// var needed in view file
+		$controller = CONTROLLER_NAME;
+		$method_update = METHOD_UPDATE_NAME;
+		$method_delete = METHOD_DELETE_NAME;
 
 		settype($items_per_page, "integer"); // initialize var
 
@@ -110,12 +115,6 @@ class Table_auto extends MY_Controller{
 		array_push($item_sort, $item_sort_desc);
 
 		$this->db->order_by($orderby);
-
-
-		// var needed in view file
-		$controller = CONTROLLER_NAME;
-		$method_update = METHOD_UPDATE_NAME;
-		$method_delete = METHOD_DELETE_NAME;
 
 		$output = array( // all the datas passed to the view
 			'pagination' => $this->pagination->create_links(),
