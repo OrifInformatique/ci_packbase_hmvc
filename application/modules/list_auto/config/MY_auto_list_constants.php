@@ -16,3 +16,7 @@ define('ITEMS_NB', array(
     100
     )
 );
+
+define('CONTROLLER_UPDATE_NAME', '');
+
+define('METHOD_UPDATE_NAME', '');

@@ -10,4 +10,5 @@
 
 // Dropdown
 $lang['all_items']                      = 'Tout';
-$lang['no_items']                    = 'Aucune item trouvé';
+$lang['no_items_found']                       = 'Aucune item trouvé';
+$lang['item_per_page']                  = 'Items par page';

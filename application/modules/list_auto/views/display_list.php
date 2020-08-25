@@ -13,10 +13,10 @@
     <div class="col-sm-3">
         <!-- dropdown nb questions per page -->
         <form onsubmit="return changeselect()">
-            <b class="form-label"><?php echo $this->lang->line('questions_per_page'); ?></b>
+            <b class="form-label"><?php echo $this->lang->line('item_per_page'); ?></b>
             <select onchange="changeselect()" id="nb_items_selected" class="form-control">
                 <?php
-                    foreach($questions_nb as $object){
+                    foreach($items_nb as $object){
                         ?>
                         <option value='<?php echo $object?>' <?php if(isset($_GET['nb_items'])){if($object==$_GET['nb_items']){echo"selected";}}; ?>><?php echo $object?></option>
                         <?php
@@ -42,9 +42,9 @@
             <tbody>
                 <?php
                 $compteur = 0;
-                foreach ($item as $objet => $question) {
+                foreach ($item as $objet => $item) {
                     $compteur ++;
-                    displayQuestion($question);
+                    displayItems($item);
                 }
                 ?>
             </tbody>
@@ -52,7 +52,7 @@
         <?php
         if($compteur == 0){
             echo "<div class='alert alert-danger'>"
-                . $this->lang->line('no_items') . "</div>";
+                . $this->lang->line('no_items_found') . "</div>";
         }
         ?>
     </div>

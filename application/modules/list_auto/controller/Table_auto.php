@@ -27,7 +27,15 @@ class Table_auto extends MY_Controller{
  * 
  * @param array 		$items			the datas you want to display from the database (return from a model)
  * 
- * @param array 		$thead			an array which contains the group header for the table (use your language file) 
+ * @param array 		$thead			an array which contains the group header for the table (use your language file)
+ * 										example :
+ * 										
+ * 										$thead = (
+ * 											$this->lang->line('thead_1'),
+ * 											$this->lang->line('thead_2'),
+ * 											$this->lang->line('thead_3'),
+ * 											$this->lang->line('thead_4')
+ * 										)
  * 
  * @param array			$sort			an associative array which contains the param you need to sort your items. 
  * 										!!DO NOT FORGET DEFAULT CASE!! 
@@ -92,12 +100,17 @@ class Table_auto extends MY_Controller{
 
 		$this->db->order_by($orderby);
 
+		$controller_update = CONTROLLER_UPDATE_NAME;
+		$method_update = METHOD_UPDATE_NAME;
+
 		$output = array(
 			'pagination' => $this->pagination->create_links(),
 			'items' => array_slice($data['items'], ($page-1)*$items_per_page, $items_per_page),
 			'items_nb' => $items_nb,
 			'thead' => $thead,
-			'sort' => $item_sort
+			'sort' => $item_sort,
+			'controller_update' => $controller_update,
+			'method_update' => $method_update
 		);
 
 		if(is_array($data)){
@@ -108,5 +121,13 @@ class Table_auto extends MY_Controller{
 		}
 
 		return $list_auto;
-    }
+	}
+
+function mysql_field_array($query){
+	$field = mysqli_num_fields($query);
+	for ( $i = 0; $i < $field; $i++ ){
+		$names[] = mysql_field_name( $query, $i );
+	}
+	return $names;
+}
 }
