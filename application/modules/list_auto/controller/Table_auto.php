@@ -98,10 +98,12 @@ class Table_auto extends MY_Controller{
 		$this->pagination->initialize($config);
 
 
-		$item_sort = array(); 
+		$item_sort_asc = array();
+		$item_sort_desc = array();
+	
 		foreach($field_names as $names){
-			array_push($item_sort, $names." ASC");
-			array_push($item_sort, $names." DESC");
+			array_push($item_sort_asc, $names." ASC");
+			array_push($item_sort_desc, $names." DESC");
 		};
 
 		$this->db->order_by($orderby);
