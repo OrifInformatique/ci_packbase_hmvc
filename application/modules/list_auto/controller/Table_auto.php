@@ -97,7 +97,7 @@ class Table_auto extends MY_Controller{
 
 		$this->pagination->initialize($config);
 
-
+		$item_sort = array();
 		$item_sort_asc = array();
 		$item_sort_desc = array();
 	
@@ -105,6 +105,8 @@ class Table_auto extends MY_Controller{
 			array_push($item_sort_asc, $names." ASC");
 			array_push($item_sort_desc, $names." DESC");
 		};
+		array_push($item_sort, $item_sort_asc);
+		array_push($item_sort, $item_sort_desc);
 
 		$this->db->order_by($orderby);
 
