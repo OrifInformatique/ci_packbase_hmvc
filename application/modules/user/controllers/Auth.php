@@ -162,7 +162,7 @@ class Auth extends MY_Controller {
                     array(
                         'field' => 'confirm_password',
                         'label' => 'lang:field_password_confirm',
-                        'rules' => 'trim|required|'
+                        'rules' => 'trim'
                                  . 'matches[new_password]'
                     )
                 );
