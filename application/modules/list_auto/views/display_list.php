@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 /**
- * View of question's list
+ * View of items' list
  *
  * @author      Orif, section informatique (jubnl)
  * @link        https://github.com/OrifInformatique/gestion_questionnaires
