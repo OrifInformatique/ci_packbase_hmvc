@@ -16,7 +16,7 @@
             <b class="form-label"><?php echo $this->lang->line('item_per_page'); ?></b>
             <select onchange="changeselect()" id="nb_items_selected" class="form-control">
                 <?php
-                    foreach($items_nb as $object){
+                    foreach($pagination_nb as $object){
                         ?>
                         <option value='<?php echo $object?>' <?php if(isset($_GET['nb_items'])){if($object==$_GET['nb_items']){echo"selected";}}; ?>><?php echo $object?></option>
                         <?php
@@ -42,7 +42,7 @@
             <tbody>
                 <?php
                 $compteur = 0;
-                foreach ($item as $objet => $item) {
+                foreach ($items as $key => $item) {
                     $compteur ++;
                     displayItems($item);
                 }

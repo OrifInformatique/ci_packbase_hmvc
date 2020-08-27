@@ -10,13 +10,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 // Define how many items displayed, will take the array's first value as default value
-define('ITEMS_NB', array(
+define('PAGINATION_NB', array(
     25,
     50,
     100
     )
 );
-
-define('CONTROLLER_UPDATE_NAME', '');
-
-define('METHOD_UPDATE_NAME', '');
