@@ -58,24 +58,3 @@
     </div>
 </div>
 <div><?=$pagination?></div>
-
-<?php
-function displayItem($item)
-{
-    ?>
-    <tr id="<?php echo $item->ID; ?>">
-        <td id="item"><a href="<?=base_url().$controller?>/<?$method_update?>/<?php echo $item->ID;?>">
-            <?php 
-            //cut and add "..." if number of letters exceeds 300
-            echo substr($item, 0,300);
-            echo (strlen($item)>=300)?"...":"";
-            echo "</a>";
-            
-            ?>
-        </td>
-        <td style="text-align: center;"><a class="close" id="btn_update" href="<?=base_url().$controller?>/<?$method_update?>/<?php echo $item->ID;?>">✎</a></td>
-        <td style="text-align: center;"><a class="close" id="btn_del" href="<?=base_url().$controller?>/<?$method_delete?>/<?php echo $item->ID;?>">×</a></td>
-    </tr>
-    <?php
-}
-?>

@@ -62,6 +62,9 @@ class Table_auto extends MY_Controller{
  * @param string		$method_delete		A string which contains the delete method's name in your CRUD controller
  * 											/!\ CASE SENSITIVE /!\
  * 
+ * @param string		$view				A string which contains the view file's name where you want the items to be displayed
+ * 											/!\ CASE SENSITIVE /!\
+ * 
  * @return html_code 	html code for a table which has paging, sort (asc or desc), display all of your items
  */
     public function table_auto($data = NULL, $page = 1){
@@ -69,29 +72,31 @@ class Table_auto extends MY_Controller{
 		$this->load->library('pagination');
 		
 		// var needed in view file
-		$controller = CONTROLLER_NAME;
-		$method_update = METHOD_UPDATE_NAME;
-		$method_delete = METHOD_DELETE_NAME;
+		$controller_crud = $data['controller_crud'];
+		$method_update = $data['method_update'];
+		$method_delete = $data['method_delete'];
+
+		// var needed for this controller
+		$count_data_items = count($data['items']);
 
 		settype($items_per_page, "integer"); // initialize var
 
 		if(empty($_GET['nb_items'])){ // setup how many item to display per page
-			$items_per_page = ITEMS_NB[0];
+			$items_per_page = PAGINATION_NB[0];
 		} elseif($_GET['nb_items'] == $this->lang->line('all_items')){
-			$items_per_page = count($items);
+			$items_per_page = $count_data_items;
 		} else{
 			$items_per_page = $_GET['nb_items'];
 		}
 
-	    if(($page - 1) * $items_per_page > count($items)) {
-	    	redirect($controller.'/display_list/1');
+	    if(($page - 1) * $items_per_page > $count_data_items) {
+	    	redirect($controller_crud.'/'.$data['view'].'/1');
 		}
 
-		$items_nb_dropdown = array(); // initialize var 
+		$pagination_nb = array(); // initialize var 
 
 		$this->load->library('pagination');
 		
-		$count_data_items = cout($data['items']);
 		$base_url = base_url();
 
         $config = array(
@@ -178,7 +183,8 @@ class Table_auto extends MY_Controller{
 			</td>
 			<?/*Add new <td></td> for more colomns per row.
 
-				the 2 following lines make a link respectively to the update method and the delete method.*/?>
+				the 2 following lines make a link respectively to the update method and the delete method.
+			*/?>
 			<td style="text-align: center;"><a class="close" id="btn_update" href="<?=$base_url?>/<?=$controller_crud?>/<?=$method_update?>/<?=$item->ID;?>">✎</a></td>
 			<td style="text-align: center;"><a class="close" id="btn_del" href="<?=$base_url?>/<?=$controller_crud?>/<?=$method_delete?>/<?=$item->ID;?>">×</a></td>
 		</tr>
