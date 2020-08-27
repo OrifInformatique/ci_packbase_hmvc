@@ -65,7 +65,7 @@ class Table_auto extends MY_Controller{
  * @param string		$view				A string which contains the view file's name where you want the items to be displayed
  * 											/!\ CASE SENSITIVE /!\
  * 
- * @return html_code 	html code for a table which has paging, sort (asc or desc), display all of your items
+ * @return HTML 		html code for a table which has paging, sort (asc or desc), display all of your items
  */
     public function table_auto($data = NULL, $page = 1){
 
@@ -173,7 +173,7 @@ class Table_auto extends MY_Controller{
 	function displayItems($item){
 		$base_url = base_url()
 		?>
-		<tr id="<?php echo $item->ID; ?>" >
+		<tr id="<?=$item->ID; ?>" >
 			<td id="item"><a href="<?=$base_url?>/<?=$controller_crud?>/<?=$method_update?>/<?=$item->ID;?>">
 				<?php 
 				/*
