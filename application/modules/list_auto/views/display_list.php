@@ -32,9 +32,11 @@
             <thead>
                 <tr>
                     <?php
-                    foreach($thead as $thead){ 
-                        echo $thead; 
-                        echo "<a onclick='sortClick(\"".(isset($_GET['sort'])?$_GET['sort']."\"":"\"").", \"Table_auto\")' class='sorted_btn btn btn-default'>$item_sort</a>";
+                    foreach($thead as $thead => $colomns_name){?>
+                        <th>
+                            <?=$thead; 
+                            echo "<a onclick='sortClick(\"".(isset($_GET['sort'])?$_GET['sort']."\"":"\"").", \"$colomns_name\")' class='sorted_btn btn btn-default'>$item_sort</a>";?>
+                        </th><?
                     }
                     ?>
                 </tr>

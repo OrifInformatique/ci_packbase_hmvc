@@ -27,14 +27,15 @@ class Table_auto extends MY_Controller{
  * 
  * @param array 		$items				the datas you want to display from the database (return from a model)
  * 
- * @param array 		$thead				an array which contains the group header for the table (use your language file)
+ * @param array 		$thead				an associative array which contains the group header for the table (use your language file) + names of corresponding
+ * 											colomns in your database
+ * 
  * 											example :
  * 										
  * 											$thead = (
- * 												$this->lang->line('thead_1'),
- * 												$this->lang->line('thead_2'),
- * 												$this->lang->line('thead_3'),
- * 												$this->lang->line('thead_4')
+ * 												$this->lang->line('question') = 'question',
+ * 												$this->lang->line('question_type') = 'question_type',
+ * 												$this->lang->line('points') = 'points',
  * 											)
  * 
  * @param array			$sort				an associative array which contains the param you need to sort your items. 
@@ -42,7 +43,7 @@ class Table_auto extends MY_Controller{
  * 											/!\ CASE SENSITIVE /!\
  * 	
  * 											exemple :
- * 										
+ * 
  * 											$sort = (
  * 												'question_asc'  		= "Question ASC, FK_Question_Type ASC, Points ASC, ID ASC"
  * 												'question_desc' 		= "Question DESC, FK_Question_Type ASC, Points ASC, ID ASC"
@@ -52,6 +53,8 @@ class Table_auto extends MY_Controller{
  * 												'points_desc'			= "Points DESC, Question ASC, FK_Question_Type ASC, ID ASC"
  * 												'default'				= "Question ASC, FK_Question_Type ASC, Points ASC, ID ASC"
  * 											)
+ * 
+ * 											/!\  /!\
  * 
  * @param string		$controller_crud	A string which contains the name of your CRUD controller.
  * 											/!\ CASE SENSITIVE /!\
@@ -129,7 +132,7 @@ class Table_auto extends MY_Controller{
 			'attributes' => ['class' => 'page-link']
         );
 
-        $pagination_nb = array();
+        $pagination_nb = array(); // initialize var 
 
         foreach(PAGINATION_NB as $value){
 			array_push($pagination_nb, $value);
@@ -137,6 +140,8 @@ class Table_auto extends MY_Controller{
         array_push($pagination_nb, $this->lang->line('all_items'));
 
 		$this->pagination->initialize($config);
+
+		$orderby="";
 
 		$this->db->order_by($orderby);
 
@@ -162,13 +167,13 @@ class Table_auto extends MY_Controller{
 		return $list_auto;
 	}
 
-	function mysql_field_array($query){
-		$field = mysqli_num_fields($query);
-		for ( $i = 0; $i < $field; $i++ ){
-			$names[] = mysql_field_name( $query, $i );
-		}
-		return $names;
-	}
+	// function mysql_field_array($query){
+	// 	$field = mysqli_num_fields($query);
+	// 	for ( $i = 0; $i < $field; $i++ ){
+	// 		$names[] = mysql_field_name( $query, $i );
+	// 	}
+	// 	return $names;
+	// }
 
 	function displayItems($item){
 		$base_url = base_url()
