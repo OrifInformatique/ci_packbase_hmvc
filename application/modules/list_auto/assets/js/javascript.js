@@ -43,7 +43,7 @@ function updateURLParameter(url, param, paramVal){
 function changeselect() {
     var nb_questions = document.getElementById("nb_items_selected").value;
 
-    window.location = '&nb_items=' + nb_items;
+    window.location = '?nb_items=' + nb_items;
 
     return false;
 }

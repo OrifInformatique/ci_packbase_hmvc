@@ -66,7 +66,28 @@ class Table_auto extends MY_Controller{
  */
     public function table_auto($data = NULL, $page = 1){
 
+		$this->load->library('pagination');
+		
+		// var needed in view file
+		$controller = CONTROLLER_NAME;
+		$method_update = METHOD_UPDATE_NAME;
+		$method_delete = METHOD_DELETE_NAME;
 
+		settype($items_per_page, "integer"); // initialize var
+
+		if(empty($_GET['nb_items'])){ // setup how many item to display per page
+			$items_per_page = ITEMS_NB[0];
+		} elseif($_GET['nb_items'] == $this->lang->line('all_items')){
+			$items_per_page = count($items);
+		} else{
+			$items_per_page = $_GET['nb_items'];
+		}
+
+	    if(($page - 1) * $items_per_page > count($items)) {
+	    	redirect($controller.'/display_list/1');
+		}
+
+		$items_nb_dropdown = array(); // initialize var 
 
 		$this->load->library('pagination');
 		
@@ -126,7 +147,7 @@ class Table_auto extends MY_Controller{
 			'sort' => $item_sort,
 		);
 
-		if(is_array($data)){
+		if(is_array($data)){ // if data recevied are in array, let the function start, else, do nothing
 			$list_auto = $this->load->view('display_list', $output, true);
 		}
 		else{

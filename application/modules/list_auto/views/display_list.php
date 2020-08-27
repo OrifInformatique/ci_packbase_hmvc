@@ -11,7 +11,7 @@
 <div class="row">
     <div id="pagination_top" class="col-sm-9"><?=$pagination?></div>
     <div class="col-sm-3">
-        <!-- dropdown nb questions per page -->
+        <!-- dropdown nb items per page -->
         <form onsubmit="return changeselect()">
             <b class="form-label"><?php echo $this->lang->line('item_per_page'); ?></b>
             <select onchange="changeselect()" id="nb_items_selected" class="form-control">
@@ -44,7 +44,7 @@
                 $compteur = 0;
                 foreach ($items as $key => $item) {
                     $compteur ++;
-                    displayItems($item);
+                    displayItem($item);
                 }
                 ?>
             </tbody>
@@ -58,3 +58,24 @@
     </div>
 </div>
 <div><?=$pagination?></div>
+
+<?php
+function displayItem($item)
+{
+    ?>
+    <tr id="<?php echo $item->ID; ?>">
+        <td id="item"><a href="<?=base_url().$controller?>/<?$method_update?>/<?php echo $item->ID;?>">
+            <?php 
+            //cut and add "..." if number of letters exceeds 300
+            echo substr($item, 0,300);
+            echo (strlen($item)>=300)?"...":"";
+            echo "</a>";
+            
+            ?>
+        </td>
+        <td style="text-align: center;"><a class="close" id="btn_update" href="<?=base_url().$controller?>/<?$method_update?>/<?php echo $item->ID;?>">✎</a></td>
+        <td style="text-align: center;"><a class="close" id="btn_del" href="<?=base_url().$controller?>/<?$method_delete?>/<?php echo $item->ID;?>">×</a></td>
+    </tr>
+    <?php
+}
+?>
