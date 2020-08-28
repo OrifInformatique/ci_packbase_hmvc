@@ -97,9 +97,7 @@ class Admin extends MY_Controller
 					'max_length['.$this->config->item('password_max_length').']'
 				]);
 				$this->form_validation->set_rules('user_password_again', $this->lang->line('field_password_confirm'), [
-					'required', 'trim', 'matches[user_password]',
-					'min_length['.$this->config->item('password_min_length').']',
-					'max_length['.$this->config->item('password_max_length').']'
+					'trim', 'matches[user_password]'
 				]);
 			}
 
@@ -208,9 +206,7 @@ class Admin extends MY_Controller
 				'max_length['.$this->config->item('password_max_length').']'
 			]);
 			$this->form_validation->set_rules('user_password_again', $this->lang->line('field_password_confirm'), [
-				'required', 'trim', 'matches[user_password_new]',
-				'min_length['.$this->config->item('password_min_length').']',
-				'max_length['.$this->config->item('password_max_length').']'
+			    'trim', 'matches[user_password_new]'
 			]);
 
 			if ($this->form_validation->run()) {
