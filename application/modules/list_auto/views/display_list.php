@@ -8,6 +8,7 @@
  * @version     1.0
  */
 ?>
+<script src="assets/js/list_auto.js"></script>
 <div class="row">
     <div id="pagination_top" class="col-sm-9"><?=$pagination?></div>
     <div class="col-sm-3">
@@ -27,16 +28,25 @@
     </div>
 </div>
 <div class="row">
+    <br>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
                     <?php
-                    foreach($thead as $thead => $colomns_name){?>
+                    $colomns_name_sort = array();
+                    foreach($thead as $key => $colomns_name){
+                        ${$colomns_name."_sort"} = '▲▼';
+                        array_push($colomns_name_sort, ${$colomns_name."_sort"});
+                    }
+                    $i = 0;
+                    foreach($thead as $thead => $colomns_name){
+                        ?>
                         <th>
                             <?=$thead; 
-                            echo "<a onclick='sortClick(\"".(isset($_GET['sort'])?$_GET['sort']."\"":"\"").", \"$colomns_name\")' class='sorted_btn btn btn-default'>$item_sort</a>";?>
+                            echo "<a onclick='sortClick(\"".(isset($_GET['sort'])?$_GET['sort']."\"":"\"").", \"$colomns_name\")' class='sorted_btn btn btn-default'>$colomns_name_sort[$i]</a>";?>
                         </th><?
+                        $i++;
                     }
                     ?>
                 </tr>

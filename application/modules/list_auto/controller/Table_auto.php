@@ -153,7 +153,7 @@ class Table_auto extends MY_Controller{
 			'pagination' => $this->pagination->create_links(),
 			'items' => array_slice($data['items'], ($page-1)*$items_per_page, $items_per_page),
 			'pagination_nb' => $pagination_nb,
-			'thead' => $thead,
+			'thead' => $data,
 			'sort' => $item_sort,
 		);
 
