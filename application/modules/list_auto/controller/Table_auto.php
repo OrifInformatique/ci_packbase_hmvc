@@ -188,8 +188,7 @@ class Table_auto extends MY_Controller{
 			</td>
 			<?/*Add new <td></td> for more colomns per row.
 
-				the 2 following lines make a link respectively to the update method and the delete method.
-			*/?>
+				the 2 following lines make a link respectively to the update method and the delete method.*/?>
 			<td style="text-align: center;"><a class="close" id="btn_update" href="<?=$base_url?>/<?=$controller_crud?>/<?=$method_update?>/<?=$item->ID;?>">✎</a></td>
 			<td style="text-align: center;"><a class="close" id="btn_del" href="<?=$base_url?>/<?=$controller_crud?>/<?=$method_delete?>/<?=$item->ID;?>">×</a></td>
 		</tr>
