@@ -9,7 +9,7 @@
     <p>The corresponding controller for this page is found at:</p>
     <code>application/modules/welcome/controllers/Welcome.php</code>
 
-    <p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="https://codeigniter.com/user_guide/index.html" target="_blank">User Guide</a>.</p>
+    <p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="https://codeigniter.com/userguide3/index.html" target="_blank">User Guide</a>.</p>
 
     <p>Page rendered in <strong>{elapsed_time}</strong> seconds. <?php echo  (ENVIRONMENT === 'development') ?  'CodeIgniter Version <strong>' . CI_VERSION . '</strong>' : '' ?></p>
 </div>
