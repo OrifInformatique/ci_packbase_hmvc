@@ -18,6 +18,7 @@ $lang['date_format_short']              = 'd.m.Y';
 $lang['datetime_format_short']          = 'd.m.Y H:i';
 
 // Buttons
+$lang['btn_post']                       = 'Envoyer';
 $lang['btn_cancel']                     = 'Annuler';
 $lang['btn_back']                       = 'Retour';
 $lang['btn_add_m']                      = 'Nouveau';
