@@ -20,12 +20,11 @@ $lang['btn_admin']                      = 'Administration';
 $lang['btn_login']                      = 'Se connecter';
 $lang['btn_logout']                     = 'Se déconnecter';
 $lang['btn_change_my_password']         = 'Modifier mon mot de passe';
-$lang['btn_back']                       = 'Retour';
 
 // Fields labels
 $lang['field_username']                 = 'Identifiant';
 $lang['field_password']                 = 'Mot de passe';
-$lang['field_email']                    = 'Addresse e-mail';
+$lang['field_email']                    = 'Adresse e-mail';
 $lang['field_old_password']             = 'Ancien mot de passe';
 $lang['field_new_password']             = 'Nouveau mot de passe';
 $lang['field_password_confirm']         = 'Confirmer le mot de passe';

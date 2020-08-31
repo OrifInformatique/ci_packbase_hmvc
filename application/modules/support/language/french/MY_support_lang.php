@@ -11,8 +11,6 @@
 $lang['title_report_a_problem']         = 'Signaler un problème';
 $lang['field_issue_title']              = 'Sujet';
 $lang['field_issue_body']               = 'Description du problème';
-$lang['btn_post']                       = 'Envoyer';
-$lang['btn_cancel']                     = 'Annuler';
 
 // Confirmation page
 $lang['title_problem_submitted']        = 'Problème signalé';
