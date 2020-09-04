@@ -10,9 +10,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 
 // Define how many items displayed, will take the array's first value as default value
-define('PAGINATION_NB', array(
+$config['pagination_nb'] = array(
     25,
     50,
     100
-    )
-);
+    );
