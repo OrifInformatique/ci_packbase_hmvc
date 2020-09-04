@@ -1,0 +1,12 @@
+Facture numéro 0 : 
+Poids du camion à l'arrivée :  25000 Kg
+Poids du camion à vide :       10000 Kg
+Poids du camion au départ :    35000 Kg
+Marchandse amenée  :           15000 Kg de gravas plâtre
+Marchandse achetée :           25000 Kg de sable fin
+
+Facture detaillée :
+
+gravas plâtre :        12000.0 Chf + 12000.0 Chf (taxes)
+sable fin :        2375.0 Chf + 10 Chf (taxes)
+Prix final :        26385.0 Chf
