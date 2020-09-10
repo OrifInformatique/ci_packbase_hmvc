@@ -194,5 +194,4 @@ class Table_auto extends MY_Controller{
 		</tr>
 		<?php
 	}
-	?>
-}
+}?>
