@@ -28,34 +28,42 @@
     </div>
 </div>
 <div class="row">
-    <br>
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
                 <tr>
-                        <th>
-                            <?=$thead; 
-                            echo "<a onclick='sortClick(\"".(isset($_GET['sort'])?$_GET['sort']."\"":"\"").", \"$colomns_name\")' class='sorted_btn btn btn-default'>A</a>";?>
-                        </th><?
-                    ?>
+                <?php
+                    foreach ($columns as $field_name => $field_text) {
+                        echo "<th><a onclick='sortClick()' class='sorted_btn btn btn-default'>".$field_text."</a></th>";
+                    }
+                ?>
                 </tr>
             </thead>
             <tbody>
                 <?php
-                $compteur = 0;
-                foreach ($items as $key => $item) {
-                    $compteur ++;
-                    displayItem($item);
+                if (count($items) == 0) {
+                    echo "<div class='alert alert-danger'>".$this->lang->line('no_items_found')."</div>";
+                } else {
+                    foreach ($items as $item) {
+                        // Convert object to array
+                        if(!is_array($item)) {
+                            $item = (array)$item;
+                        }
+
+                        echo "<tr>";
+                        // Item's fields given in $columns variable
+                        foreach ($columns as $field_name => $field_text) {
+                            echo "<td>".$item[$field_name]."</td>";
+                        }
+
+                        // Add common columns (such as edit/delete symbols)
+                        echo "<td><a href=\"_blank\" class=\"close\">x</td>";
+                        echo "</tr>";
+                    }
                 }
                 ?>
             </tbody>
         </table>
-        <?php
-        if($compteur == 0){
-            echo "<div class='alert alert-danger'>"
-                . $this->lang->line('no_items_found') . "</div>";
-        }
-        ?>
     </div>
 </div>
 <div><?=$pagination?></div>
