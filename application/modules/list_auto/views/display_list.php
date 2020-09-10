@@ -45,7 +45,7 @@
                         <th>
                             <?=$thead; 
                             echo "<a onclick='sortClick(\"".(isset($_GET['sort'])?$_GET['sort']."\"":"\"").", \"$colomns_name\")' class='sorted_btn btn btn-default'>$colomns_name_sort[$i]</a>";?>
-                        </th><?
+                        </th><?php
                         $i++;
                     }
                     ?>
