@@ -22,7 +22,7 @@ class Test_view extends MY_Controller{
     }
 
     public function index() {
-        $output['items'] = $this->user_model->get_all();
+        $output['items'] = $this->user_model->as_array()->get_all();
         $output['columns'] = array('id'=>'Identifiant', 'username'=>'nom d\'utilisateur');
         $output['sort'] = array('sort_field'=>'username', 'sort_order'=>'asc');
 

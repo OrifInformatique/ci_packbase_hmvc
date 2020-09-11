@@ -45,13 +45,8 @@
                     echo "<div class='alert alert-danger'>".$this->lang->line('no_items_found')."</div>";
                 } else {
                     foreach ($items as $item) {
-                        // Convert object to array
-                        if(!is_array($item)) {
-                            $item = (array)$item;
-                        }
-
                         echo "<tr>";
-                        // Item's fields given in $columns variable
+                        // Display item's fields given in $columns variable
                         foreach ($columns as $field_name => $field_text) {
                             echo "<td>".$item[$field_name]."</td>";
                         }
