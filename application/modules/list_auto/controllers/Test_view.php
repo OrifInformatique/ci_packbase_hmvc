@@ -23,8 +23,9 @@ class Test_view extends MY_Controller{
 
     public function index() {
         $output['items'] = $this->user_model->as_array()->get_all();
-        $output['columns'] = array('id'=>'Identifiant', 'username'=>'nom d\'utilisateur');
+        $output['columns'] = array('id'=>'Id', 'username'=>'Nom d\'utilisateur', 'col_delete'=>"");
         $output['sort'] = array('sort_field'=>'username', 'sort_order'=>'asc');
+        $output['controller'] = "test_view";
 
         // Pagination
         $this->load->library('pagination');
@@ -69,6 +70,6 @@ class Test_view extends MY_Controller{
         $output['pagination'] = $this->pagination->create_links();
         $output['page_nb'] = 1;
 
-        $this->display_view('list_auto/test_display_list', $output);
+        $this->display_view('list_auto/list', $output);
     }
 }

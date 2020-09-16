@@ -11,4 +11,4 @@
 // Dropdown
 $lang['all_items']                      = 'Tout';
 $lang['no_items_found']                 = 'Aucune item trouvé';
-$lang['item_per_page']                  = 'Éléments par page';
+$lang['items_per_page']                 = 'Éléments par page';
