@@ -2,7 +2,7 @@
 /**
  * View of items' list
  *
- * @author      Orif, section informatique (guju, vidi)
+ * @author      Orif, section informatique (jubnl, vidi)
  * @link        https://github.com/OrifInformatique/gestion_questionnaires
  * @copyright   Copyright (c) Orif (http://www.orif.ch)
  * @version     1.0
