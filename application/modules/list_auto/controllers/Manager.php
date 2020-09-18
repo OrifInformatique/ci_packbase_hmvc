@@ -10,7 +10,7 @@
  * @version     1.0
  */
 
-class Test_view extends MY_Controller{
+class Manager extends MY_Controller{
 
     /**
      * Constructor
@@ -21,8 +21,8 @@ class Test_view extends MY_Controller{
         $this->load->model(['user/user_model', 'user/user_type_model']);
     }
 
-    public function index() {
-        $output['items'] = $this->user_model->as_array()->get_all();
+    public function index($page = 1) {
+        $output['items'] = $this->get_items();
         $output['columns'] = array('id'=>'Id', 'username'=>'Nom d\'utilisateur', 'col_delete'=>"");
         $output['sort'] = array('sort_field'=>'username', 'sort_order'=>'asc');
         $output['controller'] = "test_view";
@@ -37,7 +37,7 @@ class Test_view extends MY_Controller{
         $items_per_page = $output['pagination_nb'][0];
 
         $config = array(
-			'base_url' => base_url(),
+			'base_url' => base_url('list_auto/manager/index'),
 			'total_rows' => $count_data_items,
 			'per_page' => $items_per_page,
 			'use_page_numbers' => TRUE,
@@ -68,8 +68,18 @@ class Test_view extends MY_Controller{
         $this->pagination->initialize($config);
         
         $output['pagination'] = $this->pagination->create_links();
-        $output['page_nb'] = 1;
+        $output['page_nb'] = $page;
+
+        // Keep only the slice of items corresponding to the current page
+        $output["items"] = array_slice($output["items"], ($output['page_nb']-1)*$items_per_page, $items_per_page);
 
         $this->display_view('list_auto/list', $output);
+    }
+
+    protected function get_items($sort_field = NULL, $sort_order = 'asc') {
+        if (isset($sort_field)) {
+            $this->db->order_by($sort_field.' '.$sort_order);
+        }
+        return $this->user_model->as_array()->get_all();
     }
 }

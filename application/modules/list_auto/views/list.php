@@ -37,7 +37,7 @@
                     <tr>
                     <?php
                         foreach ($columns as $field_name => $field_text) {
-                            echo "<th><a onclick='sortClick()' class='sorted_btn'>".$field_text."</a></th>";
+                            echo "<th><a onclick='sortClick(\"".$field_name."\")' class='sorted_btn'>".$field_text."</a></th>";
                         }
                     ?>
                     </tr>
@@ -77,8 +77,10 @@
 </div>
 
 <script>
-    function sortClick(actual_sort, sort_click){
+    function sortClick($sort_field){
         // TODO : Use jQuery to update items list
+
+        /*
         var sort = "";
         if(actual_sort == sort_click + '_asc')
         {
@@ -89,6 +91,7 @@
             sort = sort_click + '_asc';
         }
         window.location =  updateURLParameter(window.location.toString(), "sort", sort);
+        */
     }
 
     function updateURLParameter(url, param, paramVal){
