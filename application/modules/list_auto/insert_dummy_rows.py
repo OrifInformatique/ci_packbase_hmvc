@@ -34,7 +34,7 @@ try:
                     (fk_user_type,username,password,email,archive))
         count += 1
 except mariadb.Error as e:
-    print("SQL error : {e}")
+    print(f"SQL error : {e}")
 
 
 # commit Query
