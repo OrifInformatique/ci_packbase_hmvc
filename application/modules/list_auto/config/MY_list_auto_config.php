@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Constants file for listing items + paging automation
  *
  * @author      Orif (jubnl)
- * @link        https://github.com/OrifInformatique
+ * @link        https://github.com/OrifInformatique/ci_packbase_hmvc
  * @copyright   Copyright (c), Orif (https://www.orif.ch)
  * @version     1.0
  */

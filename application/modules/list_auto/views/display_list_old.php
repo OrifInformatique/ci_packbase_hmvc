@@ -3,7 +3,7 @@
  * View of items' list
  *
  * @author      Orif, section informatique (jubnl)
- * @link        https://github.com/OrifInformatique/gestion_questionnaires
+ * @link        https://github.com/OrifInformatique/ci_packbase_hmvc
  * @copyright   Copyright (c) Orif (http://www.orif.ch)
  * @version     1.0
  */

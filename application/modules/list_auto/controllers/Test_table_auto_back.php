@@ -5,7 +5,7 @@
  * 
  * 
  * @author      Orif (jubnl)
- * @link        https://github.com/OrifInformatique
+ * @link        https://github.com/OrifInformatique/ci_packbase_hmvc
  * @copyright   Copyright (c), Orif (https://www.orif.ch)
  * @version     1.0
  */

@@ -3,7 +3,7 @@
  * View of items' list
  *
  * @author      Orif, section informatique (jubnl, vidi)
- * @link        https://github.com/OrifInformatique/gestion_questionnaires
+ * @link        https://github.com/OrifInformatique/ci_packbase_hmvc
  * @copyright   Copyright (c) Orif (http://www.orif.ch)
  * @version     1.0
  */
@@ -92,6 +92,8 @@
         }
         window.location =  updateURLParameter(window.location.toString(), "sort", sort);
         */
+
+
     }
 
     function updateURLParameter(url, param, paramVal){
@@ -117,6 +119,8 @@
 
     function set_items_per_page() {
         // TODO : Use jQuery to update items list
-        alert("Fonction à créer : set_items_per_page");
+        // alert("Fonction à créer : set_items_per_page");
+
+        
     }
 </script>
